@@ -11,11 +11,11 @@ public class TankMovement : MonoBehaviour
     public float m_PitchRange = 0.2f;           // The amount by which the pitch of the engine noises can vary.
     public bool ControlledByPlayer = true;
 
-    private string m_MovementAxisName;          // The name of the input axis for moving forward and back.
-    private string m_TurnAxisName;              // The name of the input axis for turning.
+    private string m_VerticalAxisName;          // The name of the input axis for moving forward and back.
+    private string m_HorizontalAxisName;              // The name of the input axis for turning.
     private Rigidbody m_Rigidbody;              // Reference used to move the tank.
-    private float m_MovementInputValue;         // The current value of the movement input.
-    private float m_TurnInputValue;             // The current value of the turn input.
+    private float m_VerticalInputValue;         // The current value of the movement input.
+    private float m_HorizontalInputValue;             // The current value of the turn input.
     private float m_OriginalPitch;              // The pitch of the audio source at the start of the scene.
 
 
@@ -31,8 +31,8 @@ public class TankMovement : MonoBehaviour
         m_Rigidbody.isKinematic = false;
 
         // Also reset the input values.
-        m_MovementInputValue = 0f;
-        m_TurnInputValue = 0f;
+        m_VerticalInputValue = 0f;
+        m_HorizontalInputValue = 0f;
     }
 
 
@@ -47,8 +47,8 @@ public class TankMovement : MonoBehaviour
     {
         if (ControlledByPlayer)
         {
-            m_MovementAxisName = "Vertical";
-            m_TurnAxisName = "Horizontal";
+            m_VerticalAxisName = "Vertical";
+            m_HorizontalAxisName = "Horizontal";
         }
 
         // Store the original pitch of the audio source.
@@ -59,9 +59,10 @@ public class TankMovement : MonoBehaviour
     private void Update()
     {
         // Store the value of both input axes.
-        m_MovementInputValue = Input.GetAxis(m_MovementAxisName);
-        m_TurnInputValue = Input.GetAxis(m_TurnAxisName);
+        m_VerticalInputValue = Input.GetAxis(m_VerticalAxisName);
+        m_HorizontalInputValue = Input.GetAxis(m_HorizontalAxisName);
 
+        //Debug.LogWarning(m_MovementInputValue);
         EngineAudio();
     }
 
@@ -69,7 +70,7 @@ public class TankMovement : MonoBehaviour
     private void EngineAudio()
     {
         // If there is no input (the tank is stationary)...
-        if (Mathf.Abs(m_MovementInputValue) < 0.1f && Mathf.Abs(m_TurnInputValue) < 0.1f)
+        if (Mathf.Abs(m_VerticalInputValue) < 0.1f && Mathf.Abs(m_HorizontalInputValue) < 0.1f)
         {
             // ... and if the audio source is currently playing the driving clip...
             if (m_MovementAudio.clip == m_EngineDriving)
@@ -105,7 +106,7 @@ public class TankMovement : MonoBehaviour
     private void Move()
     {
         // Create a vector in the direction the tank is facing with a magnitude based on the input, speed and the time between frames.
-        Vector3 movement = transform.forward * m_MovementInputValue * m_Speed * Time.deltaTime;
+        Vector3 movement = transform.forward * m_VerticalInputValue * m_Speed * Time.deltaTime;
 
         // Apply this movement to the rigidbody's position.
         m_Rigidbody.MovePosition(m_Rigidbody.position + movement);
@@ -115,7 +116,7 @@ public class TankMovement : MonoBehaviour
     private void Turn()
     {
         // Determine the number of degrees to be turned based on the input, speed and time between frames.
-        float turn = m_TurnInputValue * m_TurnSpeed * Time.deltaTime;
+        float turn = m_HorizontalInputValue * m_TurnSpeed * Time.deltaTime;
 
         // Make this into a rotation in the y axis.
         Quaternion turnRotation = Quaternion.Euler(0f, turn, 0f);

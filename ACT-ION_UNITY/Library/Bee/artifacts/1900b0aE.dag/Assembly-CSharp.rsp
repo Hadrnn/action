@@ -361,6 +361,7 @@
 "Assets/Scripts/TankHealth.cs"
 "Assets/Scripts/TankMovement.cs"
 "Assets/Scripts/TankShooting.cs"
+"Assets/Scripts/TurretTurning.cs"
 -langversion:9.0
 
 /deterministic
