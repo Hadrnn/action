@@ -4,12 +4,13 @@ public class TankMovement : MonoBehaviour
 {
     public int m_PlayerNumber = 1;              // Used to identify which tank belongs to which player.  This is set by this tank's manager.
     public float m_Speed = 12f;                 // How fast the tank moves forward and back.
-    public float m_TurnSpeed = 180f;            // How fast the tank turns in degrees per second.
+    public float m_TurnSpeed = 90f;            // How fast the tank turns in degrees per second.
     public AudioSource m_MovementAudio;         // Reference to the audio source used to play engine sounds. NB: different to the shooting audio source.
     public AudioClip m_EngineIdling;            // Audio to play when the tank isn't moving.
     public AudioClip m_EngineDriving;           // Audio to play when the tank is moving.
     public float m_PitchRange = 0.2f;           // The amount by which the pitch of the engine noises can vary.
     public bool ControlledByPlayer = true;
+    public int forvard_multiplyer = 1;
 
     private string m_VerticalAxisName;          // The name of the input axis for moving forward and back.
     private string m_HorizontalAxisName;              // The name of the input axis for turning.
@@ -98,15 +99,72 @@ public class TankMovement : MonoBehaviour
     private void FixedUpdate()
     {
         // Adjust the rigidbodies position and orientation in FixedUpdate.
+
         Move();
-        Turn();
     }
 
 
     private void Move()
     {
-        // Create a vector in the direction the tank is facing with a magnitude based on the input, speed and the time between frames.
-        Vector3 movement = transform.forward * m_VerticalInputValue * m_Speed * Time.deltaTime;
+        double control_angle = (System.Math.Acos((0 * m_VerticalInputValue + 1 * m_HorizontalInputValue) /
+            ((System.Math.Sqrt(m_HorizontalInputValue * m_HorizontalInputValue + m_VerticalInputValue * m_VerticalInputValue))))) * 57.3;
+
+        double forward_angle = (System.Math.Acos((transform.forward.x * forvard_multiplyer * 1 + transform.forward.z * 0 * forvard_multiplyer) /
+            ((System.Math.Sqrt(transform.forward.x * transform.forward.x + transform.forward.z * transform.forward.z))))) * 57.3;
+
+        double delta_angle = 0;
+        if (m_VerticalInputValue < 0)
+        {
+            control_angle = -control_angle;
+        }
+        if (transform.forward.z * forvard_multiplyer < 0)
+        {
+            forward_angle = -forward_angle;
+        }
+        delta_angle = control_angle - forward_angle;
+
+        if (delta_angle < -180)
+        {
+            delta_angle = 360 + delta_angle;
+        }
+        else if (delta_angle > 180)
+        {
+            delta_angle = -(360 - delta_angle);
+        }
+
+        if (System.Math.Abs(delta_angle) < 2)
+        {
+            delta_angle = 0;
+        }
+
+        if (delta_angle > 90)
+        {
+            forvard_multiplyer = -1 * forvard_multiplyer;
+            delta_angle = (180 - delta_angle) * forvard_multiplyer;
+        }
+        if (delta_angle < -90)
+        {
+            forvard_multiplyer = -1 * forvard_multiplyer;
+            delta_angle = (180 + delta_angle) * forvard_multiplyer;
+        }
+
+        Debug.LogWarning(delta_angle);
+        float turn = -(float)(System.Math.Sign(delta_angle) * Time.deltaTime * m_TurnSpeed * 0.8);
+        // Make this into a rotation in the y axis.
+        Quaternion turnRotation = Quaternion.Euler(0f, turn, 0f);
+
+        // Apply this rotation to the rigidbody's rotation.
+        m_Rigidbody.MoveRotation(m_Rigidbody.rotation * turnRotation);
+        Vector3 movement;
+
+        movement.x = 0;
+        movement.y = 0;
+        movement.z = 0;
+
+        if ((m_VerticalInputValue != 0) || (m_HorizontalInputValue != 0))
+        {
+            movement = transform.forward * m_Speed * Time.deltaTime * 1.3f * forvard_multiplyer;
+        }
 
         // Apply this movement to the rigidbody's position.
         m_Rigidbody.MovePosition(m_Rigidbody.position + movement);
@@ -115,13 +173,6 @@ public class TankMovement : MonoBehaviour
 
     private void Turn()
     {
-        // Determine the number of degrees to be turned based on the input, speed and time between frames.
-        float turn = m_HorizontalInputValue * m_TurnSpeed * Time.deltaTime;
 
-        // Make this into a rotation in the y axis.
-        Quaternion turnRotation = Quaternion.Euler(0f, turn, 0f);
-
-        // Apply this rotation to the rigidbody's rotation.
-        m_Rigidbody.MoveRotation(m_Rigidbody.rotation * turnRotation);
     }
 }

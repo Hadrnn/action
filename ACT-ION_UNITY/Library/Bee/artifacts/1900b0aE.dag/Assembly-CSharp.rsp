@@ -362,6 +362,7 @@
 "Assets/Scripts/TankMovement.cs"
 "Assets/Scripts/TankShooting.cs"
 "Assets/Scripts/TurretTurning.cs"
+"Assets/Scripts/VerticalCameraFollower.cs"
 -langversion:9.0
 
 /deterministic
