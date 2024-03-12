@@ -97,7 +97,7 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2646688239181888446}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 5573b5c3a7aced740b2d275ccd645e7d, type: 3}
@@ -193,7 +193,7 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2646688239181888446}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
@@ -294,8 +294,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 48210076
-  InScenePlacedSourceGlobalObjectIdHash: 0
+  GlobalObjectIdHash: 926488147
+  InScenePlacedSourceGlobalObjectIdHash: 48210076
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
@@ -322,7 +322,6 @@ MonoBehaviour:
   m_EngineIdling: {fileID: 8300000, guid: 5573b5c3a7aced740b2d275ccd645e7d, type: 3}
   m_EngineDriving: {fileID: 8300000, guid: 2764b5e5b387a3440977ffceb658813a, type: 3}
   m_PitchRange: 0.2
-  ControlledByPlayer: 1
   forvard_multiplyer: 1
 --- !u!114 &7438717032253107496
 MonoBehaviour:

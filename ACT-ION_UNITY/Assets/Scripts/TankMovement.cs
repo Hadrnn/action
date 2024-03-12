@@ -10,7 +10,6 @@ public class TankMovement : NetworkBehaviour
     public AudioClip m_EngineIdling;            // Audio to play when the tank isn't moving.
     public AudioClip m_EngineDriving;           // Audio to play when the tank is moving.
     public float m_PitchRange = 0.2f;           // The amount by which the pitch of the engine noises can vary.
-    public bool ControlledByPlayer = true;
     public int forvard_multiplyer = 1;
 
     private string m_VerticalAxisName;          // The name of the input axis for moving forward and back.
@@ -47,7 +46,7 @@ public class TankMovement : NetworkBehaviour
 
     private void Start()
     {
-        if (ControlledByPlayer)
+        if (IsOwner)
         {
             m_VerticalAxisName = "Vertical";
             m_HorizontalAxisName = "Horizontal";
@@ -55,6 +54,13 @@ public class TankMovement : NetworkBehaviour
 
         // Store the original pitch of the audio source.
         m_OriginalPitch = m_MovementAudio.pitch;
+
+        if (IsOwner)
+        {
+            GameObject cameraRig = GameObject.Find("CameraRig");
+            CameraFollower follower = cameraRig.GetComponent<CameraFollower>();
+            follower.m_Target = transform;
+        }
     }
 
 
