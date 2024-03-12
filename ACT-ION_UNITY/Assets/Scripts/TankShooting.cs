@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using Unity.Netcode;
 
-public class TankShooting : MonoBehaviour
+public class TankShooting : NetworkBehaviour
 {
     public int m_PlayerNumber = 1;              // Used to identify the different players.
     public Rigidbody m_Shell;                   // Prefab of the shell.
@@ -33,6 +34,7 @@ public class TankShooting : MonoBehaviour
 
     private void Start()
     {
+        if (!IsOwner) return;
         if (ControlledByPlayer)
         {
             m_FireButton = "Fire";
