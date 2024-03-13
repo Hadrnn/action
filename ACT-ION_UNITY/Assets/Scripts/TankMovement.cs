@@ -155,7 +155,7 @@ public class TankMovement : NetworkBehaviour
             delta_angle = (180 + delta_angle) * forvard_multiplyer;
         }
 
-        Debug.LogWarning(delta_angle);
+        //Debug.LogWarning(delta_angle);
         float turn = -(float)(System.Math.Sign(delta_angle) * Time.deltaTime * m_TurnSpeed * 0.8);
         // Make this into a rotation in the y axis.
         Quaternion turnRotation = Quaternion.Euler(0f, turn, 0f);
