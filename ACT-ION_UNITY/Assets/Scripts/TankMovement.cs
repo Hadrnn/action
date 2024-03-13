@@ -50,17 +50,14 @@ public class TankMovement : NetworkBehaviour
         {
             m_VerticalAxisName = "Vertical";
             m_HorizontalAxisName = "Horizontal";
-        }
 
-        // Store the original pitch of the audio source.
-        m_OriginalPitch = m_MovementAudio.pitch;
-
-        if (IsOwner)
-        {
             GameObject cameraRig = GameObject.Find("CameraRig");
             CameraFollower follower = cameraRig.GetComponent<CameraFollower>();
             follower.m_Target = transform;
         }
+
+        // Store the original pitch of the audio source.
+        m_OriginalPitch = m_MovementAudio.pitch;
     }
 
 

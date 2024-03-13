@@ -22,11 +22,15 @@ public class CameraFollower : MonoBehaviour
     // Update is called once per frame
     private void FixedUpdate()
     {
-        m_DesiredPosition = m_Target.position;
-        Vector3 newPosition = Vector3.SmoothDamp(transform.position, m_DesiredPosition, ref m_MoveVelocity, m_DampTime);
+        if (m_Target)
+        {
+            m_DesiredPosition = m_Target.position;
+            Vector3 newPosition = Vector3.SmoothDamp(transform.position, m_DesiredPosition, ref m_MoveVelocity, m_DampTime);
 
-        //Vector3 newPosition = m_Target.position;
-        //newPosition.y = m_CameraHeight;
-        transform.position = newPosition;
+            //Vector3 newPosition = m_Target.position;
+            //newPosition.y = m_CameraHeight;
+            transform.position = newPosition;
+        }
+
     }
 }
