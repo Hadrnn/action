@@ -1,9 +1,9 @@
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using Unity.Netcode;
 
-public class TurretTurning : MonoBehaviour
-{
+public class TurretTurning : NetworkBehaviour {
     public Camera m_Camera;
     private Vector3 mousePos;
     private Plane plane = new Plane(Vector3.up, 0);
@@ -16,6 +16,7 @@ public class TurretTurning : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (!IsOwner) return;
         float distance;
         Ray ray = m_Camera.ScreenPointToRay(Input.mousePosition);
 
