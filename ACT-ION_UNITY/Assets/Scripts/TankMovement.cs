@@ -110,6 +110,11 @@ public class TankMovement : NetworkBehaviour
 
     private void Move()
     {
+        if (System.Math.Abs(m_HorizontalInputValue) < 0.05f && System.Math.Abs(m_VerticalInputValue) < 0.05f)
+        {
+            return;
+        }
+
         double control_angle = (System.Math.Acos((0 * m_VerticalInputValue + 1 * m_HorizontalInputValue) /
             ((System.Math.Sqrt(m_HorizontalInputValue * m_HorizontalInputValue + m_VerticalInputValue * m_VerticalInputValue))))) * 57.3;
 
@@ -141,29 +146,23 @@ public class TankMovement : NetworkBehaviour
             delta_angle = 0;
         }
 
-        if (delta_angle > 90)
+        if (delta_angle > 85)
         {
             forvard_multiplyer = -1 * forvard_multiplyer;
             delta_angle = (180 - delta_angle) * forvard_multiplyer;
         }
-        if (delta_angle < -90)
+        else if (delta_angle < -85)
         {
             forvard_multiplyer = -1 * forvard_multiplyer;
             delta_angle = (180 + delta_angle) * forvard_multiplyer;
         }
 
-        //Debug.LogWarning(delta_angle);
         float turn = -(float)(System.Math.Sign(delta_angle) * Time.deltaTime * m_TurnSpeed * 0.8);
-        // Make this into a rotation in the y axis.
+
         Quaternion turnRotation = Quaternion.Euler(0f, turn, 0f);
 
-        // Apply this rotation to the rigidbody's rotation.
         m_Rigidbody.MoveRotation(m_Rigidbody.rotation * turnRotation);
-        Vector3 movement;
-
-        movement.x = 0;
-        movement.y = 0;
-        movement.z = 0;
+        Vector3 movement = new Vector3(0f,0f,0f);
 
         if ((m_VerticalInputValue != 0) || (m_HorizontalInputValue != 0))
         {
@@ -174,9 +173,4 @@ public class TankMovement : NetworkBehaviour
         m_Rigidbody.MovePosition(m_Rigidbody.position + movement);
     }
 
-
-    private void Turn()
-    {
-
-    }
 }
