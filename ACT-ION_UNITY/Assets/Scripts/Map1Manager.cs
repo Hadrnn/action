@@ -25,8 +25,8 @@ public class Map1Manager : MonoBehaviour
         switch (Type)
         {
             case GameType.SinglePlayerBot:
-                Instantiate(BotTank);
-                Instantiate(PlayerTank);
+                Instantiate(BotTank,new Vector3(0f,0f,10f),Quaternion.Euler(new Vector3(0f,0f,0f)));
+                Instantiate(PlayerTank, new Vector3(0f, 0f, -10f), Quaternion.Euler(new Vector3(0f, 0f, 0f)));
                 break;
             case GameType.UnityNetwork:
 
