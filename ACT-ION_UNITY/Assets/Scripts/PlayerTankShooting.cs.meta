@@ -3,7 +3,13 @@ guid: 258f6ab0b19a72846b6791cc0d9b3d5f
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - m_Bullet: {fileID: 2494506454883071996, guid: 2ef950796bd50134c9465bf2f6efb758, type: 3}
+  - m_Shell: {instanceID: 0}
+  - m_FireTransform: {instanceID: 0}
+  - m_ShootingAudio: {instanceID: 0}
+  - m_ChargingClip: {instanceID: 0}
+  - m_FireClip: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

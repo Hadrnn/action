@@ -5,10 +5,9 @@ using UnityEngine;
 
 public class InfoCollector : MonoBehaviour
 {
-    public GameObject[] shells;
-    public GameObject[] tanks = new GameObject[10];
-    public GameObject[] mapObjects;
-    public GameObject theTank;
+    public List<GameObject> shells = new();
+    public List<GameObject> tanks = new();
+    public List<GameObject> mapObjects = new();
 
     void Start()
     {
@@ -18,11 +17,6 @@ public class InfoCollector : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (theTank)
-        {
-            Debug.LogWarning(theTank.GetComponent<Transform>().position);
-        }
-
-        //Debug.LogWarning(tanks.Length);
+        // Debug.Log((shells.Count, tanks.Count, mapObjects.Count));
     }
 }

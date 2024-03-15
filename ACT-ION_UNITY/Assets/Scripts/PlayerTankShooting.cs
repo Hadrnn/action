@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using Unity.Netcode;
+using Unity.VisualScripting;
 
 public class PlayerTankShooting : MonoBehaviour
 {
@@ -27,13 +28,13 @@ public class PlayerTankShooting : MonoBehaviour
     {
         // When the tank is turned on, reset the launch force and the UI
         m_CurrentLaunchForce = m_MinLaunchForce;
+
         //m_AimSlider.value = m_MinLaunchForce;
     }
 
 
     private void Start()
     {
-
          m_FireButton = "Fire";
 
         // The rate that the launch force charges up is the range of possible forces by the max charge time.
@@ -89,6 +90,10 @@ public class PlayerTankShooting : MonoBehaviour
         // Create an instance of the shell and store a reference to it's rigidbody.
         Rigidbody shellInstance =
             Instantiate(m_Shell, m_FireTransform.position, m_FireTransform.rotation) as Rigidbody;
+
+        // Add shell object to InfoCollector
+        InfoCollector collector = GameObject.Find("InfoCollector").GetComponent<InfoCollector>();
+        collector.shells.Add(shellInstance.GameObject());
 
         // Set the shell's velocity to the launch force in the fire position's forward direction.
         shellInstance.velocity = m_CurrentLaunchForce * m_FireTransform.forward; ;

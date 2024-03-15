@@ -8,12 +8,12 @@ using System.Threading;
 using System.Threading.Tasks;
 public class ClientBot : MonoBehaviour
 {
-    public Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-    public string message = "Fisting is ...?";
-    public string d_answer;
-    public string SERVER_IP = "127.0.0.1";
-    public int PORT = 9999;
-    int t = 0;
+    public Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp); // Create socket
+    public string message = "Fisting is ...?"; // Create message to server
+    public string d_answer; // Create answer from server
+    public string SERVER_IP = "127.0.0.1"; // Server ip
+    public int PORT = 9999; // Server port
+    int t = 0; // Some variable fro testing
 
 
 

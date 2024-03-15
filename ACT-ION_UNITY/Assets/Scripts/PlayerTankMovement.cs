@@ -47,6 +47,9 @@ public class PlayerTankMovement : MonoBehaviour
 
     private void Start()
     {
+        // Add tank object to InfoCollector
+        InfoCollector collector = GameObject.Find("InfoCollector").GetComponent<InfoCollector>();
+        collector.tanks.Add(gameObject);
 
         m_VerticalAxisName = "Vertical";
         m_HorizontalAxisName = "Horizontal";
@@ -54,22 +57,6 @@ public class PlayerTankMovement : MonoBehaviour
         GameObject cameraRig = GameObject.Find("CameraRig");
         CameraFollower follower = cameraRig.GetComponent<CameraFollower>();
         follower.m_Target = transform;
-
-
-        InfoCollector collector = GameObject.Find("InfoCollector").GetComponent<InfoCollector>();
-        if (collector)
-        {
-            //Debug.LogWarning(collector.tanks.Length);
-            //collector.tanks.Append(gameObject);
-            //Debug.LogWarning("Found collector");
-            //Debug.LogWarning(collector.tanks.Length);
-            collector.theTank = gameObject;
-            Debug.LogWarning("Found collector");
-        }
-        else
-        {
-            Debug.LogError("Did not find collector");
-        }
 
         // Store the original pitch of the audio source.
         m_OriginalPitch = m_MovementAudio.pitch;
