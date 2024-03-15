@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 8053691943601281791}
   - component: {fileID: 7875352867918341286}
   - component: {fileID: 7531764766687063497}
+  - component: {fileID: 3973335050569284712}
   m_Layer: 7
   m_Name: PlayerTank
   m_TagString: Player
@@ -318,6 +319,20 @@ MonoBehaviour:
   m_MinLaunchForce: 15
   m_MaxLaunchForce: 30
   m_MaxChargeTime: 0.75
+--- !u!114 &3973335050569284712
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1661361813523471116}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad63e5db008ee4a4d81de5271f0d795b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_StartingHealth: 100
+  m_ExplosionPrefab: {fileID: 151086, guid: c2aa6d63fe7d07343a5535570b33fd6f, type: 3}
 --- !u!1 &4549894395978199138
 GameObject:
   m_ObjectHideFlags: 0

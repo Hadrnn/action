@@ -357,11 +357,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_StartingHealth: 100
-  m_Slider: {fileID: 0}
-  m_FillImage: {fileID: 0}
-  m_FullHealthColor: {r: 0, g: 1, b: 0, a: 1}
-  m_ZeroHealthColor: {r: 1, g: 0, b: 0, a: 1}
-  m_ExplosionPrefab: {fileID: 0}
+  m_ExplosionPrefab: {fileID: 151086, guid: c2aa6d63fe7d07343a5535570b33fd6f, type: 3}
 --- !u!114 &1502361942687080256
 MonoBehaviour:
   m_ObjectHideFlags: 0
