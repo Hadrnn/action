@@ -34,7 +34,7 @@ public class TankShooting : NetworkBehaviour
 
     private void Start()
     {
-        if (!IsOwner) return;
+        // if (!IsOwner) return;
         if (ControlledByPlayer)
         {
             m_FireButton = "Fire";

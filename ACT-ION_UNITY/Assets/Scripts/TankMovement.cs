@@ -46,7 +46,7 @@ public class TankMovement : NetworkBehaviour
 
     private void Start()
     {
-        if (IsOwner)
+        // if (IsOwner)
         {
             m_VerticalAxisName = "Vertical";
             m_HorizontalAxisName = "Horizontal";
@@ -103,7 +103,7 @@ public class TankMovement : NetworkBehaviour
     private void FixedUpdate()
     {
         // Adjust the rigidbodies position and orientation in FixedUpdate.
-        if (!IsOwner) return;
+        // if (!IsOwner) return;
         Move();
     }
 

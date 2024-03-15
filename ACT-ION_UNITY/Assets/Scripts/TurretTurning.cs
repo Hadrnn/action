@@ -16,7 +16,7 @@ public class TurretTurning : NetworkBehaviour {
 
     private void FixedUpdate()
     {
-        if (!IsOwner) return;
+        // if (!IsOwner) return;
         float distance;
         Ray ray = m_Camera.ScreenPointToRay(Input.mousePosition);
 
