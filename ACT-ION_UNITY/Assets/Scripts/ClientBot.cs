@@ -4,30 +4,65 @@ using UnityEngine;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
-using System;
-
+using System.Threading;
+using System.Threading.Tasks;
 public class ClientBot : MonoBehaviour
 {
+    public Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+    public string message = "Fisting is ...?";
+    public string d_answer;
+    public string SERVER_IP = "127.0.0.1";
+    public int PORT = 9999;
+    int t = 0;
+
+
+
     // Start is called before the first frame update
     void Start()
     {
-        IPEndPoint ipPoint = new IPEndPoint(IPAddress.Any, 9998);
-        Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-        socket.Connect("127.0.0.1", 9999);
-        var message = "Fisting is ...?";
-        var messageBytes = Encoding.UTF8.GetBytes(message);
-        socket.Send(messageBytes);
-        Console.WriteLine($"Send message {message}");
-        var answer = new byte[2048];
-        socket.Receive(answer);
-        var d_answer = Encoding.UTF8.GetString(answer);
-        Console.WriteLine($"Get message  {d_answer}");
-        socket.Close();
+        //Прописать вывод ошибки и повторное подключение
+        socket.Connect(SERVER_IP, PORT);
     }
 
-    // Update is called once per frame
-    void Update()
+    void Update() {
+        Start_working();
+    }
+
+    void Start_working()
     {
-        
+        t++;
+        Get_message();
+        Debug.Log($"Get message  {d_answer}");
+        // Вызов функции для изменения позиции: ChangePosition(d_answer)
+        // Вызов функции для сообщения для сервера: message = GetInfo()
+        Send_message();
+        if (t == 10000)
+        {
+        message = "END";
+        Send_message();
+        Close_connection();
+        Destroy(gameObject);
+        }
+    }
+
+    // Send message to python server
+    void Send_message()
+    {
+        var messageBytes = Encoding.UTF8.GetBytes(message);
+        socket.Send(messageBytes);
+        Debug.Log($"Send message {message}");
+    }
+
+    // Get message from python server
+    void Get_message()
+    {
+        var answer = new byte[2048];
+        socket.Receive(answer);
+        d_answer = Encoding.UTF8.GetString(answer);
+    }
+
+    void Close_connection()
+    {
+        socket.Close();
     }
 }
