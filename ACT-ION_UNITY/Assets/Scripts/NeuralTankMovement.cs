@@ -1,8 +1,9 @@
 using UnityEngine;
 using Unity.Netcode;
 using System.Linq;
+using UnityEngine.Windows;
 
-public class BotTankMovement : MonoBehaviour
+public class NeuralTankMovement : MonoBehaviour
 {
     public float m_Speed = 12f;                 // How fast the tank moves forward and back.
     public float m_TurnSpeed = 300f;            // How fast the tank turns in degrees per second.
@@ -91,10 +92,18 @@ public class BotTankMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        
+        Decision();
         Move();
     }
 
+    private void Decision()
+    {
+        InfoCollector collector = GameObject.Find("InfoCollector").GetComponent<InfoCollector>();
+        string command = collector.botMovement;
+        string[] parts = command.Split(' ');
+        m_HorizontalInputValue = float.Parse(parts[0]);
+        m_VerticalInputValue = float.Parse(parts[1]);
+    }
 
     private void Move()
     {
