@@ -181,6 +181,7 @@ GameObject:
   m_Component:
   - component: {fileID: 807510649}
   - component: {fileID: 807510648}
+  - component: {fileID: 807510650}
   m_Layer: 0
   m_Name: InfoCollector
   m_TagString: Untagged
@@ -203,6 +204,8 @@ MonoBehaviour:
   shells: []
   tanks: []
   mapObjects: []
+  botMovement: 
+  gameResult: Playing
 --- !u!4 &807510649
 Transform:
   m_ObjectHideFlags: 0
@@ -218,6 +221,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &807510650
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 807510647}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f299466af01abe449ae690ec917a0a4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  message: Fisting is ...?
+  d_answer: 
+  SERVER_IP: 127.0.0.1
+  PORT: 9999
 --- !u!1 &836498040
 GameObject:
   m_ObjectHideFlags: 0
@@ -815,7 +834,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1503038605}
   - component: {fileID: 1503038604}
-  - component: {fileID: 1503038606}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -856,22 +874,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1503038606
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1503038603}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f299466af01abe449ae690ec917a0a4f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  message: Fisting is ...?
-  d_answer: 
-  SERVER_IP: 127.0.0.1
-  PORT: 9999
 --- !u!1001 &1522993289
 PrefabInstance:
   m_ObjectHideFlags: 0

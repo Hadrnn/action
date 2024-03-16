@@ -6,6 +6,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using UnityEngine.UIElements;
 public class ClientBot : MonoBehaviour
 {
     public Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp); // Create socket
@@ -13,15 +14,24 @@ public class ClientBot : MonoBehaviour
     public string d_answer; // Create answer from server
     public string SERVER_IP = "127.0.0.1"; // Server ip
     public int PORT = 9999; // Server port
-    int t = 0; // Some variable fro testing
 
 
 
     // Start is called before the first frame update
     void Start()
     {
-        //Прописать вывод ошибки и повторное подключение
-        socket.Connect(SERVER_IP, PORT);
+        while (true)
+        {
+            try 
+            {
+            //Прописать вывод ошибки и повторное подключение
+                socket.Connect(SERVER_IP, PORT);
+            }
+            catch {
+                continue;
+            }
+            break;
+        }
     }
 
     void Update() {
@@ -30,18 +40,38 @@ public class ClientBot : MonoBehaviour
 
     void Start_working()
     {
-        t++;
+        InfoCollector collector = GameObject.Find("InfoCollector").GetComponent<InfoCollector>();
         Get_message();
-        Debug.Log($"Get message  {d_answer}");
+        // Debug.Log($"Get message  {d_answer}");
         // Вызов функции для изменения позиции: ChangePosition(d_answer)
+        collector.botMovement = d_answer;
+        
         // Вызов функции для сообщения для сервера: message = GetInfo()
-        Send_message();
-        if (t == 10000)
+        List<GameObject> all_tanks = collector.tanks;
+        Vector3 AL_bot_pos = all_tanks[0].transform.position;
+        Vector3 NN_bot_pos = all_tanks[1].transform.position;
+        Debug.Log(AL_bot_pos);
+
+        Vector3 direction = (NN_bot_pos - AL_bot_pos).normalized;
+        float distance = Vector3.Distance(AL_bot_pos, NN_bot_pos);
+        Collider PlayerCollider = collector.tanks[1].GetComponent<Collider>();
+        RaycastHit hit;
+        int can_shoot = 0;
+        if (Physics.Raycast(AL_bot_pos, direction, out hit, distance))
         {
-        message = "END";
+            if (hit.collider == PlayerCollider)
+            {
+                can_shoot = 1;
+            }
+        }
+        message = 
+            NN_bot_pos.x.ToString() + " " + NN_bot_pos.z.ToString() + " " + AL_bot_pos.x.ToString() + " " + AL_bot_pos.z.ToString() + " " + can_shoot.ToString() + " " + collector.gameResult;
+
         Send_message();
-        Close_connection();
-        Destroy(gameObject);
+        if (collector.gameResult != "Playing")
+        {
+            Close_connection();
+            Destroy(gameObject);
         }
     }
 

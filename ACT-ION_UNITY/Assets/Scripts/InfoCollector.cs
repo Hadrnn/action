@@ -8,6 +8,8 @@ public class InfoCollector : MonoBehaviour
     public List<GameObject> shells = new();
     public List<GameObject> tanks = new();
     public List<GameObject> mapObjects = new();
+    public string botMovement;
+    public string gameResult = "Playing";
 
     void Start()
     {
@@ -17,6 +19,6 @@ public class InfoCollector : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Debug.Log((shells.Count, tanks.Count, mapObjects.Count));
+        // Debug.Log((shells.Count, tanks.Count, mapObjects.Count, botMovement));
     }
 }

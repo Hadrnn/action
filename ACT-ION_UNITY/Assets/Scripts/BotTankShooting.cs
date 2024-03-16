@@ -14,7 +14,7 @@ public class BotTankShooting : MonoBehaviour
     public float m_MaxLaunchForce = 30f;        // The force given to the shell if the fire button is held for the max charge time.
     public float m_MaxChargeTime = 0.75f;       // How long the shell can charge for before it is fired at max force.
 
-    public float cooldoun = 1000f;
+    public float cooldoun = 1f;
     private float ShootTime = 0f;
 
 

@@ -3,6 +3,7 @@ using UnityEngine.UI;
 
 public class TankHealth : MonoBehaviour
 {
+    public int playerNumber = 1;
     public float m_StartingHealth = 100f;               // The amount of health each tank starts with.
     //public Slider m_Slider;                             // The slider to represent how much health the tank currently has.
     //public Image m_FillImage;                           // The image component of the slider.
@@ -52,6 +53,9 @@ public class TankHealth : MonoBehaviour
         // If the current health is at or below zero and it has not yet been registered, call OnDeath.
         if (m_CurrentHealth <= 0f && !m_Dead)
         {
+            InfoCollector collector = GameObject.Find("InfoCollector").GetComponent<InfoCollector>();
+            if (playerNumber == 0) collector.gameResult = "WIN";
+            else collector.gameResult = "LOSE";
             OnDeath();
         }
     }
