@@ -14,6 +14,8 @@ public class BotTankShooting : MonoBehaviour
     public float m_MaxLaunchForce = 30f;        // The force given to the shell if the fire button is held for the max charge time.
     public float m_MaxChargeTime = 0.75f;       // How long the shell can charge for before it is fired at max force.
 
+    public float cooldoun = 1000f;
+    private float ShootTime = 0f;
 
 
     private string m_FireButton;                // The input axis that is used for launching shells.
@@ -32,8 +34,14 @@ public class BotTankShooting : MonoBehaviour
         
     }
 
-    private void Fire()
+    public void Fire()
     {
+        float CurrentTime = Time.time;
+        if ( (CurrentTime - ShootTime) < cooldoun )
+        {
+            return;
+        }
+        
         // Set the fired flag so only Fire is only called once.
         m_Fired = true;
 
@@ -54,5 +62,6 @@ public class BotTankShooting : MonoBehaviour
 
         // Reset the launch force.  This is a precaution in case of missing button events.
         m_CurrentLaunchForce = m_MinLaunchForce;
+        ShootTime = Time.time;
     }
 }

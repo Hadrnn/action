@@ -142,17 +142,17 @@ public class PlayerTankMovement : MonoBehaviour
             delta_angle = -(360 - delta_angle);
         }
 
-        if (System.Math.Abs(delta_angle) < 2)
+        if (System.Math.Abs(delta_angle) < 3)
         {
             delta_angle = 0;
         }
 
-        if (delta_angle > 85)
+        if (delta_angle > 95)
         {
             forvard_multiplyer = -1 * forvard_multiplyer;
             delta_angle = (180 - delta_angle) * forvard_multiplyer;
         }
-        else if (delta_angle < -85)
+        else if (delta_angle < -95)
         {
             forvard_multiplyer = -1 * forvard_multiplyer;
             delta_angle = (180 + delta_angle) * forvard_multiplyer;
