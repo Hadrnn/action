@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Unity.Netcode;
+using UnityEngine;
 
 public class ShellExplosion : MonoBehaviour
 {
@@ -65,7 +66,7 @@ public class ShellExplosion : MonoBehaviour
         // Remove shell object from InfoCollector
         InfoCollector collector = GameObject.Find("InfoCollector").GetComponent<InfoCollector>();
         collector.shells.Remove(gameObject);
-
+        gameObject.GetComponent<NetworkObject>().Despawn();
         // Destroy the shell.
         Destroy(gameObject);
     }

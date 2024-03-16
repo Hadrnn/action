@@ -45,7 +45,7 @@ public class UnityNetworkTankMovement : NetworkBehaviour
 
     private void Start()
     {
-        // if (IsOwner)
+        if (IsOwner)
         {
             m_VerticalAxisName = "Vertical";
             m_HorizontalAxisName = "Horizontal";

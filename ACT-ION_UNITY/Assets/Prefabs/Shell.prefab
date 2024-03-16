@@ -59,7 +59,7 @@ MonoBehaviour:
   m_ExplosionAudio: {fileID: 813805210161295428}
   m_MaxDamage: 100
   m_ExplosionForce: 1000
-  m_MaxLifeTime: 2
+  m_MaxLifeTime: 10
   m_ExplosionRadius: 5
 --- !u!54 &4414234764820895244
 Rigidbody:
@@ -245,7 +245,7 @@ MonoBehaviour:
   SyncPositionY: 0
   SyncPositionZ: 1
   SyncRotAngleX: 0
-  SyncRotAngleY: 0
+  SyncRotAngleY: 1
   SyncRotAngleZ: 0
   SyncScaleX: 0
   SyncScaleY: 0
