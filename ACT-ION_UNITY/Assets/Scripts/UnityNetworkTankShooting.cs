@@ -92,16 +92,8 @@ public class UnityNetworkTankShooting : NetworkBehaviour
         // Set the fired flag so only Fire is only called once.
         m_Fired = true;
 
-        // Create an instance of the shell and store a reference to it's rigidbody.
-        Rigidbody shellInstance =
-            Instantiate(m_Shell, m_FireTransform.position, m_FireTransform.rotation) as Rigidbody;
-        
-        NetworkObject new_shell = shellInstance.GetComponent<NetworkObject>();
-        new_shell.Spawn();
 
-
-        // Set the shell's velocity to the launch force in the fire position's forward direction.
-        shellInstance.velocity = m_CurrentLaunchForce * m_FireTransform.forward; ;
+        FireServerRpc();
 
         // Change the clip to the firing clip and play it.
         m_ShootingAudio.clip = m_FireClip;
@@ -110,4 +102,19 @@ public class UnityNetworkTankShooting : NetworkBehaviour
         // Reset the launch force.  This is a precaution in case of missing button events.
         m_CurrentLaunchForce = m_MinLaunchForce;
     }
+
+    [ServerRpc]
+    public void FireServerRpc()
+    {        // Create an instance of the shell and store a reference to it's rigidbody.
+        Rigidbody shellInstance =
+            Instantiate(m_Shell, m_FireTransform.position, m_FireTransform.rotation) as Rigidbody;
+
+        NetworkObject new_shell = shellInstance.GetComponent<NetworkObject>();
+
+        new_shell.Spawn();
+
+        // Set the shell's velocity to the launch force in the fire position's forward direction.
+        shellInstance.velocity = m_CurrentLaunchForce * m_FireTransform.forward; ;
+    }
+
 }
