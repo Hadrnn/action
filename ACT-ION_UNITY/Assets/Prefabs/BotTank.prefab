@@ -386,7 +386,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f4fd7152eb15344c8443c9c7ce9ea5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Shell: {fileID: 4414234764820895244, guid: 2ef950796bd50134c9465bf2f6efb758, type: 3}
+  m_Shell: {fileID: 1216455418925857238, guid: 90181d6edaa9d9145b04dea24b474f54, type: 3}
   m_FireTransform: {fileID: 656354327951606535}
   m_ShootingAudio: {fileID: 6079601123456779928}
   m_ChargingClip: {fileID: 8300000, guid: 26eb6f8197d8401449286b42e7ff33f1, type: 3}

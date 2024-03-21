@@ -62,9 +62,13 @@ public class UnityNetworkTankMovement : NetworkBehaviour
 
     private void Update()
     {
-        // Store the value of both input axes.
-        m_VerticalInputValue = Input.GetAxis(m_VerticalAxisName);
-        m_HorizontalInputValue = Input.GetAxis(m_HorizontalAxisName);
+        if (IsOwner)
+        {
+            // Store the value of both input axes.
+            m_VerticalInputValue = Input.GetAxis(m_VerticalAxisName);
+            m_HorizontalInputValue = Input.GetAxis(m_HorizontalAxisName);
+
+        }
 
         //Debug.LogWarning(m_MovementInputValue);
         EngineAudio();

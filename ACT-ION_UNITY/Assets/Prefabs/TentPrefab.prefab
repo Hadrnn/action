@@ -194,16 +194,63 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4490349877455624073, guid: af166ba1b56538f47ae8081a7663818a, type: 3}
       propertyPath: m_VersionIndex
-      value: 61977
+      value: 61986
+      objectReference: {fileID: 0}
+    - target: {fileID: 5257885655971718740, guid: af166ba1b56538f47ae8081a7663818a, type: 3}
+      propertyPath: m_Size.x
+      value: 0.22
+      objectReference: {fileID: 0}
+    - target: {fileID: 5257885655971718740, guid: af166ba1b56538f47ae8081a7663818a, type: 3}
+      propertyPath: m_Size.y
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 5257885655971718740, guid: af166ba1b56538f47ae8081a7663818a, type: 3}
+      propertyPath: m_Center.y
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 5921585954798767166, guid: af166ba1b56538f47ae8081a7663818a, type: 3}
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1670733650186356506, guid: af166ba1b56538f47ae8081a7663818a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8800341824931684064}
   m_SourcePrefab: {fileID: 100100000, guid: af166ba1b56538f47ae8081a7663818a, type: 3}
 --- !u!4 &7464043101494811599 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2045887449654500768, guid: af166ba1b56538f47ae8081a7663818a, type: 3}
   m_PrefabInstance: {fileID: 8931175087342323311}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &7844790111785828725 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1670733650186356506, guid: af166ba1b56538f47ae8081a7663818a, type: 3}
+  m_PrefabInstance: {fileID: 8931175087342323311}
+  m_PrefabAsset: {fileID: 0}
+--- !u!54 &8800341824931684064
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7844790111785828725}
+  serializedVersion: 4
+  m_Mass: 1000
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 1

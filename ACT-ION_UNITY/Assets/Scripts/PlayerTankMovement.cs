@@ -169,9 +169,10 @@ public class PlayerTankMovement : MonoBehaviour
         {
             movement = transform.forward * m_Speed * Time.deltaTime * 1.3f * forvard_multiplyer;
         }
-
+        
         // Apply this movement to the rigidbody's position.
-        m_Rigidbody.MovePosition(m_Rigidbody.position + movement);
+        //m_Rigidbody.MovePosition(m_Rigidbody.position + movement);
+        m_Rigidbody.AddForce(movement*10, ForceMode.VelocityChange);
     }
 
 }

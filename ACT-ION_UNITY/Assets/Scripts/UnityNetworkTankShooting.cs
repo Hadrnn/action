@@ -16,8 +16,6 @@ public class UnityNetworkTankShooting : NetworkBehaviour
     public float m_MaxLaunchForce = 30f;        // The force given to the shell if the fire button is held for the max charge time.
     public float m_MaxChargeTime = 0.75f;       // How long the shell can charge for before it is fired at max force.
 
-    public bool ControlledByPlayer = true;
-
 
     private string m_FireButton;                // The input axis that is used for launching shells.
     private float m_CurrentLaunchForce;         // The force that will be given to the shell when the fire button is released.
@@ -36,10 +34,10 @@ public class UnityNetworkTankShooting : NetworkBehaviour
     private void Start()
     {
         if (!IsOwner) return;
-        if (ControlledByPlayer)
-        {
-            m_FireButton = "Fire";
-        }
+
+
+        m_FireButton = "Fire";
+
 
 
         // The rate that the launch force charges up is the range of possible forces by the max charge time.
@@ -52,6 +50,7 @@ public class UnityNetworkTankShooting : NetworkBehaviour
         // The slider should have a default value of the minimum launch force.
         //m_AimSlider.value = m_MinLaunchForce;
 
+        if (!IsOwner) return;
         // If the max force has been exceeded and the shell hasn't yet been launched...
         if (m_CurrentLaunchForce >= m_MaxLaunchForce && !m_Fired)
         {
