@@ -367,7 +367,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shells: []
-  tanks: []
   mapObjects: []
   botMovement: 
   gameResult: Playing
@@ -688,7 +687,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb7bca360113ebf419b90d59848193e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Type: 2
+  Type: 1
   UnityNetworkManager: {fileID: 7640481245423487163, guid: fe0bbd41349293d47a7cc70593b09473, type: 3}
   UnityNetworkMenu: {fileID: 6535677236963878315, guid: 096de73100e08584e8187d4620d69267, type: 3}
   UnityNetworkEventSystem: {fileID: 2523935134142243851, guid: c3ab7bca9ac4c2c42868cdb4c39dc152, type: 3}
@@ -735,7 +734,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8766798591416273950, guid: 76b6144bbdbcf4b4797e64d9c6a9a9eb, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 11.52
+      value: 13.57
       objectReference: {fileID: 0}
     - target: {fileID: 8766798591416273950, guid: 76b6144bbdbcf4b4797e64d9c6a9a9eb, type: 3}
       propertyPath: m_LocalPosition.y
@@ -788,7 +787,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1115011571579155325, guid: 2ed28e2ea06384444a8abd752c18f0e4, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 8.5
+      value: -9.8
       objectReference: {fileID: 0}
     - target: {fileID: 1115011571579155325, guid: 2ed28e2ea06384444a8abd752c18f0e4, type: 3}
       propertyPath: m_LocalPosition.y
