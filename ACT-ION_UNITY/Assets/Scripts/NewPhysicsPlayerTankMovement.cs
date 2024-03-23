@@ -1,8 +1,9 @@
 using UnityEngine;
 using Unity.Netcode;
 using System.Linq;
+using Unity.VisualScripting.ReorderableList.Element_Adder_Menu;
 
-public class PlayerTankMovement : MonoBehaviour
+public class NewPhysicsPlayerTankMovement : MonoBehaviour
 {
     public float m_Speed = 12f;                 // How fast the tank moves forward and back.
     public float m_TurnSpeed = 300f;            // How fast the tank turns in degrees per second.
@@ -107,7 +108,123 @@ public class PlayerTankMovement : MonoBehaviour
     private void FixedUpdate()
     {
         // Adjust the rigidbodies position and orientation in FixedUpdate.
+
         Move();
+    }
+
+
+    private void Move1()
+    {
+
+
+        if (m_Rigidbody.velocity.x > 0)
+        {
+            m_Rigidbody.velocity = new Vector3(Mathf.Max(0, m_Rigidbody.velocity.x - 2.4f), 0, m_Rigidbody.velocity.z);
+        }
+        else
+        {
+            m_Rigidbody.velocity = new Vector3(Mathf.Min(0, m_Rigidbody.velocity.x + 2.4f), 0, m_Rigidbody.velocity.z);
+        }
+
+        if (m_Rigidbody.velocity.z > 0)
+        {
+            m_Rigidbody.velocity = new Vector3(m_Rigidbody.velocity.x, 0, Mathf.Max(0, m_Rigidbody.velocity.z - 2.4f));
+        }
+        else
+        {
+            m_Rigidbody.velocity = new Vector3(m_Rigidbody.velocity.x, 0, Mathf.Min(0, m_Rigidbody.velocity.z + 2.4f));
+        }
+
+
+        if (System.Math.Abs(m_HorizontalInputValue) < 0.05f && System.Math.Abs(m_VerticalInputValue) < 0.05f)
+        {
+            return;
+        }
+
+        double control_angle = (System.Math.Acos((0 * m_VerticalInputValue + 1 * m_HorizontalInputValue) /
+            ((System.Math.Sqrt(m_HorizontalInputValue * m_HorizontalInputValue + m_VerticalInputValue * m_VerticalInputValue))))) * 57.3;
+
+        double forward_angle = (System.Math.Acos((transform.forward.x * forvard_multiplyer * 1 + transform.forward.z * 0 * forvard_multiplyer) /
+            ((System.Math.Sqrt(transform.forward.x * transform.forward.x + transform.forward.z * transform.forward.z))))) * 57.3;
+
+        double delta_angle = 0;
+        if (m_VerticalInputValue < 0)
+        {
+            control_angle = -control_angle;
+        }
+        if (transform.forward.z * forvard_multiplyer < 0)
+        {
+            forward_angle = -forward_angle;
+        }
+        delta_angle = control_angle - forward_angle;
+
+        if (delta_angle < -180)
+        {
+            delta_angle = 360 + delta_angle;
+        }
+        else if (delta_angle > 180)
+        {
+            delta_angle = -(360 - delta_angle);
+        }
+
+        if (System.Math.Abs(delta_angle) < 3)
+        {
+            delta_angle = 0;
+        }
+
+        if (delta_angle > 95)
+        {
+            forvard_multiplyer = -1 * forvard_multiplyer;
+            delta_angle = (180 - delta_angle) * forvard_multiplyer;
+        }
+        else if (delta_angle < -95)
+        {
+            forvard_multiplyer = -1 * forvard_multiplyer;
+            delta_angle = (180 + delta_angle) * forvard_multiplyer;
+        }
+
+        float turn = -(float)(System.Math.Sign(delta_angle) * Time.deltaTime * m_TurnSpeed * 0.8);
+
+        Quaternion turnRotation = Quaternion.Euler(0f, turn, 0f);
+
+        m_Rigidbody.MoveRotation(m_Rigidbody.rotation * turnRotation);
+        Vector3 movement = new Vector3(0f, 0f, 0f);
+
+        if ((m_VerticalInputValue != 0) || (m_HorizontalInputValue != 0))
+        {
+            movement = transform.forward * m_Speed * Time.deltaTime * 1.3f * forvard_multiplyer;
+        }
+
+        // Apply this movement to the rigidbody's position.
+        //m_Rigidbody.velocity -= Vector3.one * Time.deltaTime * m_Rigidbody.drag;
+
+
+        m_Rigidbody.velocity += 10*movement;
+        //m_Rigidbody.MovePosition(m_Rigidbody.position + movement);
+        //m_Rigidbody.AddForce(movement, ForceMode.VelocityChange);
+
+
+
+
+        if (m_Rigidbody.velocity.x > 0)
+        {
+            m_Rigidbody.velocity = new Vector3(Mathf.Min(12.47f, m_Rigidbody.velocity.x), 0, m_Rigidbody.velocity.z);
+        }
+        else
+        {
+            m_Rigidbody.velocity = new Vector3(Mathf.Max(-12.47f, m_Rigidbody.velocity.x), 0, m_Rigidbody.velocity.z);
+        }
+
+        if (m_Rigidbody.velocity.z > 0)
+        {
+            m_Rigidbody.velocity = new Vector3(m_Rigidbody.velocity.x, 0, Mathf.Min(12.47f, m_Rigidbody.velocity.z));
+        }
+        else
+        {
+            m_Rigidbody.velocity = new Vector3(m_Rigidbody.velocity.x, 0, Mathf.Max(-12.47f, m_Rigidbody.velocity.z));
+        }
+        Debug.Log(m_Rigidbody.velocity);
+
     }
 
 
@@ -172,15 +289,20 @@ public class PlayerTankMovement : MonoBehaviour
             movement = transform.forward * m_Speed * Time.deltaTime * 1.3f * forvard_multiplyer;
         }
 
-        // Apply this movement to the rigidbody's position.
-        Collider[] collisionArray = Physics.OverlapBox(m_Rigidbody.position + movement, m_Collider.size / 2, m_Rigidbody.rotation, ~0, QueryTriggerInteraction.Ignore);
+        Collider[] collisionArray = Physics.OverlapBox(m_Rigidbody.position + movement, m_Collider.size / 2, m_Rigidbody.rotation, ~0, QueryTriggerInteraction.Collide);
 
         if (collisionArray.Length == 1)
         {
             m_Rigidbody.MovePosition(m_Rigidbody.position + movement);
-            //Debug.Log("IM not stuck");
+            Debug.Log("IM not stuck");
         }
-        //m_Rigidbody.AddForce(10*movement, ForceMode.VelocityChange);
+        else
+        {
+            Debug.Log("IM stuck");
+        }
+        // Apply this movement to the rigidbody's position.
+        
+        //m_Rigidbody.AddForce(10 * movement, ForceMode.VelocityChange);
 
         //Debug.Log(m_Rigidbody.velocity);
     }

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1216455418925857238}
   - component: {fileID: 5128653525404146410}
   - component: {fileID: 8648650951251188456}
-  - component: {fileID: 1530364206986848740}
+  - component: {fileID: 4901760849205557060}
   m_Layer: 0
   m_Name: Shell
   m_TagString: Untagged
@@ -184,7 +184,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &1530364206986848740
+--- !u!114 &4901760849205557060
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -198,9 +198,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_TankMask:
     serializedVersion: 2
-    m_Bits: 0
-  m_ExplosionParticles: {fileID: 19807510, guid: 89e78efe92dfe5a42837b392cdb0bf9e, type: 3}
-  m_ExplosionAudio: {fileID: 8648650951251188456}
+    m_Bits: 128
+  m_ExplosionParticles: {fileID: 5967418620809996824}
+  m_ExplosionAudio: {fileID: 8940837070272114881}
   m_MaxDamage: 100
   m_ExplosionForce: 1000
   m_MaxLifeTime: 2

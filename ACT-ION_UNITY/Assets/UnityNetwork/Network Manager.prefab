@@ -92,7 +92,7 @@ MonoBehaviour:
   ConnectionData:
     Address: 25.12.195.48
     Port: 9999
-    ServerListenAddress: 25.12.195.48
+    ServerListenAddress: 127.0.0.1
   DebugSimulator:
     PacketDelayMS: 0
     PacketJitterMS: 0
