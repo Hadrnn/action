@@ -5,24 +5,26 @@ using UnityEngine;
 public class BotTurretTurning : MonoBehaviour
 {
     private BotTankShooting Gun;
+    private int teamNumber;
     private void Start()
     {
-         Gun = gameObject.GetComponentInParent<BotTankShooting>();
+        Gun = gameObject.GetComponentInParent<BotTankShooting>();
+        teamNumber = gameObject.GetComponentInParent<BotTankMovement>().teamNumber;
     }
     void Update()
     {
         // Распознавание танка игрока и бота по индексу в массиве - костыль, нужно переделать
         Vector3 TargetPos;
         InfoCollector collector = GameObject.Find("InfoCollector").GetComponent<InfoCollector>();
-        TargetPos = collector.tanks[1].transform.position; 
+        TargetPos = collector.teams[teamNumber - 1].tanks[0].transform.position; 
         transform.LookAt(TargetPos, Vector3.up);
         transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
 
-        Vector3 BotPos = collector.tanks[0].transform.position;
+        Vector3 BotPos = collector.teams[teamNumber].tanks[0].transform.position;
 
         Vector3 direction = (TargetPos - BotPos).normalized;
         float distance = Vector3.Distance(BotPos, TargetPos);
-        Collider PlayerCollider = collector.tanks[1].GetComponent<Collider>();
+        Collider PlayerCollider = collector.teams[teamNumber - 1].tanks[0].GetComponent<Collider>();
         RaycastHit hit;
         if (Physics.Raycast(BotPos, direction, out hit, distance))
         {

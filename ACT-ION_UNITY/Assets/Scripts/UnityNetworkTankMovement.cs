@@ -17,11 +17,12 @@ public class UnityNetworkTankMovement : NetworkBehaviour
     private float m_VerticalInputValue;         // The current value of the movement input.
     private float m_HorizontalInputValue;             // The current value of the turn input.
     private float m_OriginalPitch;              // The pitch of the audio source at the start of the scene.
-
+    private BoxCollider m_Collider;
 
     private void Awake()
     {
         m_Rigidbody = GetComponent<Rigidbody>();
+        m_Collider = GetComponent<BoxCollider>();
     }
 
 
@@ -173,7 +174,13 @@ public class UnityNetworkTankMovement : NetworkBehaviour
         }
 
         // Apply this movement to the rigidbody's position.
-        m_Rigidbody.MovePosition(m_Rigidbody.position + movement);
+        Collider[] collisionArray = Physics.OverlapBox(m_Rigidbody.position + movement, m_Collider.size / 2, m_Rigidbody.rotation, ~0, QueryTriggerInteraction.Ignore);
+
+        if (collisionArray.Length == 1)
+        {
+            m_Rigidbody.MovePosition(m_Rigidbody.position + movement);
+            //Debug.Log("IM not stuck");
+        }
     }
 
 }

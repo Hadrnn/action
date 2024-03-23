@@ -12,6 +12,7 @@ public class NeuralTankMovement : MonoBehaviour
     public AudioClip m_EngineDriving;           // Audio to play when the tank is moving.
     public float m_PitchRange = 0.2f;           // The amount by which the pitch of the engine noises can vary.
     public int forvard_multiplyer = 1;
+    public int teamNumber;
 
     private Rigidbody m_Rigidbody;              // Reference used to move the tank.
     private float m_VerticalInputValue;         // The current value of the movement input.
@@ -48,7 +49,7 @@ public class NeuralTankMovement : MonoBehaviour
     {
         // Add tank object to InfoCollector
         InfoCollector collector = GameObject.Find("InfoCollector").GetComponent<InfoCollector>();
-        collector.tanks.Add(gameObject);
+        collector.teams[teamNumber].tanks.Add(gameObject);
 
         // Store the original pitch of the audio source.
         m_OriginalPitch = m_MovementAudio.pitch;

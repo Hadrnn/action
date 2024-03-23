@@ -47,14 +47,14 @@ public class ClientBot : MonoBehaviour
         collector.botMovement = d_answer;
         
         // Вызов функции для сообщения для сервера: message = GetInfo()
-        List<GameObject> all_tanks = collector.tanks;
-        Vector3 AL_bot_pos = all_tanks[0].transform.position;
-        Vector3 NN_bot_pos = all_tanks[1].transform.position;
+
+        Vector3 AL_bot_pos = collector.teams[0].tanks[0].transform.position;
+        Vector3 NN_bot_pos = collector.teams[0].tanks[0].transform.position;
         Debug.Log(AL_bot_pos);
 
         Vector3 direction = (NN_bot_pos - AL_bot_pos).normalized;
         float distance = Vector3.Distance(AL_bot_pos, NN_bot_pos);
-        Collider PlayerCollider = collector.tanks[1].GetComponent<Collider>();
+        Collider PlayerCollider = collector.teams[0].tanks[0].GetComponent<Collider>();
         RaycastHit hit;
         int can_shoot = 0;
         if (Physics.Raycast(AL_bot_pos, direction, out hit, distance))

@@ -10,8 +10,8 @@ public class BotTankShooting : MonoBehaviour
     public AudioSource m_ShootingAudio;         // Reference to the audio source used to play the shooting audio. NB: different to the movement audio source.
     public AudioClip m_ChargingClip;            // Audio that plays when each shot is charging up.
     public AudioClip m_FireClip;                // Audio that plays when each shot is fired.
-    public float m_MinLaunchForce = 15f;        // The force given to the shell if the fire button is not held.
-    public float m_MaxLaunchForce = 30f;        // The force given to the shell if the fire button is held for the max charge time.
+    public float m_MinLaunchForce = 20f;        // The force given to the shell if the fire button is not held.
+    public float m_MaxLaunchForce = 40f;        // The force given to the shell if the fire button is held for the max charge time.
     public float m_MaxChargeTime = 0.75f;       // How long the shell can charge for before it is fired at max force.
 
     public float cooldoun = 1f;

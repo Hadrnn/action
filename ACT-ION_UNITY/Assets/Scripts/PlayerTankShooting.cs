@@ -11,11 +11,12 @@ public class PlayerTankShooting : MonoBehaviour
     public AudioSource m_ShootingAudio;         // Reference to the audio source used to play the shooting audio. NB: different to the movement audio source.
     public AudioClip m_ChargingClip;            // Audio that plays when each shot is charging up.
     public AudioClip m_FireClip;                // Audio that plays when each shot is fired.
-    public float m_MinLaunchForce = 15f;        // The force given to the shell if the fire button is not held.
-    public float m_MaxLaunchForce = 30f;        // The force given to the shell if the fire button is held for the max charge time.
+    public float m_MinLaunchForce = 20f;        // The force given to the shell if the fire button is not held.
+    public float m_MaxLaunchForce = 40f;        // The force given to the shell if the fire button is held for the max charge time.
     public float m_MaxChargeTime = 0.75f;       // How long the shell can charge for before it is fired at max force.
 
-
+    public float cooldoun = 1f;
+    private float ShootTime = 0f;
 
     private string m_FireButton;                // The input axis that is used for launching shells.
     private float m_CurrentLaunchForce;         // The force that will be given to the shell when the fire button is released.
@@ -83,6 +84,12 @@ public class PlayerTankShooting : MonoBehaviour
 
     private void Fire()
     {
+
+        float CurrentTime = Time.time;
+        if ((CurrentTime - ShootTime) < cooldoun)
+        {
+            return;
+        }
         // Set the fired flag so only Fire is only called once.
         m_Fired = true;
 
@@ -103,5 +110,6 @@ public class PlayerTankShooting : MonoBehaviour
 
         // Reset the launch force.  This is a precaution in case of missing button events.
         m_CurrentLaunchForce = m_MinLaunchForce;
+        ShootTime = Time.time;
     }
 }

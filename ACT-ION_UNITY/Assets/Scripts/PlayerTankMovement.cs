@@ -11,6 +11,7 @@ public class PlayerTankMovement : MonoBehaviour
     public AudioClip m_EngineDriving;           // Audio to play when the tank is moving.
     public float m_PitchRange = 0.2f;           // The amount by which the pitch of the engine noises can vary.
     public int forvard_multiplyer = 1;
+    public int teamNumber = 0;
 
     private string m_VerticalAxisName;          // The name of the input axis for moving forward and back.
     private string m_HorizontalAxisName;              // The name of the input axis for turning.
@@ -51,7 +52,7 @@ public class PlayerTankMovement : MonoBehaviour
     {
         // Add tank object to InfoCollector
         InfoCollector collector = GameObject.Find("InfoCollector").GetComponent<InfoCollector>();
-        collector.tanks.Add(gameObject);
+        collector.teams[teamNumber].tanks.Add(gameObject);
 
         m_VerticalAxisName = "Vertical";
         m_HorizontalAxisName = "Horizontal";
@@ -181,7 +182,5 @@ public class PlayerTankMovement : MonoBehaviour
             //Debug.Log("IM not stuck");
         }
         //m_Rigidbody.AddForce(10*movement, ForceMode.VelocityChange);
-
-        //Debug.Log(m_Rigidbody.velocity);
     }
 }
