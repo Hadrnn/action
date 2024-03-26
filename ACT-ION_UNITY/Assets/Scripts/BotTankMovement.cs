@@ -4,12 +4,13 @@ using System.Collections.Generic;
 using Vector3 = UnityEngine.Vector3;
 using Quaternion = UnityEngine.Quaternion;
 using Random = UnityEngine.Random;
-using System.IO;
+using TMPro;
+
 
 
 public class BotTankMovement : MonoBehaviour
 {
-    const int discret = 50;
+    public const int discret = 50;
     public int teamNumber = 1;
     public int counter = 0;
     public float m_Speed = 12f;                 // How fast the tank moves forward and back.
@@ -18,6 +19,7 @@ public class BotTankMovement : MonoBehaviour
     public AudioClip m_EngineIdling;            // Audio to play when the tank isn't moving.
     public AudioClip m_EngineDriving;           // Audio to play when the tank is moving.
     public float m_PitchRange = 0.2f;           // The amount by which the pitch of the engine noises can vary.
+    public double AgressiveDistance;
 
     private int Astar_deep = 200;
     private int forvard_multiplyer = 1;
@@ -26,13 +28,13 @@ public class BotTankMovement : MonoBehaviour
     private float m_HorizontalInputValue = 0;             // The current value of the turn input.
     private float m_OriginalPitch;              // The pitch of the audio source at the start of the scene.
     private BoxCollider m_Collider;
+    private BotTankShooting Gun;
 
     string GameStateToString(GameState current)
     {
         string result = $"{(int)(current.position.x * 10)} {(int)(current.position.y * 10)} {(int)(current.position.z * 10)} {(int)(current.forward.x * 10)} {(int)(current.forward.y*10)} {(int)(current.forward.z*10)}";
         return result;
     }
-
     Vector3 AStar(GameState start)
     { 
         PriorityQueue<GameState> que = new PriorityQueue<GameState>();
@@ -530,6 +532,8 @@ public class BotTankMovement : MonoBehaviour
 
         // Store the original pitch of the audio source.
         m_OriginalPitch = m_MovementAudio.pitch;
+
+        Gun = gameObject.GetComponentInChildren<BotTankShooting>();
     }
     private void Update()
     {
@@ -577,22 +581,40 @@ public class BotTankMovement : MonoBehaviour
     }
     private void Decision()
     {
-        GameState Start = new GameState();
         InfoCollector collector = GameObject.Find("InfoCollector").GetComponent<InfoCollector>();
-        if (collector.teams[teamNumber].tanks.Count < 2)
+        Vector3 TargetPosition = collector.teams[0].tanks[0].transform.position;
+        Vector3 MyPosition = transform.position;
+        Vector3 DeltaPosition = MyPosition - TargetPosition;
+        Double Length = DeltaPosition.magnitude;
+        if (!Gun.onReload)
         {
-            return;
+            GameState Start = new GameState();
+            
+            Start.position = transform.position;
+            Start.forward = transform.forward;
+            Start.forward_multiplyer = forvard_multiplyer;
+            Start.TargetPosition = TargetPosition;
+            Vector3 dist = Start.TargetPosition - Start.position;
+            Start.distance_to_finish = dist.magnitude;
+            Start.distance_to_start = 0;
+            Vector3 decision = AStar(Start);
+            if (!(decision.x == 0 && decision.z == 0))
+            {
+                m_HorizontalInputValue = decision.x;
+                m_VerticalInputValue = decision.z;
+            }
         }
-        Start.position = transform.position;
-        Start.forward = transform.forward;
-        Start.forward_multiplyer = forvard_multiplyer;
-        Start.TargetPosition = collector.teams[teamNumber].tanks[1].transform.position;
-        Vector3 dist = Start.TargetPosition - Start.position;
-        Start.distance_to_finish = dist.magnitude;
-        Start.distance_to_start = 0;
-        Vector3 decision = AStar(Start);
-        m_HorizontalInputValue = decision.x;
-        m_VerticalInputValue = decision.z;
+        else
+        {
+            /*            System.Random rnd = new System.Random();
+                        Vector2[] moves = {new Vector2(1,0), new Vector2(-1, 0), new Vector2(0, 1), new Vector2(0, -1), new Vector2(1, 1), new Vector2(1, -1), new Vector2(-1, 1), new Vector2(-1, -1)};
+                        int index = rnd.Next(moves.Length);
+                        Vector2 randomMove = moves[index];
+                        m_HorizontalInputValue = randomMove.x;
+                        m_VerticalInputValue = randomMove.y;*/
+            m_HorizontalInputValue = -m_HorizontalInputValue;
+            m_VerticalInputValue = -m_VerticalInputValue;
+        }
     }
     private void Move()
     {
@@ -659,6 +681,10 @@ public class BotTankMovement : MonoBehaviour
         if (collisionArray.Length == 1)
         {
             m_Rigidbody.MovePosition(m_Rigidbody.position + movement);
+        }
+        else
+        {
+            counter = discret;
         }
     }
 }

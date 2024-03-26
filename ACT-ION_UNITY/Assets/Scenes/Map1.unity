@@ -367,7 +367,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shells: []
-  tanks: []
   mapObjects: []
   botMovement: 
   gameResult: Playing

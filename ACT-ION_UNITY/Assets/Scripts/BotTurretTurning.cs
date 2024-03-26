@@ -1,11 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class BotTurretTurning : MonoBehaviour
 {
     private BotTankShooting Gun;
     private int teamNumber;
+    private int delay = 150;
+    private int delay_counter = 0;
+
     private void Start()
     {
         Gun = gameObject.GetComponentInParent<BotTankShooting>();
@@ -26,12 +30,28 @@ public class BotTurretTurning : MonoBehaviour
         float distance = Vector3.Distance(BotPos, TargetPos);
         Collider PlayerCollider = collector.teams[teamNumber - 1].tanks[0].GetComponent<Collider>();
         RaycastHit hit;
-        if (Physics.Raycast(BotPos, direction, out hit, distance))
+        Physics.Raycast(BotPos, direction, out hit, distance);
+        
+        if (hit.collider == PlayerCollider)
         {
-            if (hit.collider == PlayerCollider)
+ /*           Debug.Log("Hochu strelyatb");*/
+            if (delay_counter < delay)
+            {
+                delay_counter += 1;
+            }
+            else
             {
                 Gun.Fire();
+                delay_counter = 0;
             }
         }
+        else
+        {
+            if (hit.collider == collector.teams[teamNumber].tanks[0].GetComponent<Collider>())
+            {
+                Debug.Log("huy");
+            }
+        }
+        
     }
 }

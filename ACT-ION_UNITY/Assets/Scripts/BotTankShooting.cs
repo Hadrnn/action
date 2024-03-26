@@ -13,24 +13,29 @@ public class BotTankShooting : MonoBehaviour
     public float m_MinLaunchForce = 20f;        // The force given to the shell if the fire button is not held.
     public float m_MaxLaunchForce = 40f;        // The force given to the shell if the fire button is held for the max charge time.
     public float m_MaxChargeTime = 0.75f;       // How long the shell can charge for before it is fired at max force.
-
+    public bool onReload = false;
     public float cooldoun = 1f;
+
+    private BotTankMovement Body;
     private float ShootTime = 0f;
-
-
     private float m_CurrentLaunchForce;         // The force that will be given to the shell when the fire button is released.
     private float m_ChargeSpeed;                // How fast the launch force increases, based on the max charge time.
-    private bool m_Fired;
+
     // Start is called before the first frame update
     void Start()
     {
         m_CurrentLaunchForce = m_MinLaunchForce;
+        Body = GetComponent<BotTankMovement>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        float CurrentTime = Time.time;
+        if ((CurrentTime - ShootTime) > cooldoun)
+        {
+            onReload = false;
+        }
     }
 
     public void Fire()
@@ -40,9 +45,8 @@ public class BotTankShooting : MonoBehaviour
         {
             return;
         }
-        
         // Set the fired flag so only Fire is only called once.
-        m_Fired = true;
+        onReload = true;
 
         // Create an instance of the shell and store a reference to it's rigidbody.
         Rigidbody shellInstance =
@@ -62,5 +66,7 @@ public class BotTankShooting : MonoBehaviour
         // Reset the launch force.  This is a precaution in case of missing button events.
         m_CurrentLaunchForce = m_MinLaunchForce;
         ShootTime = Time.time;
+
+        Body.counter = BotTankMovement.discret;
     }
 }
