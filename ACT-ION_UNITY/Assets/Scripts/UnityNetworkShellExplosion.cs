@@ -13,6 +13,7 @@ public class UnityNetworkShellExplosion : NetworkBehaviour
 
     private float startTime;
 
+
     private void Start()
     {
         startTime = Time.time;
@@ -21,6 +22,8 @@ public class UnityNetworkShellExplosion : NetworkBehaviour
 
     private void Explode()
     {
+        //if (IsHost) DieClientRPC();
+
         // Collect all the colliders in a sphere from the shell's current position to a radius of the explosion radius.
         Collider[] colliders = Physics.OverlapSphere(transform.position, m_ExplosionRadius, m_TankMask);
 
@@ -66,14 +69,22 @@ public class UnityNetworkShellExplosion : NetworkBehaviour
         // Remove shell object from InfoCollector
         InfoCollector collector = GameObject.Find("InfoCollector").GetComponent<InfoCollector>();
         collector.shells.Remove(gameObject);
-        DieServerRPC();
+
+        if (IsHost)
+        {
+        NetworkObject shell = gameObject.GetComponent<NetworkObject>();
+        //shell.RemoveOwnership();
+        shell.Despawn();
+        }
+
         // Destroy the shell.
-        Destroy(gameObject);
+        // Destroy(gameObject);
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        Explode();   
+        if (IsHost) Explode();
+        // DieServerRPC();
     }
 
 
@@ -81,14 +92,22 @@ public class UnityNetworkShellExplosion : NetworkBehaviour
     {
         if (Time.time > startTime + m_MaxLifeTime)
         {
-            Explode();
+            if (IsHost) Explode();
+            // DieServerRPC();
         }
     }
 
-    [ServerRpc]
-    public void DieServerRPC()
-    {
-        gameObject.GetComponent<NetworkObject>().Despawn();
+    // [ServerRpc]
+    // public void DieServerRPC()
+    // {
+    //     NetworkObject shell = gameObject.GetComponent<NetworkObject>();
+    //     //shell.RemoveOwnership();
+    //     shell.Despawn();
+    // }
+
+    [ClientRpc]
+    public void DieClientRPC() {
+        if (IsClient) Explode();
     }
 
     private float CalculateDamage(Vector3 targetPosition)

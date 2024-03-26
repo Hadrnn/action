@@ -111,6 +111,7 @@ public class UnityNetworkTankShooting : NetworkBehaviour
         NetworkObject new_shell = shellInstance.GetComponent<NetworkObject>();
 
         new_shell.Spawn();
+        //new_shell.RemoveOwnership();
 
         // Set the shell's velocity to the launch force in the fire position's forward direction.
         shellInstance.velocity = m_CurrentLaunchForce * m_FireTransform.forward; ;
