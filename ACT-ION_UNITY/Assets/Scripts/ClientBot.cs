@@ -41,20 +41,16 @@ public class ClientBot : MonoBehaviour
     void Start_working()
     {
         InfoCollector collector = GameObject.Find("InfoCollector").GetComponent<InfoCollector>();
-        Get_message();
-        // Debug.Log($"Get message  {d_answer}");
-        // Вызов функции для изменения позиции: ChangePosition(d_answer)
-        collector.botMovement = d_answer;
         
         // Вызов функции для сообщения для сервера: message = GetInfo()
 
-        Vector3 AL_bot_pos = collector.teams[0].tanks[0].transform.position;
+        Vector3 AL_bot_pos = collector.teams[1].tanks[0].transform.position;
         Vector3 NN_bot_pos = collector.teams[0].tanks[0].transform.position;
-        Debug.Log(AL_bot_pos);
+        //Debug.Log(AL_bot_pos);
 
         Vector3 direction = (NN_bot_pos - AL_bot_pos).normalized;
         float distance = Vector3.Distance(AL_bot_pos, NN_bot_pos);
-        Collider PlayerCollider = collector.teams[0].tanks[0].GetComponent<Collider>();
+        Collider PlayerCollider = collector.teams[1].tanks[0].GetComponent<Collider>();
         RaycastHit hit;
         int can_shoot = 0;
         if (Physics.Raycast(AL_bot_pos, direction, out hit, distance))
@@ -73,6 +69,11 @@ public class ClientBot : MonoBehaviour
             Close_connection();
             Destroy(gameObject);
         }
+        Get_message();
+        Debug.Log($"Get message  {d_answer}");
+        // Вызов функции для изменения позиции: ChangePosition(d_answer)
+        collector.botMovement = d_answer;
+
     }
 
     // Send message to python server
@@ -80,7 +81,7 @@ public class ClientBot : MonoBehaviour
     {
         var messageBytes = Encoding.UTF8.GetBytes(message);
         socket.Send(messageBytes);
-        Debug.Log($"Send message {message}");
+        //Debug.Log($"Send message {message}");
     }
 
     // Get message from python server

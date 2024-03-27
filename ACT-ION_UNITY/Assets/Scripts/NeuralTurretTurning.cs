@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class NeuralTurretTurning : MonoBehaviour
 {
-    private BotTankShooting Gun;
+    private NeuralTankShooting Gun;
     private int teamNumber;
     private void Start()
     {
-        Gun = gameObject.GetComponentInParent<BotTankShooting>();
+        Gun = gameObject.GetComponentInParent<NeuralTankShooting>();
         teamNumber = gameObject.GetComponentInParent<NeuralTankMovement>().teamNumber;
 
     }
