@@ -5,7 +5,8 @@ using UnityEngine;
 public enum GameType
 {
     UnityNetwork = 1,
-    SinglePlayerBot = 2
+    SinglePlayerBot = 2,
+    Empty = 3,
 }
 public class Map1Manager : MonoBehaviour
 {
@@ -33,6 +34,8 @@ public class Map1Manager : MonoBehaviour
                 Instantiate(UnityNetworkManager);
                 Instantiate(UnityNetworkMenu);
                 Instantiate(UnityNetworkEventSystem);
+                break;
+            case GameType.Empty:
                 break;
             default:
                 break;

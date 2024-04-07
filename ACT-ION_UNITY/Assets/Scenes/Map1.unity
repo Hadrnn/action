@@ -804,7 +804,7 @@ Camera:
   far clip plane: 100
   field of view: 90
   orthographic: 1
-  orthographic size: 30
+  orthographic size: 20
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
@@ -1013,7 +1013,7 @@ MonoBehaviour:
   UnityNetworkMenu: {fileID: 6535677236963878315, guid: 096de73100e08584e8187d4620d69267, type: 3}
   UnityNetworkEventSystem: {fileID: 2523935134142243851, guid: c3ab7bca9ac4c2c42868cdb4c39dc152, type: 3}
   BotTank: {fileID: 4921215065507373529, guid: 636be22d66f319f429293860c45c0f23, type: 3}
-  PlayerTank: {fileID: 1661361813523471116, guid: b6d27e08a6b97d9429bdbaafe9e8c24c, type: 3}
+  PlayerTank: {fileID: 6722016341034696329, guid: b7381c112bd3b274483da47f72c78ee1, type: 3}
 --- !u!4 &1503038605
 Transform:
   m_ObjectHideFlags: 0

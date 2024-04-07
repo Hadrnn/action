@@ -24,7 +24,7 @@ public class InfoCollector : MonoBehaviour
         public List<GameObject> tanks = new();
     }
 
-    void Start()
+    void Awake()
     {
         for (int i = 0; i < 2; ++i)
         {
