@@ -86,7 +86,7 @@ public class SinglePlayMenuFunctional : MonoBehaviour
         {
             gameObject.GetComponentInChildren<Transform>().Find("ARTPct").gameObject.SetActive(false);
         }
-        GameSingleton.GetInstance().currentTank = tank_index;
+        GameSingleton.GetInstance().currentTank = tank_index;   
     }
     public void UpTankIndex()
     {

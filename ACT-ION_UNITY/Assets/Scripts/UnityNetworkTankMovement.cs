@@ -24,6 +24,9 @@ public class UnityNetworkTankMovement : NetworkBehaviour
     {
         m_Rigidbody = GetComponent<Rigidbody>();
         m_Collider = GetComponent<BoxCollider>();
+
+
+        // GET SPAWN POS FROM SPAWN MANAGER
         Vector3 SpawnPos = new Vector3(10, 0, 10);
         m_Rigidbody.MovePosition(SpawnPos);
     }   

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
 using Unity.Networking.Transport.Error;
+using Unity.Netcode.Transports.UTP;
 
 public enum GameType
 {
@@ -23,9 +24,6 @@ public class Map1Manager : NetworkBehaviour
 
     public NetworkPrefabsList prefabs;
 
-
-    private bool needToSpawn = true;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -36,7 +34,14 @@ public class Map1Manager : NetworkBehaviour
                 Instantiate(PlayerTank, new Vector3(0f, 0f, -10f), Quaternion.Euler(new Vector3(0f, 0f, 0f)));
                 break;
             case GameType.UnityNetwork:
-                Instantiate(UnityNetworkManager);
+                GameObject manager = Instantiate(UnityNetworkManager);
+                UnityTransport transport = manager.GetComponent<UnityTransport>();
+
+
+                // GET DATA FROM OUR PYTHON SERVER
+                transport.ConnectionData.Address = "25.12.195.48";
+                transport.ConnectionData.Port = 9000;
+
                 Instantiate(UnityNetworkMenu);
                 Instantiate(UnityNetworkEventSystem);
                 break;
@@ -46,17 +51,15 @@ public class Map1Manager : NetworkBehaviour
                 break;
         }
     }
-    private void Update()
-    {
-        if (!NetworkManager.Singleton || !needToSpawn) return;
 
+    public override void OnNetworkSpawn()
+    {
         if (NetworkManager.Singleton.IsServer)
         {
             Debug.Log("Current tank is");
             Debug.Log(GameSingleton.GetInstance().currentTank);
             GameObject HostTank = Instantiate(prefabs.PrefabList[GameSingleton.GetInstance().currentTank].Prefab);
             HostTank.GetComponent<NetworkObject>().Spawn();
-            needToSpawn = false;
             //HostTank.GetComponent<NetworkObject>().SpawnAsPlayerObject(0,true);
         }
         else
