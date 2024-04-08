@@ -50,7 +50,7 @@ public class ClientBot : MonoBehaviour
 
         Vector3 direction = (NN_bot_pos - AL_bot_pos).normalized;
         float distance = Vector3.Distance(AL_bot_pos, NN_bot_pos);
-        Collider PlayerCollider = collector.teams[1].tanks[0].GetComponent<Collider>();
+        Collider PlayerCollider = collector.teams[0].tanks[0].GetComponent<Collider>();
         RaycastHit hit;
         int can_shoot = 0;
         if (Physics.Raycast(AL_bot_pos, direction, out hit, distance))

@@ -70,11 +70,12 @@ public class UnityNetworkShellExplosion : NetworkBehaviour
         InfoCollector collector = GameObject.Find("InfoCollector").GetComponent<InfoCollector>();
         collector.shells.Remove(gameObject);
 
-        if (IsHost)
+        if (IsServer)
         {
-        NetworkObject shell = gameObject.GetComponent<NetworkObject>();
-        //shell.RemoveOwnership();
-        shell.Despawn();
+            Debug.Log("Despawn shell by server");
+            NetworkObject shell = gameObject.GetComponent<NetworkObject>();
+            //shell.RemoveOwnership();
+            shell.Despawn();
         }
 
         // Destroy the shell.
@@ -83,8 +84,13 @@ public class UnityNetworkShellExplosion : NetworkBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (IsHost) Explode();
-        // DieServerRPC();
+        
+        if (IsServer)
+        {
+            DieClientRpc();
+            Explode();
+            Debug.Log("Hui");
+        }
     }
 
 
@@ -92,8 +98,13 @@ public class UnityNetworkShellExplosion : NetworkBehaviour
     {
         if (Time.time > startTime + m_MaxLifeTime)
         {
-            if (IsHost) Explode();
-            // DieServerRPC();
+            
+            if (IsServer)
+            {
+                DieClientRpc();
+                Explode();
+                Debug.Log("Hui");
+            }
         }
     }
 
@@ -106,8 +117,11 @@ public class UnityNetworkShellExplosion : NetworkBehaviour
     // }
 
     [ClientRpc]
-    public void DieClientRPC() {
-        if (IsClient) Explode();
+    public void DieClientRpc() {
+        Debug.Log("StartServerRPC");
+        if (!IsHost) Explode();
+        // if (!IsServer) Debug.Log("Huy");
+        // else Debug.Log("I'm gay");
     }
 
     private float CalculateDamage(Vector3 targetPosition)
