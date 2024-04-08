@@ -35,7 +35,7 @@ public class UnityNetworkTankShooting : NetworkBehaviour
         if (!IsOwner) return;
 
 
-        m_FireButton = "Fire"
+        m_FireButton = "Fire";
 
         // The rate that the launch force charges up is the range of possible forces by the max charge time.
         m_ChargeSpeed = (m_MaxLifeTime - m_MinLifeTime) / m_MaxChargeTime;
@@ -84,6 +84,11 @@ public class UnityNetworkTankShooting : NetworkBehaviour
 
     private void Fire()
     {
+        float CurrentTime = Time.time;
+        if ((CurrentTime - ShootTime) < cooldown)
+        {
+            return;
+        }
         // Set the fired flag so only Fire is only called once.
         m_Fired = true;
 
@@ -108,7 +113,7 @@ public class UnityNetworkTankShooting : NetworkBehaviour
         //new_shell.RemoveOwnership();
 
         // Set the shell's velocity to the launch force in the fire position's forward direction.
-        ShellExplosion explosion = shellInstance.GetComponent<ShellExplosion>();
+        UnityNetworkShellExplosion explosion = shellInstance.GetComponent<UnityNetworkShellExplosion>();
         explosion.m_MaxLifeTime = m_CurrentLifeTime;
         m_CurrentLifeTime = m_MinLifeTime;
         shellInstance.velocity = m_Velocity * m_FireTransform.forward;
