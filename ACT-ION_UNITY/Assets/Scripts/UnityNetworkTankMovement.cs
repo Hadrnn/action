@@ -58,6 +58,7 @@ public class UnityNetworkTankMovement : NetworkBehaviour
 
         // Store the original pitch of the audio source.
         m_OriginalPitch = m_MovementAudio.pitch;
+        if (IsLocalPlayer) Debug.Log("IM LOCAL");
     }
 
 
@@ -145,17 +146,17 @@ public class UnityNetworkTankMovement : NetworkBehaviour
             delta_angle = -(360 - delta_angle);
         }
 
-        if (System.Math.Abs(delta_angle) < 2)
+        if (System.Math.Abs(delta_angle) < 3)
         {
             delta_angle = 0;
         }
 
-        if (delta_angle > 85)
+        if (delta_angle > 95)
         {
             forvard_multiplyer = -1 * forvard_multiplyer;
             delta_angle = (180 - delta_angle) * forvard_multiplyer;
         }
-        else if (delta_angle < -85)
+        else if (delta_angle < -95)
         {
             forvard_multiplyer = -1 * forvard_multiplyer;
             delta_angle = (180 + delta_angle) * forvard_multiplyer;
@@ -166,7 +167,7 @@ public class UnityNetworkTankMovement : NetworkBehaviour
         Quaternion turnRotation = Quaternion.Euler(0f, turn, 0f);
 
         m_Rigidbody.MoveRotation(m_Rigidbody.rotation * turnRotation);
-        Vector3 movement = new Vector3(0f,0f,0f);
+        Vector3 movement = new Vector3(0f, 0f, 0f);
 
         if ((m_VerticalInputValue != 0) || (m_HorizontalInputValue != 0))
         {
@@ -181,6 +182,7 @@ public class UnityNetworkTankMovement : NetworkBehaviour
             m_Rigidbody.MovePosition(m_Rigidbody.position + movement);
             //Debug.Log("IM not stuck");
         }
+        //m_Rigidbody.AddForce(10*movement, ForceMode.VelocityChange);
     }
 
 }

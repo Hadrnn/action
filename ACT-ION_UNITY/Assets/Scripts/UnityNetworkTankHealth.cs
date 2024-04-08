@@ -15,7 +15,7 @@ public class UnityNetworkTankHealth : NetworkBehaviour
 
     private AudioSource m_ExplosionAudio;               // The audio source to play when the tank explodes.
     private ParticleSystem m_ExplosionParticles;        // The particle system the will play when the tank is destroyed.
-    private float m_CurrentHealth;                      // How much health the tank currently has.
+    private NetworkVariable<float> m_CurrentHealth;                      // How much health the tank currently has.
     private bool m_Dead;                                // Has the tank been reduced beyond zero health yet?
 
 
@@ -35,32 +35,28 @@ public class UnityNetworkTankHealth : NetworkBehaviour
     private void OnEnable()
     {
         // When the tank is enabled, reset the tank's health and whether or not it's dead.
-        m_CurrentHealth = m_StartingHealth;
+        m_CurrentHealth = new NetworkVariable<float>(m_StartingHealth);
         m_Dead = false;
-
-        // Update the health slider's value and color.
-        //SetHealthUI();
     }
 
 
     public void TakeDamage(float amount)
     {
         // Reduce current health by the amount of damage done.
-        m_CurrentHealth -= amount;
-
+        m_CurrentHealth.Value -= amount;
         // Change the UI elements appropriately.
         //SetHealthUI();
-
         // If the current health is at or below zero and it has not yet been registered, call OnDeath.
-        if (m_CurrentHealth <= 0f && !m_Dead)
+        if (m_CurrentHealth.Value <= 0f && !m_Dead)
         {
-            InfoCollector collector = GameObject.Find("InfoCollector").GetComponent<InfoCollector>();
-            if (playerNumber == 0) collector.gameResult = "WIN";
-            else collector.gameResult = "LOSE";
             OnDeath();
         }
     }
 
+    public bool IsDead()
+    {
+        return m_CurrentHealth.Value <= 0f;
+    }
 
     //private void SetHealthUI()
     //{

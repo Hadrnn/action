@@ -24,35 +24,7 @@ public class UnityNetworkShellExplosion : NetworkBehaviour
     {
         //if (IsHost) DieClientRPC();
 
-        // Collect all the colliders in a sphere from the shell's current position to a radius of the explosion radius.
-        Collider[] colliders = Physics.OverlapSphere(transform.position, m_ExplosionRadius, m_TankMask);
-
-        // Go through all the colliders...
-        for (int i = 0; i < colliders.Length; i++)
-        {
-            // ... and find their rigidbody.
-            Rigidbody targetRigidbody = colliders[i].GetComponent<Rigidbody>();
-
-            // If they don't have a rigidbody, go on to the next collider.
-            if (!targetRigidbody)
-                continue;
-
-            // Add an explosion force.
-            targetRigidbody.AddExplosionForce(m_ExplosionForce, transform.position, m_ExplosionRadius);
-
-            // Find the TankHealth script associated with the rigidbody.
-            TankHealth targetHealth = targetRigidbody.GetComponent<TankHealth>();
-
-            // If there is no TankHealth script attached to the gameobject, go on to the next collider.
-            if (!targetHealth)
-                continue;
-
-            // Calculate the amount of damage the target should take based on it's distance from the shell.
-            float damage = CalculateDamage(targetRigidbody.position);
-
-            // Deal this damage to the tank.
-            targetHealth.TakeDamage(damage);
-        }
+        if (IsServer) Damage();
 
         // Unparent the particles from the shell.
         m_ExplosionParticles.transform.parent = null;
@@ -70,21 +42,54 @@ public class UnityNetworkShellExplosion : NetworkBehaviour
         InfoCollector collector = GameObject.Find("InfoCollector").GetComponent<InfoCollector>();
         collector.shells.Remove(gameObject);
 
-        if (IsHost)
+        if (IsServer)
         {
-        NetworkObject shell = gameObject.GetComponent<NetworkObject>();
-        //shell.RemoveOwnership();
-        shell.Despawn();
+            Debug.Log("Despawn shell by server");
+            NetworkObject shell = gameObject.GetComponent<NetworkObject>();
+            //shell.RemoveOwnership();
+            shell.Despawn();
         }
+    }
 
-        // Destroy the shell.
-        // Destroy(gameObject);
+    private void Damage()
+    {
+        Collider[] colliders = Physics.OverlapSphere(transform.position, m_ExplosionRadius, m_TankMask);
+
+        // Go through all the colliders...
+        for (int i = 0; i < colliders.Length; i++)
+        {
+            // ... and find their rigidbody.
+            Rigidbody targetRigidbody = colliders[i].GetComponent<Rigidbody>();
+            // If they don't have a rigidbody, go on to the next collider.
+            if (!targetRigidbody)
+                continue;
+
+            // Add an explosion force.
+            targetRigidbody.AddExplosionForce(m_ExplosionForce, transform.position, m_ExplosionRadius);
+
+            // Find the TankHealth script associated with the rigidbody.
+            UnityNetworkTankHealth targetHealth = targetRigidbody.GetComponent<UnityNetworkTankHealth>();
+
+            // If there is no TankHealth script attached to the gameobject, go on to the next collider.
+            if (!targetHealth)
+                continue;
+
+            // Calculate the amount of damage the target should take based on it's distance from the shell.
+            float damage = CalculateDamage(targetRigidbody.position);
+
+            // Deal this damage to the tank.
+            targetHealth.TakeDamage(damage);
+        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (IsHost) Explode();
-        // DieServerRPC();
+        
+        if (IsServer)
+        {
+            DieClientRpc();
+            Explode();
+        }
     }
 
 
@@ -92,8 +97,12 @@ public class UnityNetworkShellExplosion : NetworkBehaviour
     {
         if (Time.time > startTime + m_MaxLifeTime)
         {
-            if (IsHost) Explode();
-            // DieServerRPC();
+            
+            if (IsServer)
+            {
+                DieClientRpc();
+                Explode();
+            }
         }
     }
 
@@ -106,8 +115,11 @@ public class UnityNetworkShellExplosion : NetworkBehaviour
     // }
 
     [ClientRpc]
-    public void DieClientRPC() {
-        if (IsClient) Explode();
+    public void DieClientRpc() {
+        Debug.Log("StartServerRPC");
+        if (!IsHost) Explode();
+        // if (!IsServer) Debug.Log("Huy");
+        // else Debug.Log("I'm gay");
     }
 
     private float CalculateDamage(Vector3 targetPosition)
