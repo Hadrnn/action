@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Unity.Netcode;
+using Unity.Netcode.Components;
 
 public class UnityNetworkTankMovement : NetworkBehaviour
 {
@@ -23,7 +24,9 @@ public class UnityNetworkTankMovement : NetworkBehaviour
     {
         m_Rigidbody = GetComponent<Rigidbody>();
         m_Collider = GetComponent<BoxCollider>();
-    }
+        Vector3 SpawnPos = new Vector3(10, 0, 10);
+        m_Rigidbody.MovePosition(SpawnPos);
+    }   
 
 
     private void OnEnable()

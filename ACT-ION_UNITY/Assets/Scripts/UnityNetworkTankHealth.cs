@@ -49,7 +49,7 @@ public class UnityNetworkTankHealth : NetworkBehaviour
         // If the current health is at or below zero and it has not yet been registered, call OnDeath.
         if (m_CurrentHealth.Value <= 0f && !m_Dead)
         {
-            OnDeath();
+            OnDeathClientRpc();
         }
     }
 
@@ -67,8 +67,8 @@ public class UnityNetworkTankHealth : NetworkBehaviour
     //    m_FillImage.color = Color.Lerp(m_ZeroHealthColor, m_FullHealthColor, m_CurrentHealth / m_StartingHealth);
     //}
 
-
-    private void OnDeath()
+    [ClientRpc]
+    private void OnDeathClientRpc()
     {
         // Set the flag so that this function is only called once.
         m_Dead = true;
