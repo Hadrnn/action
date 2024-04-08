@@ -988,6 +988,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1503038605}
+  - component: {fileID: 1503038606}
   - component: {fileID: 1503038604}
   m_Layer: 0
   m_Name: Manager
@@ -1014,6 +1015,7 @@ MonoBehaviour:
   UnityNetworkEventSystem: {fileID: 2523935134142243851, guid: c3ab7bca9ac4c2c42868cdb4c39dc152, type: 3}
   BotTank: {fileID: 4921215065507373529, guid: 636be22d66f319f429293860c45c0f23, type: 3}
   PlayerTank: {fileID: 6722016341034696329, guid: b7381c112bd3b274483da47f72c78ee1, type: 3}
+  prefabs: {fileID: 11400000, guid: a6173291b553f114e8597fccf64c8959, type: 2}
 --- !u!4 &1503038605
 Transform:
   m_ObjectHideFlags: 0
@@ -1029,6 +1031,27 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1503038606
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1503038603}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 1154715503
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!4 &1582326405 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 9e6ee9e980991354b9685b6a2b582fe7, type: 3}

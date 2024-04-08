@@ -4,8 +4,17 @@ using UnityEngine;
 
 public class GameSingleton
 {
+    public static class Tanks
+    {
+        public const int Tank = 0;
+        public const int APC = 1;
+        public const int HeavyTank = 2;
+        public const int Artillery = 3;
+    }
+
     static GameSingleton instance;
-    public int value = 0;
+    public int currentTank = 0;
+    
     private GameSingleton() {
         Debug.Log("SPAWNED SINGLETON");
     }
@@ -16,7 +25,7 @@ public class GameSingleton
         {
             instance = new GameSingleton();
         }
-        Debug.Log("GOT TO SINGLETON");
+        //Debug.Log("GOT TO SINGLETON");
         return instance;
     }
 

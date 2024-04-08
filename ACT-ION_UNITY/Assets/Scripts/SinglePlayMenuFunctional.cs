@@ -47,7 +47,14 @@ public class SinglePlayMenuFunctional : MonoBehaviour
         {
             gameObject.GetComponentInChildren<Transform>().Find("MapPct").gameObject.SetActive(false);
         }
-        if (tank_index == 0)
+
+
+
+
+
+
+
+        if (tank_index == GameSingleton.Tanks.Tank)
         {
             gameObject.GetComponentInChildren<Transform>().Find("TankPct").gameObject.SetActive(true);
         }
@@ -55,7 +62,7 @@ public class SinglePlayMenuFunctional : MonoBehaviour
         {
             gameObject.GetComponentInChildren<Transform>().Find("TankPct").gameObject.SetActive(false);
         }
-        if (tank_index == 1)
+        if (tank_index == GameSingleton.Tanks.APC)
         {
             gameObject.GetComponentInChildren<Transform>().Find("APCPct").gameObject.SetActive(true);
         }
@@ -63,15 +70,7 @@ public class SinglePlayMenuFunctional : MonoBehaviour
         {
             gameObject.GetComponentInChildren<Transform>().Find("APCPct").gameObject.SetActive(false);
         }
-        if (tank_index == 2)
-        {
-            gameObject.GetComponentInChildren<Transform>().Find("ARTPct").gameObject.SetActive(true);
-        }
-        else
-        {
-            gameObject.GetComponentInChildren<Transform>().Find("ARTPct").gameObject.SetActive(false);
-        }
-        if (tank_index == 3)
+        if (tank_index == GameSingleton.Tanks.HeavyTank)
         {
             gameObject.GetComponentInChildren<Transform>().Find("HeavyPct").gameObject.SetActive(true);
         }
@@ -79,6 +78,15 @@ public class SinglePlayMenuFunctional : MonoBehaviour
         {
             gameObject.GetComponentInChildren<Transform>().Find("HeavyPct").gameObject.SetActive(false);
         }
+        if (tank_index == GameSingleton.Tanks.Artillery)
+        {
+            gameObject.GetComponentInChildren<Transform>().Find("ARTPct").gameObject.SetActive(true);
+        }
+        else
+        {
+            gameObject.GetComponentInChildren<Transform>().Find("ARTPct").gameObject.SetActive(false);
+        }
+        GameSingleton.GetInstance().currentTank = tank_index;
     }
     public void UpTankIndex()
     {

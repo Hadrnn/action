@@ -10,7 +10,7 @@ public enum GameType
     SinglePlayerBot = 2,
     Empty = 3,
 }
-public class Map1Manager : MonoBehaviour
+public class Map1Manager : NetworkBehaviour
 {
     public GameType Type = GameType.SinglePlayerBot;
 
@@ -22,7 +22,6 @@ public class Map1Manager : MonoBehaviour
     public GameObject PlayerTank;
 
     public NetworkPrefabsList prefabs;
-    public GameObject UnityNetworkTank;
 
 
     private bool needToSpawn = true;
@@ -40,7 +39,6 @@ public class Map1Manager : MonoBehaviour
                 Instantiate(UnityNetworkManager);
                 Instantiate(UnityNetworkMenu);
                 Instantiate(UnityNetworkEventSystem);
-                GameSingleton.GetInstance().value = 1;
                 break;
             case GameType.Empty:
                 break;
@@ -50,13 +48,29 @@ public class Map1Manager : MonoBehaviour
     }
     private void Update()
     {
-        if(needToSpawn && NetworkManager.Singleton.IsServer)
+        if (!NetworkManager.Singleton || !needToSpawn) return;
+
+        if (NetworkManager.Singleton.IsServer)
         {
-            GameObject HostTank = Instantiate(prefabs.PrefabList[0].Prefab);
+            Debug.Log("Current tank is");
+            Debug.Log(GameSingleton.GetInstance().currentTank);
+            GameObject HostTank = Instantiate(prefabs.PrefabList[GameSingleton.GetInstance().currentTank].Prefab);
             HostTank.GetComponent<NetworkObject>().Spawn();
             needToSpawn = false;
-            GameSingleton.GetInstance().value = 1;
             //HostTank.GetComponent<NetworkObject>().SpawnAsPlayerObject(0,true);
         }
+        else
+        {
+            SpawnPlayerServerRpc(NetworkManager.Singleton.LocalClientId, GameSingleton.GetInstance().currentTank);
+        }
+    }
+
+    [ServerRpc(RequireOwnership = false)] //server owns this object but client can request a spawn
+    public void SpawnPlayerServerRpc(ulong clientID, int tankID)
+    {
+        GameObject newPlayer = Instantiate(prefabs.PrefabList[tankID].Prefab);
+        NetworkObject netObj = newPlayer.GetComponent<NetworkObject>();
+        newPlayer.SetActive(true);
+        netObj.SpawnAsPlayerObject(clientID, true);
     }
 }
