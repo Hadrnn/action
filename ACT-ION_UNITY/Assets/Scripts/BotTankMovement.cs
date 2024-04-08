@@ -586,7 +586,7 @@ public class BotTankMovement : MonoBehaviour
         Vector3 MyPosition = transform.position;
         Vector3 DeltaPosition = MyPosition - TargetPosition;
         Double Length = DeltaPosition.magnitude;
-        if (!Gun.onReload)
+        if (!Gun.onReload || Length > 40)
         {
             GameState Start = new GameState();
             
@@ -606,12 +606,6 @@ public class BotTankMovement : MonoBehaviour
         }
         else
         {
-            /*            System.Random rnd = new System.Random();
-                        Vector2[] moves = {new Vector2(1,0), new Vector2(-1, 0), new Vector2(0, 1), new Vector2(0, -1), new Vector2(1, 1), new Vector2(1, -1), new Vector2(-1, 1), new Vector2(-1, -1)};
-                        int index = rnd.Next(moves.Length);
-                        Vector2 randomMove = moves[index];
-                        m_HorizontalInputValue = randomMove.x;
-                        m_VerticalInputValue = randomMove.y;*/
             m_HorizontalInputValue = -m_HorizontalInputValue;
             m_VerticalInputValue = -m_VerticalInputValue;
         }

@@ -393,12 +393,11 @@ MonoBehaviour:
   m_ShootingAudio: {fileID: 6079601123456779928}
   m_ChargingClip: {fileID: 8300000, guid: 26eb6f8197d8401449286b42e7ff33f1, type: 3}
   m_FireClip: {fileID: 8300000, guid: 715c8cf8e36b2b143a6aacba41b63972, type: 3}
-  m_Velocity: 30
+  m_Velocity: 40
   m_MinLifeTime: 1
   m_MaxLifeTime: 2
   m_MaxChargeTime: 0.75
   onReload: 0
-  cooldoun: 2
   cooldown: 1
 --- !u!114 &840718881434148107
 MonoBehaviour:

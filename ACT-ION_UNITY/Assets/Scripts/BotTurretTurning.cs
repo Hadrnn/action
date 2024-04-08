@@ -35,7 +35,6 @@ public class BotTurretTurning : MonoBehaviour
         
         if (hit.collider == PlayerCollider)
         {
- /*           Debug.Log("Hochu strelyatb");*/
             if (delay_counter < delay)
             {
                 delay_counter += 1;

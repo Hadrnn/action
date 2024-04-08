@@ -402,7 +402,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f98401afcf1f2c4f96bda4bc736de7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Speed: 12
+  m_Speed: 8
   m_TurnSpeed: 300
   m_MovementAudio: {fileID: 3437259804243528710}
   m_EngineIdling: {fileID: 8300000, guid: 5573b5c3a7aced740b2d275ccd645e7d, type: 3}
@@ -427,9 +427,9 @@ MonoBehaviour:
   m_ShootingAudio: {fileID: 1976074652532723907}
   m_ChargingClip: {fileID: 8300000, guid: 26eb6f8197d8401449286b42e7ff33f1, type: 3}
   m_FireClip: {fileID: 8300000, guid: 715c8cf8e36b2b143a6aacba41b63972, type: 3}
-  m_Velocity: 30
+  m_Velocity: 23
   m_MinLifeTime: 1
-  m_MaxLifeTime: 2
+  m_MaxLifeTime: 3
   m_MaxChargeTime: 0.75
   cooldown: 1
 --- !u!114 &3151859578845439570
@@ -445,7 +445,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerNumber: 1
-  m_StartingHealth: 100
+  m_StartingHealth: 200
   m_ExplosionPrefab: {fileID: 151086, guid: c2aa6d63fe7d07343a5535570b33fd6f, type: 3}
 --- !u!1001 &1938776009562973115
 PrefabInstance:
