@@ -17,7 +17,7 @@ public class UnityNetworkTankHealth : NetworkBehaviour
     private ParticleSystem m_ExplosionParticles;        // The particle system the will play when the tank is destroyed.
     private NetworkVariable<float> m_CurrentHealth;                      // How much health the tank currently has.
     private bool m_Dead;                                // Has the tank been reduced beyond zero health yet?
-
+    private bool hasToDie;
 
     private void Awake()
     {
@@ -37,6 +37,7 @@ public class UnityNetworkTankHealth : NetworkBehaviour
         // When the tank is enabled, reset the tank's health and whether or not it's dead.
         m_CurrentHealth = new NetworkVariable<float>(m_StartingHealth);
         m_Dead = false;
+        hasToDie = false;
     }
 
 
@@ -47,7 +48,7 @@ public class UnityNetworkTankHealth : NetworkBehaviour
         // Change the UI elements appropriately.
         //SetHealthUI();
         // If the current health is at or below zero and it has not yet been registered, call OnDeath.
-        if (m_CurrentHealth.Value <= 0f && !m_Dead)
+        if (m_CurrentHealth.Value <= 0f && !hasToDie)
         {
             OnDeathClientRpc();
             OnDeath();
@@ -68,6 +69,19 @@ public class UnityNetworkTankHealth : NetworkBehaviour
     //    m_FillImage.color = Color.Lerp(m_ZeroHealthColor, m_FullHealthColor, m_CurrentHealth / m_StartingHealth);
     //}
 
+    private void Update()
+    {
+        if (m_Dead)
+        {
+            gameObject.SetActive(false);
+        }
+        if (hasToDie)
+        {
+            m_Dead = true;
+        }
+    }
+
+
     [ClientRpc]
     private void OnDeathClientRpc()
     {
@@ -79,12 +93,15 @@ public class UnityNetworkTankHealth : NetworkBehaviour
         if (!IsOwner) return;
 
         Debug.Log("Im trying to move");
-        gameObject.GetComponent<Rigidbody>().MovePosition(position);
+        Debug.Log(position);
+        //gameObject.GetComponent<Rigidbody>().MovePosition(position);
+        transform.position = position;
+
     }
     private void OnDeath()
     {
         // Set the flag so that this function is only called once.
-        m_Dead = true;
+        hasToDie = true;
 
         // Move the instantiated explosion prefab to the tank's position and turn it on.
         m_ExplosionParticles.transform.position = transform.position;
@@ -99,7 +116,9 @@ public class UnityNetworkTankHealth : NetworkBehaviour
         SpawnManager manager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
         manager.dead.Add(gameObject);
         manager.deathTime.Add(Time.time);
+
+        Vector3 Grave = new Vector3(transform.position.x,-10, transform.position.z);
+        transform.position = Grave;
         // Turn the tank off.
-        gameObject.SetActive(false);
     }
 }
