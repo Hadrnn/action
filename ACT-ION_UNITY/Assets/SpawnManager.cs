@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class SpawnManager : MonoBehaviour
+using Unity.Netcode;
+public class SpawnManager : NetworkBehaviour
 
 {
     public List<GameObject> dead = new();
@@ -12,30 +12,58 @@ public class SpawnManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
+    }
+
+    [ClientRpc]
+    private void RespawnClientRpc(GameObject toRessurect,Vector3 spawnPos)
+    {
+        toRessurect.transform.position = spawnPos;
+        //toRessurect.GetComponent<Rigidbody>().MovePosition(spawnPos);
+        toRessurect.SetActive(true);
     }
 
     // Update is called once per frame
     void Update()
     {
-        Vector3 startPos = new Vector3 (0, 0, 0);
+        Vector3 spawnAreaPos = new Vector3(0, 0, 0);
         if (dead.Count != deathTime.Count)
         {
             throw new Exception("Dead count not equal death time count");
         }
 
-        for(ushort i = 0; i < dead.Count; ++i)
+        if (NetworkManager.Singleton)
         {
-            
-            if (Time.time > deathTime[i] + RespawnTime)
+            if (IsServer)
             {
-                dead[i].transform.position = GetSpawnPos(startPos, 30);
-                dead[i].SetActive(true);
-                //dead[i].GetComponent<Rigidbody>().MovePosition(GetSpawnPos(startPos, 30));
-                dead.RemoveAt(i);
-                deathTime.RemoveAt(i);
-                --i;
+                for (ushort i = 0; i < dead.Count; ++i)
+                {
 
+                    if (Time.time > deathTime[i] + RespawnTime)
+                    {
+                        ///// LATER CHECK IF WORKS DIRECTLY
+                        Vector3 spawnPos = GetSpawnPos(spawnAreaPos, 30);
+                        RespawnClientRpc(dead[i], spawnPos);
+                        dead.RemoveAt(i);
+                        deathTime.RemoveAt(i);
+                        --i;
+                    }
+                }
+            }
+        }
+        else
+        {
+            for (ushort i = 0; i < dead.Count; ++i)
+            {
+
+                if (Time.time > deathTime[i] + RespawnTime)
+                {
+                    dead[i].transform.position = GetSpawnPos(spawnAreaPos, 30);
+                    dead[i].SetActive(true);
+                    dead.RemoveAt(i);
+                    deathTime.RemoveAt(i);
+                    --i;
+                }
             }
         }
     }

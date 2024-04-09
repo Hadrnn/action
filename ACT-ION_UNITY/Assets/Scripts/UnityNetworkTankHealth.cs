@@ -50,6 +50,10 @@ public class UnityNetworkTankHealth : NetworkBehaviour
         if (m_CurrentHealth.Value <= 0f && !m_Dead)
         {
             OnDeathClientRpc();
+
+            SpawnManager manager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
+            manager.dead.Add(gameObject);
+            manager.deathTime.Add(Time.time);
         }
     }
 
@@ -82,8 +86,8 @@ public class UnityNetworkTankHealth : NetworkBehaviour
 
         // Play the tank explosion sound effect.
         m_ExplosionAudio.Play();
-
         // Turn the tank off.
         gameObject.SetActive(false);
     }
+
 }
