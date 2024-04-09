@@ -74,6 +74,13 @@ public class UnityNetworkTankHealth : NetworkBehaviour
         OnDeath();
     }
 
+    public void MoveOnRespawn(Vector3 position)
+    {
+        if (!IsOwner) return;
+
+        Debug.Log("Im trying to move");
+        gameObject.GetComponent<Rigidbody>().MovePosition(position);
+    }
     private void OnDeath()
     {
         // Set the flag so that this function is only called once.

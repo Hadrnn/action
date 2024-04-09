@@ -26,23 +26,23 @@ public class SpawnManager : NetworkBehaviour
 
         if (NetworkManager.Singleton)
         {
-            if (IsClient)
-            {
-                for (ushort i = 0; i < dead.Count; ++i)
-                {
 
-                    if (Time.time > deathTime[i] + RespawnTime)
-                    {
-                        ///// LATER CHECK IF WORKS DIRECTLY
-                        Vector3 spawnPos = GetSpawnPos(spawnAreaPos, 30);
-                        //RespawnClientRpc(dead[i], spawnPos);
-                        //dead[i].transform.position = GetSpawnPos(spawnAreaPos, 30);
-                        
-                        dead[i].SetActive(true);
-                        dead.RemoveAt(i);
-                        deathTime.RemoveAt(i);
-                        --i;
-                    }
+            for (ushort i = 0; i < dead.Count; ++i)
+            {
+
+                if (Time.time > deathTime[i] + RespawnTime)
+                {
+                    ///// LATER CHECK IF WORKS DIRECTLY
+                    ///
+
+                    //dead[i].transform.position = GetSpawnPos(spawnAreaPos, 30);
+                    //RespawnClientRpc(dead[i], spawnPos);
+                    //dead[i].transform.position = GetSpawnPos(spawnAreaPos, 30);
+                    dead[i].GetComponent<UnityNetworkTankHealth>().MoveOnRespawn(GetSpawnPos(spawnAreaPos, 30));    
+                    dead[i].SetActive(true);
+                    dead.RemoveAt(i);
+                    deathTime.RemoveAt(i);
+                    --i;
                 }
             }
         }
