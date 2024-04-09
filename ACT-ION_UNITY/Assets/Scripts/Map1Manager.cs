@@ -4,6 +4,8 @@ using UnityEngine;
 using Unity.Netcode;
 using Unity.Networking.Transport.Error;
 using Unity.Netcode.Transports.UTP;
+using System.IO;
+using System;
 
 public enum GameType
 {
@@ -24,6 +26,31 @@ public class Map1Manager : NetworkBehaviour
 
     public NetworkPrefabsList prefabs;
 
+    private string ServerAddress;
+    private ushort ServerPort;
+
+    private const string ServerAddressMark = "address=";
+    private const string ServerPortMark = "port=";
+
+    void Awake()
+    {
+        string[] parameters = System.Environment.GetCommandLineArgs();
+        string path = "C:/Users/bukin/Desktop/action/TestBuild/OutputTest.txt";
+        using(StreamWriter sw = new StreamWriter(path))
+            for (int i = 0; i < parameters.Length; i++)
+            {
+                sw.Write(parameters[i]);
+                if (parameters[i].StartsWith(ServerAddressMark)){
+                    ServerAddress = parameters[i].Remove(0, ServerAddressMark.Length);
+                }
+                if (parameters[i].StartsWith(ServerPortMark))
+                {
+                    ServerPort = Convert.ToUInt16(parameters[i].Remove(0, ServerPortMark.Length));
+                }
+            }
+        
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -39,8 +66,8 @@ public class Map1Manager : NetworkBehaviour
 
 
                 // GET DATA FROM OUR PYTHON SERVER
-                transport.ConnectionData.Address = "25.12.195.48";
-                transport.ConnectionData.Port = 9000;
+                transport.ConnectionData.Address = ServerAddress;
+                transport.ConnectionData.Port = ServerPort;
 
                 Instantiate(UnityNetworkMenu);
                 Instantiate(UnityNetworkEventSystem);
