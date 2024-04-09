@@ -6,6 +6,8 @@ using Unity.Networking.Transport.Error;
 using Unity.Netcode.Transports.UTP;
 using System.IO;
 using System;
+using System.Net.Sockets;
+using System.Text;
 
 public enum GameType
 {
@@ -63,18 +65,7 @@ public class Map1Manager : NetworkBehaviour
                 string[] parameters = System.Environment.GetCommandLineArgs();
                 //string path = "C:/Users/bukin/Desktop/action/TestBuild/OutputTest.txt";
                 //using (StreamWriter sw = new StreamWriter(path))
-                for (int i = 0; i < parameters.Length; i++)
-                {
-                    //sw.Write(parameters[i]);
-                    if (parameters[i].StartsWith(ServerAddressMark))
-                    {
-                        ServerAddress = parameters[i].Remove(0, ServerAddressMark.Length);
-                    }
-                    if (parameters[i].StartsWith(ServerPortMark))
-                    {
-                        ServerPort = Convert.ToUInt16(parameters[i].Remove(0, ServerPortMark.Length));
-                    }
-                }
+                HandleAnswer(parameters);
 
                 Instantiate(UnityNetworkEventSystem);
 
@@ -94,15 +85,45 @@ public class Map1Manager : NetworkBehaviour
 
                 //// GET DATA FROM OUR PYTHON SERVER
                 //// CHECK IF ADDRESS? PORT IS NOT EMPTY
-                //ClientTransport.ConnectionData.Address = ServerAddress;
-                //ClientTransport.ConnectionData.Port = ServerPort;
-                ClientTransport.ConnectionData.Address = "25.12.195.48";
-                ClientTransport.ConnectionData.Port = 9000;
+                // Коннект к серверу
+                Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                socket.Connect("25.12.195.48", 9999);
+                // Отправка сообщения с требованиями игры
+                var message = "PlayerName=Qwerty Map=Map1";
+                var messageBytes = Encoding.UTF8.GetBytes(message);
+                socket.Send(messageBytes);
+                // Получения ответа для коннекта к нужной игре
+                var answer = new byte[2048];
+                socket.Receive(answer);
+                var d_answer = Encoding.UTF8.GetString(answer);
+                socket.Close();
+                // Обработка ответа
+                HandleAnswer(d_answer.Split(' '));
+                ClientTransport.ConnectionData.Address = ServerAddress;
+                ClientTransport.ConnectionData.Port = ServerPort;
+                // ClientTransport.ConnectionData.Address = "25.12.195.48";
+                // ClientTransport.ConnectionData.Port = 9111;
 
                 NetworkManager.Singleton.StartClient();
                 break;
             default:
                 break;
+        }
+    }
+
+    private void HandleAnswer(string[] parameters)
+    {
+        for (int i = 0; i < parameters.Length; i++)
+        {
+            //sw.Write(parameters[i]);
+            if (parameters[i].StartsWith(ServerAddressMark))
+            {
+                ServerAddress = parameters[i].Remove(0, ServerAddressMark.Length);
+            }
+            if (parameters[i].StartsWith(ServerPortMark))
+            {
+                ServerPort = Convert.ToUInt16(parameters[i].Remove(0, ServerPortMark.Length));
+            }
         }
     }
 
