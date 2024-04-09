@@ -28,7 +28,8 @@ public class UnityNetworkTankMovement : NetworkBehaviour
 
         // GET SPAWN POS FROM SPAWN MANAGER
         Vector3 SpawnPos = new Vector3(10, 0, 10);
-        m_Rigidbody.MovePosition(SpawnPos);
+        //m_Rigidbody.MovePosition(SpawnPos);
+        transform.position = SpawnPos;
     }   
 
 
@@ -64,7 +65,6 @@ public class UnityNetworkTankMovement : NetworkBehaviour
 
         // Store the original pitch of the audio source.
         m_OriginalPitch = m_MovementAudio.pitch;
-        if (IsLocalPlayer) Debug.Log("IM LOCAL");
     }
 
 

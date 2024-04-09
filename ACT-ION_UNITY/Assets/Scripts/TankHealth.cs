@@ -41,7 +41,6 @@ public class TankHealth : MonoBehaviour
         //SetHealthUI();
     }
 
-
     public void TakeDamage(float amount)
     {
         // Reduce current health by the amount of damage done.
@@ -86,7 +85,10 @@ public class TankHealth : MonoBehaviour
         // Play the tank explosion sound effect.
         m_ExplosionAudio.Play();
 
-        // Turn the tank off.
+        SpawnManager manager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
+        manager.dead.Add(gameObject);
+        manager.deathTime.Add(Time.time);
+
         gameObject.SetActive(false);
     }
 }

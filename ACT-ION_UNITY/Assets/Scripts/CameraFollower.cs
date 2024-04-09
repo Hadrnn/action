@@ -7,8 +7,6 @@ public class CameraFollower : MonoBehaviour
     // Start is called before the first frame update
     public float m_DampTime = 0.1f;
     public Transform m_Target;
-    public float m_CameraHeight = 10.5f;
-    
     
     private Camera m_Camera;
     private Vector3 m_MoveVelocity;                 // Reference velocity for the smooth damping of the position.
@@ -27,8 +25,6 @@ public class CameraFollower : MonoBehaviour
             m_DesiredPosition = m_Target.position;
             Vector3 newPosition = Vector3.SmoothDamp(transform.position, m_DesiredPosition, ref m_MoveVelocity, m_DampTime);
 
-            //Vector3 newPosition = m_Target.position;
-            //newPosition.y = m_CameraHeight;
             transform.position = newPosition;
         }
 

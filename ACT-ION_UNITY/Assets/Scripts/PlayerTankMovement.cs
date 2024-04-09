@@ -33,7 +33,7 @@ public class PlayerTankMovement : MonoBehaviour
     {
 
         // When the tank is turned on, make sure it's not kinematic.
-        m_Rigidbody.isKinematic = false;
+        //m_Rigidbody.isKinematic = false;
 
         // Also reset the input values.
         m_VerticalInputValue = 0f;
@@ -44,7 +44,7 @@ public class PlayerTankMovement : MonoBehaviour
     private void OnDisable()
     {
         // When the tank is turned off, set it to kinematic so it stops moving.
-        m_Rigidbody.isKinematic = true;
+        //m_Rigidbody.isKinematic = true;
     }
 
 
@@ -56,6 +56,7 @@ public class PlayerTankMovement : MonoBehaviour
 
         m_VerticalAxisName = "Vertical";
         m_HorizontalAxisName = "Horizontal";
+
 
         GameObject cameraRig = GameObject.Find("CameraRig");
         CameraFollower follower = cameraRig.GetComponent<CameraFollower>();
