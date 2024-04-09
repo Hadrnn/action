@@ -50,6 +50,7 @@ public class UnityNetworkTankHealth : NetworkBehaviour
         if (m_CurrentHealth.Value <= 0f && !m_Dead)
         {
             OnDeathClientRpc();
+            OnDeath();
         }
     }
 
@@ -70,6 +71,11 @@ public class UnityNetworkTankHealth : NetworkBehaviour
     [ClientRpc]
     private void OnDeathClientRpc()
     {
+        OnDeath();
+    }
+
+    private void OnDeath()
+    {
         // Set the flag so that this function is only called once.
         m_Dead = true;
 
@@ -89,5 +95,4 @@ public class UnityNetworkTankHealth : NetworkBehaviour
         // Turn the tank off.
         gameObject.SetActive(false);
     }
-
 }
