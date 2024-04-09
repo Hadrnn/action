@@ -12,6 +12,8 @@ public enum GameType
     UnityNetwork = 1,
     SinglePlayerBot = 2,
     Empty = 3,
+    UnityServer = 4,
+    UnityClient = 5,
 }
 public class Map1Manager : NetworkBehaviour
 {
@@ -26,30 +28,12 @@ public class Map1Manager : NetworkBehaviour
 
     public NetworkPrefabsList prefabs;
 
-    private string ServerAddress;
-    private ushort ServerPort;
+    private string ServerAddress = "";
+    private ushort ServerPort = 0;
 
     private const string ServerAddressMark = "address=";
     private const string ServerPortMark = "port=";
 
-    void Awake()
-    {
-        string[] parameters = System.Environment.GetCommandLineArgs();
-        string path = "C:/Users/bukin/Desktop/action/TestBuild/OutputTest.txt";
-        using(StreamWriter sw = new StreamWriter(path))
-            for (int i = 0; i < parameters.Length; i++)
-            {
-                sw.Write(parameters[i]);
-                if (parameters[i].StartsWith(ServerAddressMark)){
-                    ServerAddress = parameters[i].Remove(0, ServerAddressMark.Length);
-                }
-                if (parameters[i].StartsWith(ServerPortMark))
-                {
-                    ServerPort = Convert.ToUInt16(parameters[i].Remove(0, ServerPortMark.Length));
-                }
-            }
-        
-    }
 
     // Start is called before the first frame update
     void Start()
@@ -65,14 +49,57 @@ public class Map1Manager : NetworkBehaviour
                 UnityTransport transport = manager.GetComponent<UnityTransport>();
 
 
-                // GET DATA FROM OUR PYTHON SERVER
-                transport.ConnectionData.Address = ServerAddress;
-                transport.ConnectionData.Port = ServerPort;
+                //// GET DATA FROM OUR PYTHON SERVER
+                //transport.ConnectionData.Address = ServerAddress;
+                //transport.ConnectionData.Port = ServerPort;
 
                 Instantiate(UnityNetworkMenu);
                 Instantiate(UnityNetworkEventSystem);
                 break;
             case GameType.Empty:
+                break;
+            case GameType.UnityServer:
+
+                string[] parameters = System.Environment.GetCommandLineArgs();
+                //string path = "C:/Users/bukin/Desktop/action/TestBuild/OutputTest.txt";
+                //using (StreamWriter sw = new StreamWriter(path))
+                for (int i = 0; i < parameters.Length; i++)
+                {
+                    //sw.Write(parameters[i]);
+                    if (parameters[i].StartsWith(ServerAddressMark))
+                    {
+                        ServerAddress = parameters[i].Remove(0, ServerAddressMark.Length);
+                    }
+                    if (parameters[i].StartsWith(ServerPortMark))
+                    {
+                        ServerPort = Convert.ToUInt16(parameters[i].Remove(0, ServerPortMark.Length));
+                    }
+                }
+
+                Instantiate(UnityNetworkEventSystem);
+
+                GameObject ServerManager = Instantiate(UnityNetworkManager);
+                UnityTransport ServerTransport = ServerManager.GetComponent<UnityTransport>();
+                ServerTransport.ConnectionData.Address = ServerAddress;
+                ServerTransport.ConnectionData.Port = ServerPort;
+                //ServerTransport.ConnectionData.Port = 9000;
+
+
+                NetworkManager.Singleton.StartServer();
+                break;
+            case GameType.UnityClient:
+                Instantiate(UnityNetworkEventSystem);
+                GameObject ClientManager = Instantiate(UnityNetworkManager);
+                UnityTransport ClientTransport = ClientManager.GetComponent<UnityTransport>();
+
+                //// GET DATA FROM OUR PYTHON SERVER
+                //// CHECK IF ADDRESS? PORT IS NOT EMPTY
+                //ClientTransport.ConnectionData.Address = ServerAddress;
+                //ClientTransport.ConnectionData.Port = ServerPort;
+                ClientTransport.ConnectionData.Address = "25.12.195.48";
+                ClientTransport.ConnectionData.Port = 9000;
+
+                NetworkManager.Singleton.StartClient();
                 break;
             default:
                 break;
@@ -81,7 +108,7 @@ public class Map1Manager : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        if (NetworkManager.Singleton.IsServer)
+        if (NetworkManager.Singleton.IsHost)
         {
             Debug.Log("Current tank is");
             Debug.Log(GameSingleton.GetInstance().currentTank);
