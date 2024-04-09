@@ -15,14 +15,6 @@ public class SpawnManager : NetworkBehaviour
 
     }
 
-    [ClientRpc]
-    private void RespawnClientRpc(GameObject toRessurect,Vector3 spawnPos)
-    {
-        toRessurect.transform.position = spawnPos;
-        //toRessurect.GetComponent<Rigidbody>().MovePosition(spawnPos);
-        toRessurect.SetActive(true);
-    }
-
     // Update is called once per frame
     void Update()
     {
@@ -34,7 +26,7 @@ public class SpawnManager : NetworkBehaviour
 
         if (NetworkManager.Singleton)
         {
-            if (IsServer)
+            if (IsClient)
             {
                 for (ushort i = 0; i < dead.Count; ++i)
                 {
@@ -43,7 +35,10 @@ public class SpawnManager : NetworkBehaviour
                     {
                         ///// LATER CHECK IF WORKS DIRECTLY
                         Vector3 spawnPos = GetSpawnPos(spawnAreaPos, 30);
-                        RespawnClientRpc(dead[i], spawnPos);
+                        //RespawnClientRpc(dead[i], spawnPos);
+                        //dead[i].transform.position = GetSpawnPos(spawnAreaPos, 30);
+                        
+                        dead[i].SetActive(true);
                         dead.RemoveAt(i);
                         deathTime.RemoveAt(i);
                         --i;
