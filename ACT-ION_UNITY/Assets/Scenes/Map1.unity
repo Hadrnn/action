@@ -1332,7 +1332,7 @@ MonoBehaviour:
     type: 3}
   UnityNetworkEventSystem: {fileID: 2523935134142243851, guid: c3ab7bca9ac4c2c42868cdb4c39dc152,
     type: 3}
-  BotTank: {fileID: 183483168606623715, guid: 1669694a915d95246a05a37d9866d25b, type: 3}
+  BotTank: {fileID: 7476058638182901261, guid: ffb59e64e6a5e7c46b1f84b00b73cfd7, type: 3}
   PlayerTank: {fileID: 1661361813523471116, guid: b6d27e08a6b97d9429bdbaafe9e8c24c,
     type: 3}
   NetworkPrefabs: {fileID: 11400000, guid: a6173291b553f114e8597fccf64c8959, type: 2}
