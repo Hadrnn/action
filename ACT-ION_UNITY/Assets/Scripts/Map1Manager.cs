@@ -28,7 +28,8 @@ public class Map1Manager : NetworkBehaviour
     public GameObject BotTank;
     public GameObject PlayerTank;
 
-    public NetworkPrefabsList prefabs;
+    public NetworkPrefabsList NetworkPrefabs;
+    public PlayerPrefabsList PlayerPrefabs;
 
     private string ServerAddress = "";
     private ushort ServerPort = 0;
@@ -44,7 +45,8 @@ public class Map1Manager : NetworkBehaviour
         {
             case GameType.SinglePlayerBot:
                 Instantiate(BotTank,new Vector3(0f,0f,10f),Quaternion.Euler(new Vector3(0f,0f,0f)));
-                Instantiate(PlayerTank, new Vector3(0f, 0f, -10f), Quaternion.Euler(new Vector3(0f, 0f, 0f)));
+                //Instantiate(PlayerTank, new Vector3(0f, 0f, -10f), Quaternion.Euler(new Vector3(0f, 0f, 0f)));
+                Instantiate(PlayerPrefabs.PrefabList[GameSingleton.GetInstance().currentTank], new Vector3(0f, 0f, -10f), Quaternion.Euler(new Vector3(0f, 0f, 0f)));
                 break;
             case GameType.UnityNetwork:
                 GameObject manager = Instantiate(UnityNetworkManager);
@@ -133,7 +135,7 @@ public class Map1Manager : NetworkBehaviour
         {
             Debug.Log("Current tank is");
             Debug.Log(GameSingleton.GetInstance().currentTank);
-            GameObject HostTank = Instantiate(prefabs.PrefabList[GameSingleton.GetInstance().currentTank].Prefab);
+            GameObject HostTank = Instantiate(NetworkPrefabs.PrefabList[GameSingleton.GetInstance().currentTank].Prefab);
             HostTank.GetComponent<NetworkObject>().Spawn();
             //HostTank.GetComponent<NetworkObject>().SpawnAsPlayerObject(0,true);
         }
@@ -146,7 +148,7 @@ public class Map1Manager : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)] //server owns this object but client can request a spawn
     public void SpawnPlayerServerRpc(ulong clientID, int tankID)
     {
-        GameObject newPlayer = Instantiate(prefabs.PrefabList[tankID].Prefab);
+        GameObject newPlayer = Instantiate(NetworkPrefabs.PrefabList[tankID].Prefab);
         NetworkObject netObj = newPlayer.GetComponent<NetworkObject>();
         newPlayer.SetActive(true);
         netObj.SpawnAsPlayerObject(clientID, true);
