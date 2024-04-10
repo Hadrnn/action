@@ -25,7 +25,7 @@ public class BotAPCTurretTurning : MonoBehaviour
         transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
 
         Vector3 BotPos = collector.teams[teamNumber].tanks[0].transform.position;
-        Vector3 GunPos = GetComponentInChildren<Transform>().Find("TurretModel").Find("FireTransform").position;
+        Vector3 GunPos = GetComponentInChildren<Transform>().Find("FireTransform").position;
 
         Vector3 direction = (TargetPos - BotPos).normalized;
         float distance = Vector3.Distance(BotPos, TargetPos);

@@ -4,13 +4,13 @@ using System.Collections.Generic;
 using Vector3 = UnityEngine.Vector3;
 using Quaternion = UnityEngine.Quaternion;
 using Random = UnityEngine.Random;
-using TMPro;
 
 
 
-public class BotAPCMovement : MonoBehaviour
+
+public class BotARTMovement : MonoBehaviour
 {
-    public const int discret = 50;
+    public const int discret = 25;
     public int teamNumber = 1;
     public int counter = 0;
     public float m_Speed = 12f;                 // How fast the tank moves forward and back.
@@ -21,22 +21,21 @@ public class BotAPCMovement : MonoBehaviour
     public float m_PitchRange = 0.2f;           // The amount by which the pitch of the engine noises can vary.
     public double AgressiveDistance;
 
-    private int Astar_deep = 200;
+    private int Astar_deep = 300;
     private int forvard_multiplyer = 1;
     private Rigidbody m_Rigidbody;              // Reference used to move the tank.
     private float m_VerticalInputValue = 0;         // The current value of the movement input.
     private float m_HorizontalInputValue = 0;             // The current value of the turn input.
     private float m_OriginalPitch;              // The pitch of the audio source at the start of the scene.
     private BoxCollider m_Collider;
-    private BotTankShooting Gun;
 
     string GameStateToString(GameState current)
     {
-        string result = $"{(int)(current.position.x * 10)} {(int)(current.position.y * 10)} {(int)(current.position.z * 10)} {(int)(current.forward.x * 10)} {(int)(current.forward.y*10)} {(int)(current.forward.z*10)}";
+        string result = $"{(int)(current.position.x * 10)} {(int)(current.position.y * 10)} {(int)(current.position.z * 10)} {(int)(current.forward.x * 10)} {(int)(current.forward.y * 10)} {(int)(current.forward.z * 10)}";
         return result;
     }
     Vector3 AStar(GameState start)
-    { 
+    {
         PriorityQueue<GameState> que = new PriorityQueue<GameState>();
         Dictionary<string, GameState> visited = new Dictionary<string, GameState>();
         que.Push(start);
@@ -47,7 +46,7 @@ public class BotAPCMovement : MonoBehaviour
         {
             if (i > Astar_deep)
             {
-                Debug.Log("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
+                Debug.Log("Превышено количество итерраций");
                 Vector3 broken = new Vector3(0, 0, 0);
                 return broken;
             }
@@ -60,7 +59,7 @@ public class BotAPCMovement : MonoBehaviour
                 break;
             }
             if (current.CanMoveUp())
-            { 
+            {
                 GameState newState = current.MoveUp();
                 if (!visited.ContainsKey(GameStateToString(newState)))
                 {
@@ -133,8 +132,8 @@ public class BotAPCMovement : MonoBehaviour
             }
             if (que.empty)
             {
-                Debug.Log("пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
-                Vector3 broken = new Vector3(0,0,0);
+                Debug.Log("Очередь опустошена");
+                Vector3 broken = new Vector3(0, 0, 0);
                 return broken;
             }
         }
@@ -144,7 +143,7 @@ public class BotAPCMovement : MonoBehaviour
             {
                 current = current.prew_state;
             }
-         
+
         }
         Vector3 result = current.move;
         return result;
@@ -249,10 +248,10 @@ public class BotAPCMovement : MonoBehaviour
         public Vector3 position = Vector3.zero;
         public Vector3 forward = Vector3.zero;
         public int forward_multiplyer;
-        
+
         public float m_TurnSpeed = 300f;
         public float m_Speed = 12;
-        public int target_radius = 15;
+        public int target_radius = 10;
         public Vector3 TargetPosition = Vector3.zero;
         public GameState prew_state = null;
         public Vector3 move = Vector3.zero;
@@ -524,8 +523,8 @@ public class BotAPCMovement : MonoBehaviour
     }
     private void Start()
     {
-        //sw = new StreamWriter("C:\\Users\\пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ\\Desktop\\Log.txt");
-        
+        //sw = new StreamWriter("C:\\Users\\Мегамозг\\Desktop\\Log.txt");
+
         // Add tank object to InfoCollector
         InfoCollector collector = GameObject.Find("InfoCollector").GetComponent<InfoCollector>();
         collector.teams[teamNumber].tanks.Add(gameObject);
@@ -533,7 +532,7 @@ public class BotAPCMovement : MonoBehaviour
         // Store the original pitch of the audio source.
         m_OriginalPitch = m_MovementAudio.pitch;
 
-        Gun = gameObject.GetComponentInChildren<BotTankShooting>();
+/*        Gun = gameObject.GetComponentInChildren<BotAPCShooting>();*/
     }
     private void Update()
     {
@@ -582,70 +581,52 @@ public class BotAPCMovement : MonoBehaviour
     private void Decision()
     {
         InfoCollector collector = GameObject.Find("InfoCollector").GetComponent<InfoCollector>();
-        Vector3 EnemyPosition = collector.teams[0].tanks[0].transform.position;
+
         Vector3 MyPosition = transform.position;
-        Vector3 DeltaPosition = MyPosition - EnemyPosition;
-        Double Length = DeltaPosition.magnitude;
-        if (!Gun.onReload || Length > 40)
+
+        Vector3 EnemyPosition = collector.teams[0].tanks[0].transform.position;
+
+        float current_distanse_to_my_cover = (collector.mapObjects[0].transform.position - MyPosition).magnitude;
+        float current_distanse_to_enemy_cover = (collector.mapObjects[0].transform.position - EnemyPosition).magnitude;
+        float min_summ = current_distanse_to_my_cover + current_distanse_to_enemy_cover;
+        int cover_index = 0;
+
+        for (int i = 1; i < collector.mapObjects.Count; i++)
         {
-            GameState Start = new GameState();
-            
-            Start.position = transform.position;
-            Start.forward = transform.forward;
-            Start.forward_multiplyer = forvard_multiplyer;
-            Start.TargetPosition = EnemyPosition;
-            Vector3 dist = Start.TargetPosition - Start.position;
-            Start.distance_to_finish = dist.magnitude;
-            Start.distance_to_start = 0;
-            Vector3 decision = AStar(Start);
-            if (!(decision.x == 0 && decision.z == 0))
+            current_distanse_to_my_cover = (collector.mapObjects[i].transform.position - MyPosition).magnitude; 
+            current_distanse_to_enemy_cover = (collector.mapObjects[i].transform.position - EnemyPosition).magnitude;
+            if (current_distanse_to_my_cover + current_distanse_to_enemy_cover < min_summ)
             {
-                m_HorizontalInputValue = decision.x;
-                m_VerticalInputValue = decision.z;
+                min_summ = current_distanse_to_my_cover + current_distanse_to_enemy_cover;
+                cover_index = i;
             }
         }
-        else
-        {
-            float current_distanse_to_my_cover = (collector.mapObjects[0].transform.position - MyPosition).magnitude;
-            float min_summ = current_distanse_to_my_cover;
-            int cover_index = 0;
+        Vector3 cover_position = collector.mapObjects[cover_index].transform.position;
 
-            for (int i = 1; i < collector.mapObjects.Count; i++)
-            {
-                current_distanse_to_my_cover = (collector.mapObjects[i].transform.position - MyPosition).magnitude;
-                if (current_distanse_to_my_cover < min_summ)
-                {
-                    min_summ = current_distanse_to_my_cover;
-                    cover_index = i;
-                }
-            }
-            Vector3 cover_position = collector.mapObjects[cover_index].transform.position;
+        Vector3 connect_line = cover_position - EnemyPosition;
 
-            Vector3 connect_line = cover_position - EnemyPosition;
+        Vector3 additional_element = new Vector3(20, 0, 20);
 
-            Vector3 additional_element = new Vector3(20, 0, 20);
+        connect_line = connect_line.normalized;
 
-            connect_line = connect_line.normalized;
+        float mult_x = connect_line.x * additional_element.x;
+        float mult_z = connect_line.z * additional_element.z;
+        Vector3 mult = new Vector3(mult_x, 0, mult_z);
 
-            float mult_x = connect_line.x * additional_element.x;
-            float mult_z = connect_line.z * additional_element.z;
-            Vector3 mult = new Vector3(mult_x, 0, mult_z);
+        Vector3 TargetPosition = cover_position + mult;
 
-            Vector3 TargetPosition = cover_position + mult;
-
-            GameState Start = new GameState();
-            Start.position = transform.position;
-            Start.forward = transform.forward;
-            Start.forward_multiplyer = forvard_multiplyer;
-            Start.TargetPosition = TargetPosition;
-            Vector3 dist = Start.TargetPosition - Start.position;
-            Start.distance_to_finish = dist.magnitude;
-            Start.distance_to_start = 0;
-            Vector3 decision = AStar(Start);
-            m_HorizontalInputValue = decision.x;
-            m_VerticalInputValue = decision.z;
-        }
-    }
+        GameState Start = new GameState();
+        Start.position = transform.position;
+        Start.forward = transform.forward;
+        Start.forward_multiplyer = forvard_multiplyer;
+        Start.TargetPosition = TargetPosition;
+        Vector3 dist = Start.TargetPosition - Start.position;
+        Start.distance_to_finish = dist.magnitude;
+        Start.distance_to_start = 0;
+        Vector3 decision = AStar(Start);
+        m_HorizontalInputValue = decision.x;
+        m_VerticalInputValue = decision.z;
+}
     private void Move()
     {
         if (System.Math.Abs(m_HorizontalInputValue) < 0.05f && System.Math.Abs(m_VerticalInputValue) < 0.05f)
