@@ -10,7 +10,7 @@ public class BotArtTurretTurning : BotTurretTurning
     {
         Gun = gameObject.GetComponentInParent<BotShooting>();
 
-        teamNumber = gameObject.GetComponentInParent<TankMovement>().teamNumber;
+        //teamNumber = gameObject.GetComponentInParent<TankMovement>().teamNumber;
 
         collector = GameObject.Find("InfoCollector").GetComponent<InfoCollector>();
 

@@ -162,7 +162,7 @@ public class NeuralTankMovement : MonoBehaviour
             delta_angle = (180 + delta_angle) * forvard_multiplyer;
         }
 
-        float turn = -(float)(System.Math.Sign(delta_angle) * Time.deltaTime * m_TurnSpeed * 0.8);
+        float turn = -(float)(System.Math.Sign(delta_angle) * 0.02f * m_TurnSpeed * 0.8);
 
         Quaternion turnRotation = Quaternion.Euler(0f, turn, 0f);
 
@@ -171,7 +171,7 @@ public class NeuralTankMovement : MonoBehaviour
 
         if ((m_VerticalInputValue != 0) || (m_HorizontalInputValue != 0))
         {
-            movement = transform.forward * m_Speed * Time.deltaTime * 1.3f * forvard_multiplyer;
+            movement = transform.forward * m_Speed * 0.02f * 1.3f * forvard_multiplyer;
         }
 
         // Apply this movement to the rigidbody's position.

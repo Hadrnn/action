@@ -6,7 +6,6 @@ using UnityEngine;
 public class BotTurretTurning : MonoBehaviour
 {
     protected BotShooting Gun;
-    protected int teamNumber;
     protected int delay = 150;
     protected int delay_counter = 0;
 
@@ -18,8 +17,6 @@ public class BotTurretTurning : MonoBehaviour
     {
         Gun = gameObject.GetComponentInParent<BotShooting>();
 
-        teamNumber = gameObject.GetComponentInParent<TankMovement>().teamNumber;
-
         collector = GameObject.Find("InfoCollector").GetComponent<InfoCollector>();
 
         FireTransform = GetComponentInChildren<Transform>().Find("FireTransform");
@@ -29,9 +26,14 @@ public class BotTurretTurning : MonoBehaviour
     }
     void Update()
     {
-        Transform Target = TankMovement.FindClosestEnemy(teamNumber,BotTransform,collector);
-
-        if (Target.Equals(BotTransform)) return;
+        Transform Target = TankMovement.FindClosestEnemy(BotTransform.GetComponent<TankMovement>().GetTeamNumber(), BotTransform, collector);
+        
+        if (Target == BotTransform)
+        //if (Target.Equals(BotTransform))
+        {
+            Debug.Log("Did not find an enemy");
+            return;
+        }
 
         Vector3 BotPos = BotTransform.position;
         Vector3 TargetPos = Target.position;
