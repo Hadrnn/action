@@ -4,32 +4,40 @@ using UnityEngine;
 
 public class NeuralTurretTurning : MonoBehaviour
 {
+    public NeuralTankMovement Body;
     private NeuralTankShooting Gun;
-    private int teamNumber;
     private int delay = 150;
     private int delay_counter = 0;
 
     private void Start()
     {
         Gun = gameObject.GetComponentInParent<NeuralTankShooting>();
-        teamNumber = gameObject.GetComponentInParent<NeuralTankMovement>().teamNumber;
-
+        Body = gameObject.GetComponentInParent<NeuralTankMovement>();
     }
     void Update()
     {
         // Распознавание танка игрока и бота по индексу в массиве - костыль, нужно переделать
         Vector3 TargetPos;
         InfoCollector collector = GameObject.Find("InfoCollector").GetComponent<InfoCollector>();
-        TargetPos = collector.teams[teamNumber - 1].tanks[0].transform.position;
+        //TargetPos = collector.teams[teamNumber - 1].tanks[0].transform.position;
+
+        Transform Enemy = TankMovement.FindClosestEnemy(Body.GetTeamNumber(), transform, collector);
+        if (Enemy.Equals(transform))
+        {
+            return;
+        }
+
+        TargetPos = Enemy.position;
+
         transform.LookAt(TargetPos, Vector3.up);
         transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
 
-        Vector3 BotPos = collector.teams[teamNumber].tanks[0].transform.position;
+        Vector3 BotPos = transform.position;
         Vector3 GunPos = GetComponentInChildren<Transform>().Find("TurretModel").Find("FireTransform").position;
 
         Vector3 direction = (TargetPos - BotPos).normalized;
         float distance = Vector3.Distance(BotPos, TargetPos);
-        Collider PlayerCollider = collector.teams[teamNumber - 1].tanks[0].GetComponent<Collider>();
+        Collider PlayerCollider = Enemy.GetComponent<Collider>();
         RaycastHit hit;
         Physics.Raycast(GunPos, direction, out hit, distance);
 
@@ -48,10 +56,10 @@ public class NeuralTurretTurning : MonoBehaviour
         }
         else
         {
-            if (hit.collider == collector.teams[teamNumber].tanks[0].GetComponent<Collider>())
-            {
-                Debug.Log("huy");
-            }
+            //if (hit.collider == collector.teams[teamNumber].tanks[0].GetComponent<Collider>())
+            //{
+            //    Debug.Log("huy");
+            //}
         }
 
     }
