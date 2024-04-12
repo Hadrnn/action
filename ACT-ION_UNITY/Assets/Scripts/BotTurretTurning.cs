@@ -5,33 +5,47 @@ using UnityEngine;
 
 public class BotTurretTurning : MonoBehaviour
 {
-    private BotTankShooting Gun;
-    private int teamNumber;
-    private int delay = 150;
-    private int delay_counter = 0;
+    protected BotShooting Gun;
+    protected int teamNumber;
+    protected int delay = 150;
+    protected int delay_counter = 0;
+
+    protected InfoCollector collector;
+    protected Transform FireTransform;
+    protected Transform BotTransform;
 
     private void Start()
     {
-        Gun = gameObject.GetComponentInParent<BotTankShooting>();
-        teamNumber = gameObject.GetComponentInParent<BotTankMovement>().teamNumber;
+        Gun = gameObject.GetComponentInParent<BotShooting>();
+
+        teamNumber = gameObject.GetComponentInParent<TankMovement>().teamNumber;
+
+        collector = GameObject.Find("InfoCollector").GetComponent<InfoCollector>();
+
+        FireTransform = GetComponentInChildren<Transform>().Find("FireTransform");
+
+        BotTransform = gameObject.GetComponentInParent<TankMovement>().gameObject.transform;
+
     }
     void Update()
     {
-        // Распознавание танка игрока и бота по индексу в массиве - костыль, нужно переделать
-        Vector3 TargetPos;
-        InfoCollector collector = GameObject.Find("InfoCollector").GetComponent<InfoCollector>();
-        TargetPos = collector.teams[teamNumber - 1].tanks[0].transform.position; 
+        Transform Target = TankMovement.FindClosestEnemy(teamNumber,BotTransform,collector);
+
+        if (Target.Equals(BotTransform)) return;
+
+        Vector3 BotPos = BotTransform.position;
+        Vector3 TargetPos = Target.position;
         transform.LookAt(TargetPos, Vector3.up);
         transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
 
-        Vector3 BotPos = collector.teams[teamNumber].tanks[0].transform.position;
-        Vector3 GunPos = GetComponentInChildren<Transform>().Find("TurretModel").Find("FireTransform").position;
+
+        Vector3 GunPos = FireTransform.position;
 
         Vector3 direction = (TargetPos - BotPos).normalized;
         float distance = Vector3.Distance(BotPos, TargetPos);
-        Collider PlayerCollider = collector.teams[teamNumber - 1].tanks[0].GetComponent<Collider>();
+        Collider PlayerCollider = Target.GetComponent<Collider>();
         RaycastHit hit;
-        Physics.Raycast(GunPos, direction, out hit, distance);
+        Physics.Raycast(GunPos, direction, out hit, distance * 2);
         
         if (hit.collider == PlayerCollider)
         {
@@ -47,11 +61,10 @@ public class BotTurretTurning : MonoBehaviour
         }
         else
         {
-            if (hit.collider == collector.teams[teamNumber].tanks[0].GetComponent<Collider>())
+            if (hit.collider == BotTransform.GetComponent<Collider>())
             {
-                Debug.Log("huy");
+                Debug.Log("Bot hit his collider with raycast");
             }
         }
-        
     }
 }

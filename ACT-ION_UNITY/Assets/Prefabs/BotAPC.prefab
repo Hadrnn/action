@@ -14,8 +14,8 @@ GameObject:
   - component: {fileID: 3542796956565980498}
   - component: {fileID: 7882940443295471158}
   - component: {fileID: 3006256446959568895}
-  - component: {fileID: -3204302276579681485}
   - component: {fileID: 5808831646991046724}
+  - component: {fileID: 511380366209419145}
   m_Layer: 7
   m_Name: BotAPC
   m_TagString: Player
@@ -294,29 +294,6 @@ MonoBehaviour:
   playerNumber: 1
   m_StartingHealth: 100
   m_ExplosionPrefab: {fileID: 151086, guid: c2aa6d63fe7d07343a5535570b33fd6f, type: 3}
---- !u!114 &-3204302276579681485
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 183483168606623715}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f4fd7152eb15344c8443c9c7ce9ea5b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Shell: {fileID: 3256812025064007504, guid: 4eebae1b60e35f248bb5a09afd014056, type: 3}
-  m_FireTransform: {fileID: 4201564107120348797}
-  m_ShootingAudio: {fileID: 7882940443295471158}
-  m_ChargingClip: {fileID: 8300000, guid: 26eb6f8197d8401449286b42e7ff33f1, type: 3}
-  m_FireClip: {fileID: 8300000, guid: 715c8cf8e36b2b143a6aacba41b63972, type: 3}
-  m_Velocity: 30
-  m_MinLifeTime: 1
-  m_MaxLifeTime: 2
-  m_MaxChargeTime: 0.75
-  onReload: 0
-  cooldown: 1
 --- !u!114 &5808831646991046724
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -338,6 +315,29 @@ MonoBehaviour:
   m_EngineDriving: {fileID: 8300000, guid: 2764b5e5b387a3440977ffceb658813a, type: 3}
   m_PitchRange: 0.2
   AgressiveDistance: 0
+--- !u!114 &511380366209419145
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 183483168606623715}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 084adc06e46209a48b63ec6fa8ba53a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Shell: {fileID: 3256812025064007504, guid: 4eebae1b60e35f248bb5a09afd014056, type: 3}
+  m_FireTransform: {fileID: 4201564107120348797}
+  m_ShootingAudio: {fileID: 7882940443295471158}
+  m_ChargingClip: {fileID: 8300000, guid: 26eb6f8197d8401449286b42e7ff33f1, type: 3}
+  m_FireClip: {fileID: 8300000, guid: 715c8cf8e36b2b143a6aacba41b63972, type: 3}
+  m_Velocity: 30
+  m_MinLifeTime: 1
+  m_MaxLifeTime: 2
+  m_MaxChargeTime: 0.75
+  onReload: 0
+  cooldown: 1
 --- !u!1 &3228234422185565841
 GameObject:
   m_ObjectHideFlags: 0

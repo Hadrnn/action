@@ -38,8 +38,9 @@ public class SpawnManager : NetworkBehaviour
                     //dead[i].transform.position = GetSpawnPos(spawnAreaPos, 30);
                     //RespawnClientRpc(dead[i], spawnPos);
                     //dead[i].transform.position = GetSpawnPos(spawnAreaPos, 30);
-                    dead[i].SetActive(true);
                     dead[i].GetComponent<UnityNetworkTankHealth>().MoveOnRespawn(GetSpawnPos(spawnAreaPos, 30));
+                    dead[i].SetActive(true);
+
                     //dead[i].transform.position = GetSpawnPos(spawnAreaPos, 30);
                     dead.RemoveAt(i);
                     deathTime.RemoveAt(i);

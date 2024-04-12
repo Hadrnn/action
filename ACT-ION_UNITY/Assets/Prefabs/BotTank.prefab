@@ -24,12 +24,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1874816341471087127}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0.4, z: 0.1}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.41, z: 2.94}
+  m_LocalScale: {x: 6, y: -6, z: 6}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1556601237540769788}
+  m_Father: {fileID: 8793940092919093289}
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!1 &3617307099119056475
 GameObject:
@@ -40,7 +40,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8793940092919093289}
-  - component: {fileID: 6497844845368970809}
+  - component: {fileID: 6109067316430493000}
   m_Layer: 0
   m_Name: TankTurret
   m_TagString: Untagged
@@ -62,9 +62,10 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1556601237540769788}
+  - {fileID: 656354327951606535}
   m_Father: {fileID: 1774524686547774812}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6497844845368970809
+--- !u!114 &6109067316430493000
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -73,7 +74,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3617307099119056475}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2ab5c2f88219a0746ac9daa82e12f20e, type: 3}
+  m_Script: {fileID: 11500000, guid: 74ad18fae66e6064387c79d91db2d4ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &4921215065507373529
@@ -367,14 +368,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7a382a4d5a8b0141b6600ae59f74dfd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  teamNumber: 1
-  counter: 0
   m_Speed: 12
   m_TurnSpeed: 300
   m_MovementAudio: {fileID: 2428661251615838560}
   m_EngineIdling: {fileID: 8300000, guid: 5573b5c3a7aced740b2d275ccd645e7d, type: 3}
   m_EngineDriving: {fileID: 8300000, guid: 2764b5e5b387a3440977ffceb658813a, type: 3}
   m_PitchRange: 0.2
+  teamNumber: 1
+  counter: 0
   AgressiveDistance: 0
 --- !u!114 &8093939207552187271
 MonoBehaviour:
@@ -517,10 +518,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: bafc87ede92bb3a4a8668e2c17f99612, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 656354327951606535}
+    m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bafc87ede92bb3a4a8668e2c17f99612, type: 3}
 --- !u!4 &1556601237540769788 stripped

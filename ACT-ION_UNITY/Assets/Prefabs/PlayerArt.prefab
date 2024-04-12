@@ -642,8 +642,8 @@ MonoBehaviour:
   m_ChargingClip: {fileID: 8300000, guid: 26eb6f8197d8401449286b42e7ff33f1, type: 3}
   m_FireClip: {fileID: 8300000, guid: 715c8cf8e36b2b143a6aacba41b63972, type: 3}
   m_Velocity: 15
-  m_MinLifeTime: 1
-  m_MaxLifeTime: 2
+  m_MinLifeTime: 3
+  m_MaxLifeTime: 6
   m_MaxChargeTime: 0.75
   cooldown: 1
 --- !u!1 &6920911172849408438
@@ -656,6 +656,7 @@ GameObject:
   m_Component:
   - component: {fileID: 266985497769571906}
   - component: {fileID: 5336782334671342239}
+  - component: {fileID: 6350770910461209204}
   m_Layer: 0
   m_Name: LauncherHolder
   m_TagString: Untagged
@@ -691,6 +692,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 180f21e990647b045b9600dcfa9e992b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6350770910461209204
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6920911172849408438}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d11bef7cfded5c74ab8ad59ff3678bef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Camera: {fileID: 0}
+  shel_speed: 25
 --- !u!1 &7605645220556858258
 GameObject:
   m_ObjectHideFlags: 0

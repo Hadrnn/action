@@ -14744,7 +14744,7 @@ Rigidbody:
   serializedVersion: 4
   m_Mass: 50
   m_Drag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 0
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -14899,7 +14899,7 @@ MonoBehaviour:
   m_ExplosionAudio: {fileID: 6408307448604761645}
   m_MaxDamage: 100
   m_ExplosionForce: 1000
-  m_MaxLifeTime: 2
+  m_MaxLifeTime: 5
   m_ExplosionRadius: 5
 --- !u!108 &6501413828509065704
 Light:

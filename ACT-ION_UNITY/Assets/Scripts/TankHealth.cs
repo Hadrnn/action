@@ -85,7 +85,7 @@ public class TankHealth : MonoBehaviour
         // Play the tank explosion sound effect.
         m_ExplosionAudio.Play();
 
-        SpawnManager manager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
+        SpawnManager manager = GameObject.Find("InfoCollector").GetComponent<SpawnManager>();
         manager.dead.Add(gameObject);
         manager.deathTime.Add(Time.time);
 

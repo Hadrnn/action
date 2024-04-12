@@ -63,6 +63,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 9078599585511736949}
+  - {fileID: 5254295554766867962}
   m_Father: {fileID: 223582513729854350}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7957561289627256952
@@ -101,12 +102,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7257928543624253368}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: -0.1826667, z: 0}
-  m_LocalScale: {x: 0.06666667, y: 0.06666665, z: 0.06666665}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.321, z: 3.08}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 9078599585511736949}
+  m_Father: {fileID: 837812270374397258}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7476058638182901261
 GameObject:
@@ -437,14 +438,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e03bf2df61588d64fa37ef611e2dc933, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  teamNumber: 1
-  counter: 0
   m_Speed: 8
   m_TurnSpeed: 200
   m_MovementAudio: {fileID: 7343184954614961332}
   m_EngineIdling: {fileID: 8300000, guid: 5573b5c3a7aced740b2d275ccd645e7d, type: 3}
   m_EngineDriving: {fileID: 8300000, guid: 2764b5e5b387a3440977ffceb658813a, type: 3}
   m_PitchRange: 0.2
+  teamNumber: 1
+  counter: 0
   AgressiveDistance: 0
 --- !u!1 &7858720210010952355
 GameObject:
@@ -619,10 +620,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 374675dc1b4435e499fc349aeedeab58, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 5254295554766867962}
+    m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 374675dc1b4435e499fc349aeedeab58, type: 3}
 --- !u!4 &9078599585511736949 stripped
