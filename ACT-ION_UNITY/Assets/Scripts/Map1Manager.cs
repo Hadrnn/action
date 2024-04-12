@@ -20,6 +20,11 @@ public enum GameType
 }
 public class Map1Manager : NetworkBehaviour
 {
+    /// <summary>
+    /// Regular: 0.02f
+    /// </summary>
+    public float tickTime = 0.02f;
+
     public GameType Type = GameType.SinglePlayerBot;
 
     public GameObject UnityNetworkManager;
@@ -42,10 +47,10 @@ public class Map1Manager : NetworkBehaviour
     private const string ServerAddressMark = "address=";
     private const string ServerPortMark = "port=";
 
-
     // Start is called before the first frame update
     void Start()
     {
+        Time.fixedDeltaTime = tickTime;
         switch (Type)
         {
             case GameType.SinglePlayerBot:

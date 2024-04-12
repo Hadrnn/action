@@ -9,8 +9,10 @@ public class TankMovement : MonoBehaviour
     public AudioClip m_EngineIdling;            // Audio to play when the tank isn't moving.
     public AudioClip m_EngineDriving;           // Audio to play when the tank is moving.
     public float m_PitchRange = 0.2f;           // The amount by which the pitch of the engine noises can vary.
-    public int teamNumber = 1;
 
+
+    protected int teamNumber;
+    public static Vector3 DidNotFindEnemy = new Vector3(0, -10, 0);
     protected Rigidbody m_Rigidbody;              // Reference used to move the tank.
     protected float m_VerticalInputValue = 0;         // The current value of the movement input.
     protected float m_HorizontalInputValue = 0;             // The current value of the turn input.
@@ -18,6 +20,15 @@ public class TankMovement : MonoBehaviour
     protected BoxCollider m_Collider;
     protected int forvard_multiplyer = 1;
 
+    public void SetTeamNumber(int teamNumber_)
+    {
+        teamNumber = teamNumber_;
+    }
+
+    public int GetTeamNumber()
+    {
+        return teamNumber;
+    }
     protected void EngineAudio()
     {
         // If there is no input (the tank is stationary)...
@@ -45,24 +56,28 @@ public class TankMovement : MonoBehaviour
         }
     }
 
-    public static Transform FindClosestEnemy(int teamNumber, Transform tank, InfoCollector collector)
+    public static Transform FindClosestEnemy(int teamNumber_, Transform tank, InfoCollector collector)
     {
+
         Transform Target = tank;
         float closestDistance = 100000;
         for (ushort i = 0; i < collector.teams.Count; ++i)
         {
-            if (i == teamNumber) continue;
+            if (collector.teams[i].teamNumber == teamNumber_) continue;
 
             for (ushort j = 0; j < collector.teams[i].tanks.Count; ++j)
             {
-                float currentDistance = Vector3.Distance(tank.position, collector.teams[i].tanks[j].transform.position);
+                Transform Enemy = collector.teams[i].tanks[j].transform;
+                if (!Enemy.gameObject.activeSelf) continue;
+
+                float currentDistance = Vector3.Distance(tank.position, Enemy.position);
                 if (currentDistance < closestDistance)
                 {
-                    Target = collector.teams[i].tanks[j].transform;
+                    Target = Enemy;
+                    closestDistance = currentDistance;
                 }
             }
         }
         return Target;
-
     }
 }

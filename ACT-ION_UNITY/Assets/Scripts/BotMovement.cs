@@ -523,7 +523,7 @@ public abstract class BotMovement : TankMovement
 
         // Add tank object to InfoCollector
         collector = GameObject.Find("InfoCollector").GetComponent<InfoCollector>();
-        collector.teams[teamNumber].tanks.Add(gameObject);
+        collector.AddTank(gameObject);
 
         // Store the original pitch of the audio source.
         m_OriginalPitch = m_MovementAudio.pitch;

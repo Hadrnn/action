@@ -374,7 +374,6 @@ MonoBehaviour:
   m_EngineIdling: {fileID: 8300000, guid: 5573b5c3a7aced740b2d275ccd645e7d, type: 3}
   m_EngineDriving: {fileID: 8300000, guid: 2764b5e5b387a3440977ffceb658813a, type: 3}
   m_PitchRange: 0.2
-  teamNumber: 1
   counter: 0
   AgressiveDistance: 0
 --- !u!114 &8093939207552187271
