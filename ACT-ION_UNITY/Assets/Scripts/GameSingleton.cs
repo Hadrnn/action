@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Networking.Transport.Error;
 using UnityEngine;
 
 public class GameSingleton
@@ -10,6 +11,12 @@ public class GameSingleton
         public const int APC = 1;
         public const int HeavyTank = 2;
         public const int Artillery = 3;
+    }
+    public static class GameMode
+    {
+        public const int DeathMatch = 0;
+        public const int TeamDeathMatch = 1;
+        public const int CaptureTheFlag = 2;
     }
 
     static GameSingleton instance;
