@@ -16,6 +16,7 @@ public enum GameType
     Empty = 3,
     UnityServer = 4,
     UnityClient = 5,
+    OnlyBots = 6,
 }
 public class Map1Manager : NetworkBehaviour
 {
@@ -25,8 +26,12 @@ public class Map1Manager : NetworkBehaviour
     public GameObject UnityNetworkMenu;
     public GameObject UnityNetworkEventSystem;
 
-    public GameObject BotTank;
-    public GameObject PlayerTank;
+    public GameObject BotTank1;
+    public GameObject BotTank2;
+
+    public Vector3 Bot1Pos = new Vector3(0f, 0f, 10f);
+    public Vector3 Bot2Pos = new Vector3(0f, 0f, -30f);
+    public Vector3 PlayerPos = new Vector3(0f, 0f, -10f);
 
     public NetworkPrefabsList NetworkPrefabs;
     public PlayerPrefabsList PlayerPrefabs;
@@ -44,9 +49,9 @@ public class Map1Manager : NetworkBehaviour
         switch (Type)
         {
             case GameType.SinglePlayerBot:
-                Instantiate(BotTank,new Vector3(0f,0f,10f),Quaternion.Euler(new Vector3(0f,0f,0f)));
-                //Instantiate(PlayerTank, new Vector3(0f, 0f, -10f), Quaternion.Euler(new Vector3(0f, 0f, 0f)));
-                Instantiate(PlayerPrefabs.PrefabList[GameSingleton.GetInstance().currentTank], new Vector3(0f, 0f, -10f), Quaternion.Euler(new Vector3(0f, 0f, 0f)));
+                Instantiate(BotTank1, Bot1Pos, Quaternion.Euler(new Vector3(0f, 0f, 0f)));
+                Instantiate(BotTank2, Bot2Pos, Quaternion.Euler(new Vector3(0f, 0f, 0f)));
+                Instantiate(PlayerPrefabs.PrefabList[GameSingleton.GetInstance().currentTank], PlayerPos, Quaternion.Euler(new Vector3(0f, 0f, 0f)));
                 break;
             case GameType.UnityNetwork:
                 GameObject manager = Instantiate(UnityNetworkManager);
@@ -61,6 +66,10 @@ public class Map1Manager : NetworkBehaviour
                 Instantiate(UnityNetworkEventSystem);
                 break;
             case GameType.Empty:
+                break;
+            case GameType.OnlyBots:
+                Instantiate(BotTank1, Bot1Pos, Quaternion.Euler(new Vector3(0f, 0f, 0f)));
+                Instantiate(BotTank2, Bot2Pos, Quaternion.Euler(new Vector3(0f, 0f, 0f)));
                 break;
             case GameType.UnityServer:
 
