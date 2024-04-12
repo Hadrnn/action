@@ -339,12 +339,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Speed: 12
   m_TurnSpeed: 300
-  m_MovementAudio: {fileID: 0}
-  m_EngineIdling: {fileID: 0}
-  m_EngineDriving: {fileID: 0}
+  m_MovementAudio: {fileID: 7763581613212686517}
+  m_EngineIdling: {fileID: 8300000, guid: 5573b5c3a7aced740b2d275ccd645e7d, type: 3}
+  m_EngineDriving: {fileID: 8300000, guid: 2764b5e5b387a3440977ffceb658813a, type: 3}
   m_PitchRange: 0.2
-  forvard_multiplyer: 1
-  teamNumber: 0
 --- !u!114 &1737884125339161507
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -362,7 +360,7 @@ MonoBehaviour:
   m_ShootingAudio: {fileID: 5248123130211450113}
   m_ChargingClip: {fileID: 8300000, guid: 26eb6f8197d8401449286b42e7ff33f1, type: 3}
   m_FireClip: {fileID: 8300000, guid: 715c8cf8e36b2b143a6aacba41b63972, type: 3}
-  m_Velocity: 30
+  m_Velocity: 200
   m_MinLifeTime: 1
   m_MaxLifeTime: 2
   m_MaxChargeTime: 0.75
@@ -446,6 +444,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3169c872e3ebcf54b96e0db88b6391bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Body: {fileID: 0}
 --- !u!1001 &996742655621108000
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -130,7 +130,7 @@ public class NeuralTankMovement : TankMovement
         }
 
         // Apply this movement to the rigidbody's position.
-        Collider[] collisionArray = Physics.OverlapBox(m_Rigidbody.position + movement, m_Collider.size / 2, m_Rigidbody.rotation, ~0, QueryTriggerInteraction.Ignore);
+        Collider[] collisionArray = Physics.OverlapBox(m_Rigidbody.position + movement, m_Collider.size, m_Rigidbody.rotation, ~0, QueryTriggerInteraction.Ignore);
 
         if (collisionArray.Length == 1)
         {

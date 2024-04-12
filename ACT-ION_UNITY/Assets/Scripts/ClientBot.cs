@@ -64,11 +64,11 @@ public class ClientBot : MonoBehaviour
             NN_bot_pos.x.ToString() + " " + NN_bot_pos.z.ToString() + " " + AL_bot_pos.x.ToString() + " " + AL_bot_pos.z.ToString() + " " + can_shoot.ToString() + " " + collector.gameResult;
 
         Send_message();
-        if (collector.gameResult != "Playing")
-        {
-            Close_connection();
-            Destroy(gameObject);
-        }
+        // if (collector.gameResult != "Playing")
+        // {
+        //     Close_connection();
+        //     Destroy(gameObject);
+        // }
         Get_message();
         Debug.Log($"Get message  {d_answer}");
         // Вызов функции для изменения позиции: ChangePosition(d_answer)
