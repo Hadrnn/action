@@ -932,7 +932,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb7bca360113ebf419b90d59848193e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Type: 3
+  Type: 2
   UnityNetworkManager: {fileID: 7640481245423487163, guid: fe0bbd41349293d47a7cc70593b09473, type: 3}
   UnityNetworkMenu: {fileID: 6535677236963878315, guid: 096de73100e08584e8187d4620d69267, type: 3}
   UnityNetworkEventSystem: {fileID: 2523935134142243851, guid: c3ab7bca9ac4c2c42868cdb4c39dc152, type: 3}
@@ -1073,6 +1073,63 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.02000936, y: 0.03752521, z: 0.024314819}
   m_Center: {x: -0.00000468338, y: -0.0005558337, z: 0.00097076385}
+--- !u!1001 &1106205764
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4092833091544806342, guid: ae284b0f8204dff45932c2dd4be96868, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4092833091544806342, guid: ae284b0f8204dff45932c2dd4be96868, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4092833091544806342, guid: ae284b0f8204dff45932c2dd4be96868, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 7.07
+      objectReference: {fileID: 0}
+    - target: {fileID: 4092833091544806342, guid: ae284b0f8204dff45932c2dd4be96868, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4092833091544806342, guid: ae284b0f8204dff45932c2dd4be96868, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4092833091544806342, guid: ae284b0f8204dff45932c2dd4be96868, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4092833091544806342, guid: ae284b0f8204dff45932c2dd4be96868, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4092833091544806342, guid: ae284b0f8204dff45932c2dd4be96868, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4092833091544806342, guid: ae284b0f8204dff45932c2dd4be96868, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4092833091544806342, guid: ae284b0f8204dff45932c2dd4be96868, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6277847113056423996, guid: ae284b0f8204dff45932c2dd4be96868, type: 3}
+      propertyPath: m_Name
+      value: BotArt
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ae284b0f8204dff45932c2dd4be96868, type: 3}
 --- !u!1 &1376544620 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 9066369690498349909, guid: 8436dfd1b340cb345bc9e083e2108e89, type: 3}
@@ -1511,3 +1568,4 @@ SceneRoots:
   - {fileID: 807510649}
   - {fileID: 358990801}
   - {fileID: 607299623}
+  - {fileID: 1106205764}
