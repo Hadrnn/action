@@ -24,6 +24,13 @@ public enum SpawnType
     Determined = 0,
     Randomized = 1,
 }
+
+public enum GameMode
+{
+    DeathMatch = 0,
+    TeamDeathMatch = 1,
+    CaptureTheFlag = 2,
+}
 public class Map1Manager : NetworkBehaviour
 {
     /// <summary>
@@ -33,6 +40,7 @@ public class Map1Manager : NetworkBehaviour
 
     public GameType Type = GameType.SinglePlayerBot;
     public SpawnType ST = SpawnType.Determined;
+    public GameMode Mode = GameMode.DeathMatch;
 
     public GameObject UnityNetworkManager;
     public GameObject UnityNetworkMenu;
@@ -54,10 +62,30 @@ public class Map1Manager : NetworkBehaviour
     private const string ServerAddressMark = "address=";
     private const string ServerPortMark = "port=";
 
+    private int ticks = 0;
+    private bool DidSetFriendEnemy = false;
+    private const int FriendEnemySetTick = 2;
+
     // Start is called before the first frame update
     void Start()
     {
+
         Time.fixedDeltaTime = tickTime;
+
+        if (Mode == GameMode.TeamDeathMatch)
+        {
+            GameSingleton.GetInstance().currentGameMode = GameSingleton.GameMode.TeamDeathMatch;
+
+            Instantiate(BotTank1, SpawnManager.GetSpawnPos(Bot1Pos, 40), Quaternion.Euler(new Vector3(0f, 0f, 0f)));
+            Instantiate(BotTank1, SpawnManager.GetSpawnPos(Bot1Pos, 40), Quaternion.Euler(new Vector3(0f, 0f, 0f)));
+            Instantiate(BotTank1, SpawnManager.GetSpawnPos(Bot1Pos, 40), Quaternion.Euler(new Vector3(0f, 0f, 0f)));
+            Instantiate(BotTank1, SpawnManager.GetSpawnPos(Bot1Pos, 40), Quaternion.Euler(new Vector3(0f, 0f, 0f)));
+            Instantiate(BotTank1, SpawnManager.GetSpawnPos(Bot1Pos, 40), Quaternion.Euler(new Vector3(0f, 0f, 0f)));
+            Instantiate(PlayerPrefabs.PrefabList[GameSingleton.GetInstance().currentTank], SpawnManager.GetSpawnPos(Bot1Pos, 30), Quaternion.Euler(new Vector3(0f, 0f, 0f)));
+
+            return;
+        }
+
         switch (Type)
         {
             case GameType.SinglePlayerBot:
@@ -143,6 +171,23 @@ public class Map1Manager : NetworkBehaviour
                 break;
             default:
                 break;
+        }
+
+
+    }
+
+    private void Update()
+    {
+        if (!DidSetFriendEnemy)
+        {
+            if (ticks > FriendEnemySetTick)
+            {
+                if (NetworkManager.Singleton) GetComponent<InfoCollector>().SetFriendEnemyNetwork();
+                else GetComponent<InfoCollector>().SetFriendEnemy();
+
+                DidSetFriendEnemy = true;
+            }
+            ++ticks;
         }
     }
 

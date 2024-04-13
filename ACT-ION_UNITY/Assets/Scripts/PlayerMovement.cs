@@ -8,18 +8,11 @@ public abstract class PlayerMovement : TankMovement
     protected string m_VerticalAxisName;          // The name of the input axis for moving forward and back.
     protected string m_HorizontalAxisName;              // The name of the input axis for turning.
 
-    private void Awake()
-    {
-        m_Rigidbody = GetComponent<Rigidbody>();
-        m_Collider = GetComponent<BoxCollider>();
-    }
-
-
     private void OnEnable()
     {
 
         // When the tank is turned on, make sure it's not kinematic.
-        //m_Rigidbody.isKinematic = false;
+        m_Rigidbody.isKinematic = false;
 
         // Also reset the input values.
         m_VerticalInputValue = 0f;
@@ -30,16 +23,17 @@ public abstract class PlayerMovement : TankMovement
     private void OnDisable()
     {
         // When the tank is turned off, set it to kinematic so it stops moving.
-        //m_Rigidbody.isKinematic = true;
+        m_Rigidbody.isKinematic = true;
     }
 
 
     private void Start()
     {
-        InfoCollector collector = GameObject.Find("InfoCollector").GetComponent<InfoCollector>();
+        // Add tank object to InfoCollector
+        collector = GameObject.Find("InfoCollector").GetComponent<InfoCollector>();
         collector.AddTank(gameObject);
 
-        Debug.Log(teamNumber);
+        //Debug.Log(teamNumber);
         GameSingleton.GetInstance().playerTeam = teamNumber;
 
         // Add tank object to InfoCollector

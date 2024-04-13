@@ -12,7 +12,6 @@ public abstract class BotMovement : TankMovement
     public double AgressiveDistance;
     protected const int Astar_deep = 200;
 
-    protected InfoCollector collector;
     protected BotShooting Gun;
    
     static string GameStateToString(GameState current)
@@ -490,11 +489,7 @@ public abstract class BotMovement : TankMovement
         }
     }
 
-    private void Awake()
-    {
-        m_Rigidbody = GetComponent<Rigidbody>();
-        m_Collider = GetComponent<BoxCollider>();
-    }
+
 
     private void OnEnable()
     {
@@ -520,7 +515,6 @@ public abstract class BotMovement : TankMovement
     private void Start()
     {
         //sw = new StreamWriter("C:\\Users\\��������\\Desktop\\Log.txt");
-
         // Add tank object to InfoCollector
         collector = GameObject.Find("InfoCollector").GetComponent<InfoCollector>();
         collector.AddTank(gameObject);

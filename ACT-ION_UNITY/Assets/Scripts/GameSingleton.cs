@@ -5,14 +5,14 @@ using UnityEngine;
 
 public class GameSingleton
 {
-    public static class Tanks
+    public class Tanks
     {
         public const int Tank = 0;
         public const int APC = 1;
         public const int HeavyTank = 2;
         public const int Artillery = 3;
     }
-    public static class GameMode
+    public class GameMode
     {
         public const int DeathMatch = 0;
         public const int TeamDeathMatch = 1;
@@ -21,7 +21,7 @@ public class GameSingleton
 
     static GameSingleton instance;
     public int currentTank = 0;
-    public int currentMode = GameMode.DeathMatch;
+    public int currentGameMode = GameMode.DeathMatch;
     public int playerTeam = -1;
     
     private GameSingleton() {
