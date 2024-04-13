@@ -65,7 +65,7 @@ public class SpawnManager : NetworkBehaviour
         }
     }
 
-    static Vector3 GetSpawnPos(Vector3 spawnOrigin, float spawnRadius, ushort spawnClearArea = 4)
+    static public Vector3 GetSpawnPos(Vector3 spawnOrigin, float spawnRadius, ushort spawnClearArea = 4)
     {
         Vector3 spawnPos;
         Collider[] collisionArray;

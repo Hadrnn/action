@@ -39,7 +39,8 @@ public abstract class PlayerMovement : TankMovement
         InfoCollector collector = GameObject.Find("InfoCollector").GetComponent<InfoCollector>();
         collector.AddTank(gameObject);
 
-        Debug.Log(teamNumber);  
+        Debug.Log(teamNumber);
+        GameSingleton.GetInstance().playerTeam = teamNumber;
 
         // Add tank object to InfoCollector
         m_VerticalAxisName = "Vertical";
