@@ -36,6 +36,8 @@ public class UnityNetworkTankHealth : NetworkBehaviour
         // When the tank is enabled, reset the tank's health and whether or not it's dead.
         m_CurrentHealth = new NetworkVariable<float>(m_StartingHealth);
         m_Dead = false;
+
+        // SetHealthUI();
     }
 
 

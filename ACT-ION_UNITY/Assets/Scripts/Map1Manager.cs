@@ -18,6 +18,12 @@ public enum GameType
     UnityClient = 5,
     OnlyBots = 6,
 }
+
+public enum SpawnType
+{
+    Determined = 0,
+    Randomized = 1,
+}
 public class Map1Manager : NetworkBehaviour
 {
     /// <summary>
@@ -26,6 +32,7 @@ public class Map1Manager : NetworkBehaviour
     public float tickTime = 0.02f;
 
     public GameType Type = GameType.SinglePlayerBot;
+    public SpawnType ST = SpawnType.Determined;
 
     public GameObject UnityNetworkManager;
     public GameObject UnityNetworkMenu;
@@ -73,8 +80,20 @@ public class Map1Manager : NetworkBehaviour
             case GameType.Empty:
                 break;
             case GameType.OnlyBots:
-                Instantiate(BotTank1, Bot1Pos, Quaternion.Euler(new Vector3(0f, 0f, 0f)));
-                Instantiate(BotTank2, Bot2Pos, Quaternion.Euler(new Vector3(0f, 0f, 0f)));
+                switch (ST)
+                {
+                    case SpawnType.Determined:
+                        Instantiate(BotTank1, Bot1Pos, Quaternion.Euler(new Vector3(0f, 0f, 0f)));
+                        Instantiate(BotTank2, Bot2Pos, Quaternion.Euler(new Vector3(0f, 0f, 0f)));
+                        break;
+                    case SpawnType.Randomized:
+                        Instantiate(BotTank1, SpawnManager.GetSpawnPos(Bot1Pos, 30), Quaternion.Euler(new Vector3(0f, 0f, 0f)));
+                        Instantiate(BotTank2, SpawnManager.GetSpawnPos(Bot2Pos, 30), Quaternion.Euler(new Vector3(0f, 0f, 0f)));
+                        break;
+                    default:
+                        break;
+                }
+            
                 break;
             case GameType.UnityServer:
 
