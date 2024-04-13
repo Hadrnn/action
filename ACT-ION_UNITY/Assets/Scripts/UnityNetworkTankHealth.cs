@@ -28,6 +28,7 @@ public class UnityNetworkTankHealth : NetworkBehaviour
 
         // Disable the prefab so it can be activated when it's required.
         m_ExplosionParticles.gameObject.SetActive(false);
+        m_Slider.maxValue = m_StartingHealth;
     }
 
 
@@ -36,18 +37,23 @@ public class UnityNetworkTankHealth : NetworkBehaviour
         // When the tank is enabled, reset the tank's health and whether or not it's dead.
         m_CurrentHealth = new NetworkVariable<float>(m_StartingHealth);
         m_Dead = false;
+        m_Slider.maxValue = m_StartingHealth;
 
         SetHealthUI();
     }
 
+    private void Update()
+    {
+        SetHealthUI();
+    }
 
     public void TakeDamage(float amount)
     {
         // Reduce current health by the amount of damage done.
         m_CurrentHealth.Value -= amount;
         // Change the UI elements appropriately.
-        SetHealthUIClientRpc();
-        SetHealthUI();
+        //SetHealthUIClientRpc();
+        //SetHealthUI();
 
         // If the current health is at or below zero and it has not yet been registered, call OnDeath.
         if (m_CurrentHealth.Value <= 0f && !m_Dead)
@@ -64,7 +70,9 @@ public class UnityNetworkTankHealth : NetworkBehaviour
 
     private void SetHealthUI()
     {
+        Debug.Log("SetHealthUI");
         // Set the slider's value appropriately.
+        Debug.Log(m_CurrentHealth.Value);
         m_Slider.value = m_CurrentHealth.Value;
 
         // Interpolate the color of the bar between the choosen colours based on the current percentage of the starting health.
