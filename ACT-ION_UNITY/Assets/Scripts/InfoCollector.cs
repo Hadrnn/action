@@ -84,7 +84,7 @@ public class InfoCollector : MonoBehaviour
 
     public void SetFriendEnemyNetwork()
     {
-        Debug.Log("Set friend enemy network");
+        //Debug.Log("Set friend enemy network");
         for (ushort i = 0; i < teams.Count; ++i)
         {
             for (ushort j = 0; j < teams[i].tanks.Count; ++j)
