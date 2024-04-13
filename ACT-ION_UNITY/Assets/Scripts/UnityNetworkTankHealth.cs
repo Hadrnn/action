@@ -38,13 +38,13 @@ public class UnityNetworkTankHealth : NetworkBehaviour
         // When the tank is enabled, reset the tank's health and whether or not it's dead.
         m_Dead = false;
         m_Slider.maxValue = m_StartingHealth;
-        m_CurrentHealth.Value = m_StartingHealth;
+        if(IsServer) m_CurrentHealth.Value = m_StartingHealth;
         SetHealthUI();
     }
 
     private void Update()
     {
-        //SetHealthUI();
+        SetHealthUI();
     }
 
     public void TakeDamage(float amount)
