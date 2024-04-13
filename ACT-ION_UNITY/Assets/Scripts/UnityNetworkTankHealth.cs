@@ -22,6 +22,7 @@ public class UnityNetworkTankHealth : NetworkBehaviour
     {
         // Instantiate the explosion prefab and get a reference to the particle system on it.
         m_ExplosionParticles = Instantiate(m_ExplosionPrefab).GetComponent<ParticleSystem>();
+        m_CurrentHealth = new NetworkVariable<float>(m_StartingHealth);
 
         // Get a reference to the audio source on the instantiated prefab.
         m_ExplosionAudio = m_ExplosionParticles.GetComponent<AudioSource>();
@@ -35,16 +36,15 @@ public class UnityNetworkTankHealth : NetworkBehaviour
     private void OnEnable()
     {
         // When the tank is enabled, reset the tank's health and whether or not it's dead.
-        m_CurrentHealth = new NetworkVariable<float>(m_StartingHealth);
         m_Dead = false;
         m_Slider.maxValue = m_StartingHealth;
-
+        m_CurrentHealth.Value = m_StartingHealth;
         SetHealthUI();
     }
 
     private void Update()
     {
-        SetHealthUI();
+        //SetHealthUI();
     }
 
     public void TakeDamage(float amount)
@@ -52,7 +52,7 @@ public class UnityNetworkTankHealth : NetworkBehaviour
         // Reduce current health by the amount of damage done.
         m_CurrentHealth.Value -= amount;
         // Change the UI elements appropriately.
-        //SetHealthUIClientRpc();
+        SetHealthUIClientRpc();
         //SetHealthUI();
 
         // If the current health is at or below zero and it has not yet been registered, call OnDeath.
