@@ -152,7 +152,7 @@ public class Map1Manager : NetworkBehaviour
                 Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 socket.Connect("25.12.195.48", 9999);
                 // Отправка сообщения с требованиями игры
-                var message = "PlayerName=Qwerty Map=Map1";
+                var message = "PlayerName=Player1 Map=Map1";
                 var messageBytes = Encoding.UTF8.GetBytes(message);
                 socket.Send(messageBytes);
                 // Получения ответа для коннекта к нужной игре
@@ -189,6 +189,8 @@ public class Map1Manager : NetworkBehaviour
             }
             ++ticks;
         }
+        if (NetworkManager.Singleton) GetComponent<InfoCollector>().SetFriendEnemyNetwork();
+        else GetComponent<InfoCollector>().SetFriendEnemy();
     }
 
     private void HandleAnswer(string[] parameters)

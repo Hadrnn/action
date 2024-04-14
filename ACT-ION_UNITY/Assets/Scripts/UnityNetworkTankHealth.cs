@@ -22,32 +22,39 @@ public class UnityNetworkTankHealth : NetworkBehaviour
     {
         // Instantiate the explosion prefab and get a reference to the particle system on it.
         m_ExplosionParticles = Instantiate(m_ExplosionPrefab).GetComponent<ParticleSystem>();
+        m_CurrentHealth = new NetworkVariable<float>(m_StartingHealth);
 
         // Get a reference to the audio source on the instantiated prefab.
         m_ExplosionAudio = m_ExplosionParticles.GetComponent<AudioSource>();
 
         // Disable the prefab so it can be activated when it's required.
         m_ExplosionParticles.gameObject.SetActive(false);
+        m_Slider.maxValue = m_StartingHealth;
     }
 
 
     private void OnEnable()
     {
         // When the tank is enabled, reset the tank's health and whether or not it's dead.
-        m_CurrentHealth = new NetworkVariable<float>(m_StartingHealth);
         m_Dead = false;
+        m_Slider.maxValue = m_StartingHealth;
+        if(IsServer) m_CurrentHealth.Value = m_StartingHealth;
 
-        SetHealthUI();
+        SetHealthUI(m_StartingHealth);
     }
 
+    private void Update()
+    {
+        //SetHealthUI();
+    }
 
     public void TakeDamage(float amount)
     {
         // Reduce current health by the amount of damage done.
         m_CurrentHealth.Value -= amount;
         // Change the UI elements appropriately.
-        SetHealthUIClientRpc();
-        SetHealthUI();
+        SetHealthUIClientRpc(m_CurrentHealth.Value);
+        //SetHealthUI();
 
         // If the current health is at or below zero and it has not yet been registered, call OnDeath.
         if (m_CurrentHealth.Value <= 0f && !m_Dead)
@@ -62,19 +69,23 @@ public class UnityNetworkTankHealth : NetworkBehaviour
         return m_CurrentHealth.Value <= 0f;
     }
 
-    private void SetHealthUI()
+    private void SetHealthUI(float currentHealth)
     {
+        Debug.Log("SetHealthUI (network value/passed value)");
         // Set the slider's value appropriately.
-        m_Slider.value = m_CurrentHealth.Value;
+        Debug.Log(m_CurrentHealth.Value);
+        Debug.Log(currentHealth);
+
+        m_Slider.value = currentHealth;
 
         // Interpolate the color of the bar between the choosen colours based on the current percentage of the starting health.
-        m_FillImage.color = Color.Lerp(m_ZeroHealthColor, m_FullHealthColor, m_CurrentHealth.Value / m_StartingHealth);
+        m_FillImage.color = Color.Lerp(m_ZeroHealthColor, m_FullHealthColor, currentHealth / m_StartingHealth);
     }
 
     [ClientRpc]
-    private void SetHealthUIClientRpc()
+    private void SetHealthUIClientRpc(float currentHealth)
     {
-        SetHealthUI();
+        SetHealthUI(currentHealth);
     }
 
     [ClientRpc]
