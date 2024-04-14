@@ -334,7 +334,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad63e5db008ee4a4d81de5271f0d795b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_StartingHealth: 100
+  m_StartingHealth: 10000
   m_Slider: {fileID: 8190479420126477365}
   m_FillImage: {fileID: 5761259968366063341}
   m_FullHealthColor: {r: 0, g: 1, b: 0, a: 1}

@@ -836,7 +836,6 @@ GameObject:
   - component: {fileID: 807510652}
   - component: {fileID: 807510653}
   - component: {fileID: 807510654}
-  - component: {fileID: 807510655}
   m_Layer: 0
   m_Name: InfoCollector
   m_TagString: Untagged
@@ -938,9 +937,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tickTime: 0.02
-  Type: 5
+  Type: 2
   ST: 1
   Mode: 0
+  FriendlyFire: 0
   UnityNetworkManager: {fileID: 7640481245423487163, guid: fe0bbd41349293d47a7cc70593b09473, type: 3}
   UnityNetworkMenu: {fileID: 6535677236963878315, guid: 096de73100e08584e8187d4620d69267, type: 3}
   UnityNetworkEventSystem: {fileID: 2523935134142243851, guid: c3ab7bca9ac4c2c42868cdb4c39dc152, type: 3}
@@ -966,18 +966,6 @@ MonoBehaviour:
   dead: []
   deathTime: []
   RespawnTime: 2
---- !u!114 &807510655
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 807510647}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f3f4cb637e76f694686fa1e71354b1d2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &836498040
 GameObject:
   m_ObjectHideFlags: 0

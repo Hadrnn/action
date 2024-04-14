@@ -14,6 +14,7 @@ public class InfoCollector : MonoBehaviour
 
     private bool teamsSet = false;
     private static int NewTeamNumber = 0;
+    private int NewOwnerID;
     public class Team
     {
         public Team(int _teamNumber)
@@ -38,8 +39,8 @@ public class InfoCollector : MonoBehaviour
             case GameSingleton.GameMode.DeathMatch:
                 teams.Add(new Team(NewTeamNumber));
                 teams[NewTeamNumber].tanks.Add(Tank);
-                if (NetworkManager.Singleton) Tank.GetComponent<UnityNetworkTankMovement>().SetTeamNumber(NewTeamNumber);
-                else Tank.GetComponent<TankMovement>().SetTeamNumber(NewTeamNumber);
+                if (NetworkManager.Singleton) Tank.GetComponent<UnityNetworkTankMovement>().teamNumber = NewTeamNumber;
+                else Tank.GetComponent<TankMovement>().teamNumber = NewTeamNumber;
                 ++NewTeamNumber;
                 break;
             case GameSingleton.GameMode.TeamDeathMatch:
@@ -49,14 +50,14 @@ public class InfoCollector : MonoBehaviour
                 {
                     teams[0].tanks.Add(Tank);
 
-                    if (NetworkManager.Singleton) Tank.GetComponent<UnityNetworkTankMovement>().SetTeamNumber(0);
-                    else Tank.GetComponent<TankMovement>().SetTeamNumber(0);
+                    if (NetworkManager.Singleton) Tank.GetComponent<UnityNetworkTankMovement>().teamNumber = 0;
+                    else Tank.GetComponent<TankMovement>().teamNumber = 0;
                 }
                 else
                 {
                     teams[1].tanks.Add(Tank);
-                    if (NetworkManager.Singleton) Tank.GetComponent<UnityNetworkTankMovement>().SetTeamNumber(1);
-                    else Tank.GetComponent<TankMovement>().SetTeamNumber(1);
+                    if (NetworkManager.Singleton) Tank.GetComponent<UnityNetworkTankMovement>().teamNumber = 1;
+                    else Tank.GetComponent<TankMovement>().teamNumber = 1;
                 }
                 break;
             default:
@@ -98,6 +99,11 @@ public class InfoCollector : MonoBehaviour
                 tank.m_FriendEnemy.color = color;
             }
         }
+    }
+
+    public int GetOwnerTankID()
+    {
+        return NewOwnerID++;
     }
 
     private void SetTeams()

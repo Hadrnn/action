@@ -13,6 +13,11 @@ public class UnityNetworkTankMovement : NetworkBehaviour
     public int forvard_multiplyer = 1;
     public SpriteRenderer m_FriendEnemy;
 
+
+    public int teamNumber { get; set; }
+
+    protected int OwnerTankID;
+
     private string m_VerticalAxisName;          // The name of the input axis for moving forward and back.
     private string m_HorizontalAxisName;              // The name of the input axis for turning.
     private Rigidbody m_Rigidbody;              // Reference used to move the tank.
@@ -21,7 +26,6 @@ public class UnityNetworkTankMovement : NetworkBehaviour
     private float m_OriginalPitch;              // The pitch of the audio source at the start of the scene.
     private BoxCollider m_Collider;
     private InfoCollector collector;
-    private int teamNumber;
     private void Awake()
     {
         m_Rigidbody = GetComponent<Rigidbody>();
@@ -34,11 +38,10 @@ public class UnityNetworkTankMovement : NetworkBehaviour
         transform.position = SpawnPos;
     }
 
-    public void SetTeamNumber(int teamNumber_)
+    public int GetOwnerTankID()
     {
-        teamNumber = teamNumber_;
+        return OwnerTankID;
     }
-
     private void OnEnable()
     {
         // When the tank is turned on, make sure it's not kinematic.
@@ -62,6 +65,7 @@ public class UnityNetworkTankMovement : NetworkBehaviour
         // Add tank object to InfoCollector
         collector = GameObject.Find("InfoCollector").GetComponent<InfoCollector>();
         collector.AddTank(gameObject);
+        collector.SetFriendEnemyNetwork();
 
         if (IsOwner)
         {
@@ -77,6 +81,7 @@ public class UnityNetworkTankMovement : NetworkBehaviour
 
         // Store the original pitch of the audio source.
         m_OriginalPitch = m_MovementAudio.pitch;
+        
     }
 
 

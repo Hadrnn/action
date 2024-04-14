@@ -41,6 +41,7 @@ public class Map1Manager : NetworkBehaviour
     public GameType Type = GameType.SinglePlayerBot;
     public SpawnType ST = SpawnType.Determined;
     public GameMode Mode = GameMode.DeathMatch;
+    public bool FriendlyFire = true;
 
     public GameObject UnityNetworkManager;
     public GameObject UnityNetworkMenu;
@@ -66,32 +67,53 @@ public class Map1Manager : NetworkBehaviour
     private bool DidSetFriendEnemy = false;
     private const int FriendEnemySetTick = 2;
 
+    private void Awake()
+    {
+        GameSingleton.GetInstance().friendlyFire = FriendlyFire;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
 
         Time.fixedDeltaTime = tickTime;
 
-        if (Mode == GameMode.TeamDeathMatch)
+        switch (Mode)
         {
-            GameSingleton.GetInstance().currentGameMode = GameSingleton.GameMode.TeamDeathMatch;
-
-            Instantiate(BotTank1, SpawnManager.GetSpawnPos(Bot1Pos, 40), Quaternion.Euler(new Vector3(0f, 0f, 0f)));
-            Instantiate(BotTank1, SpawnManager.GetSpawnPos(Bot1Pos, 40), Quaternion.Euler(new Vector3(0f, 0f, 0f)));
-            Instantiate(BotTank1, SpawnManager.GetSpawnPos(Bot1Pos, 40), Quaternion.Euler(new Vector3(0f, 0f, 0f)));
-            Instantiate(BotTank1, SpawnManager.GetSpawnPos(Bot1Pos, 40), Quaternion.Euler(new Vector3(0f, 0f, 0f)));
-            Instantiate(BotTank1, SpawnManager.GetSpawnPos(Bot1Pos, 40), Quaternion.Euler(new Vector3(0f, 0f, 0f)));
-            Instantiate(PlayerPrefabs.PrefabList[GameSingleton.GetInstance().currentTank], SpawnManager.GetSpawnPos(Bot1Pos, 30), Quaternion.Euler(new Vector3(0f, 0f, 0f)));
-
-            return;
+            case GameMode.TeamDeathMatch:
+                GameSingleton.GetInstance().currentGameMode = GameSingleton.GameMode.TeamDeathMatch;
+                break;
+            case GameMode.DeathMatch:
+                GameSingleton.GetInstance().currentGameMode = GameSingleton.GameMode.DeathMatch;
+                break;
+            case GameMode.CaptureTheFlag:
+                GameSingleton.GetInstance().currentGameMode = GameSingleton.GameMode.CaptureTheFlag;
+                break;
+            default:
+                break;
         }
 
         switch (Type)
         {
             case GameType.SinglePlayerBot:
-                Instantiate(BotTank1, Bot1Pos, Quaternion.Euler(new Vector3(0f, 0f, 0f)));
-                Instantiate(BotTank2, Bot2Pos, Quaternion.Euler(new Vector3(0f, 0f, 0f)));
-                Instantiate(PlayerPrefabs.PrefabList[GameSingleton.GetInstance().currentTank], PlayerPos, Quaternion.Euler(new Vector3(0f, 0f, 0f)));
+                switch (Mode)
+                {
+                    case GameMode.TeamDeathMatch:
+                        Instantiate(BotTank1, SpawnManager.GetSpawnPos(Bot1Pos, 40), Quaternion.Euler(new Vector3(0f, 0f, 0f)));
+                        Instantiate(BotTank1, SpawnManager.GetSpawnPos(Bot1Pos, 40), Quaternion.Euler(new Vector3(0f, 0f, 0f)));
+                        Instantiate(BotTank1, SpawnManager.GetSpawnPos(Bot1Pos, 40), Quaternion.Euler(new Vector3(0f, 0f, 0f)));
+                        Instantiate(BotTank1, SpawnManager.GetSpawnPos(Bot1Pos, 40), Quaternion.Euler(new Vector3(0f, 0f, 0f)));
+                        Instantiate(BotTank1, SpawnManager.GetSpawnPos(Bot1Pos, 40), Quaternion.Euler(new Vector3(0f, 0f, 0f)));
+                        Instantiate(PlayerPrefabs.PrefabList[GameSingleton.GetInstance().currentTank], SpawnManager.GetSpawnPos(Bot1Pos, 30), Quaternion.Euler(new Vector3(0f, 0f, 0f)));
+                        break;
+                    case GameMode.DeathMatch:
+                        Instantiate(BotTank1, Bot1Pos, Quaternion.Euler(new Vector3(0f, 0f, 0f)));
+                        Instantiate(BotTank2, Bot2Pos, Quaternion.Euler(new Vector3(0f, 0f, 0f)));
+                        Instantiate(PlayerPrefabs.PrefabList[GameSingleton.GetInstance().currentTank], PlayerPos, Quaternion.Euler(new Vector3(0f, 0f, 0f)));
+                        break;
+                    default:
+                        break;
+                }
                 break;
             case GameType.UnityNetwork:
                 GameObject manager = Instantiate(UnityNetworkManager);
@@ -189,8 +211,8 @@ public class Map1Manager : NetworkBehaviour
             }
             ++ticks;
         }
-        if (NetworkManager.Singleton) GetComponent<InfoCollector>().SetFriendEnemyNetwork();
-        else GetComponent<InfoCollector>().SetFriendEnemy();
+        //if (NetworkManager.Singleton) GetComponent<InfoCollector>().SetFriendEnemyNetwork();
+        //else GetComponent<InfoCollector>().SetFriendEnemy();
     }
 
     private void HandleAnswer(string[] parameters)

@@ -296,7 +296,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 65734817
+  GlobalObjectIdHash: 1769548406
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -342,7 +342,7 @@ MonoBehaviour:
   m_ShootingAudio: {fileID: 265276408099858613}
   m_ChargingClip: {fileID: 8300000, guid: 26eb6f8197d8401449286b42e7ff33f1, type: 3}
   m_FireClip: {fileID: 8300000, guid: 715c8cf8e36b2b143a6aacba41b63972, type: 3}
-  m_Velocity: 30
+  m_Velocity: 40
   m_MinLifeTime: 1
   m_MaxLifeTime: 2
   m_MaxChargeTime: 0.75

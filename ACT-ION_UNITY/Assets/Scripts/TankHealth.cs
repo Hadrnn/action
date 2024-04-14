@@ -93,6 +93,13 @@ public class TankHealth : MonoBehaviour
         manager.dead.Add(gameObject);
         manager.deathTime.Add(Time.time);
 
+        FlagCapture flag = GetComponentInChildren<FlagCapture>();
+        if (flag)
+        {
+            Debug.Log("I have a flag while dying");
+            flag.transform.SetParent(null);
+        }
+
         gameObject.SetActive(false);
     }
 }

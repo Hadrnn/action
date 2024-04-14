@@ -31,7 +31,7 @@ public abstract class BotMovement : TankMovement
         {
             if (i > Astar_deep)
             {
-                Debug.Log("��������� ���������� ���������");
+                Debug.Log("More than Astar Deep");
                 Vector3 broken = new Vector3(0, 0, 0);
                 return broken;
             }
@@ -518,6 +518,7 @@ public abstract class BotMovement : TankMovement
         // Add tank object to InfoCollector
         collector = GameObject.Find("InfoCollector").GetComponent<InfoCollector>();
         collector.AddTank(gameObject);
+        OwnerTankID = collector.GetOwnerTankID();
 
         // Store the original pitch of the audio source.
         m_OriginalPitch = m_MovementAudio.pitch;

@@ -23,9 +23,10 @@ public class GameSingleton
     public int currentTank = 0;
     public int currentGameMode = GameMode.DeathMatch;
     public int playerTeam = -1;
+    public bool friendlyFire = true;
     
     private GameSingleton() {
-        Debug.Log("SPAWNED SINGLETON");
+        //Debug.Log("SPAWNED SINGLETON");
     }
 
     public static GameSingleton GetInstance()

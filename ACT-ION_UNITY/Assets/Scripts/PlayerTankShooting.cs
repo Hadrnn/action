@@ -111,6 +111,10 @@ public class PlayerTankShooting : MonoBehaviour
 
         ShellExplosion explosion = shellInstance.GetComponent<ShellExplosion>();
         explosion.m_MaxLifeTime = m_CurrentLifeTime;
+
+        explosion.teamNumber = GetComponent<TankMovement>().teamNumber;
+        explosion.OwnerTankID = GetComponent<TankMovement>().GetOwnerTankID();
+
         m_CurrentLifeTime = m_MinLifeTime;
         ShootTime = Time.time;
     }

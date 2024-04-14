@@ -32,6 +32,7 @@ public abstract class PlayerMovement : TankMovement
         // Add tank object to InfoCollector
         collector = GameObject.Find("InfoCollector").GetComponent<InfoCollector>();
         collector.AddTank(gameObject);
+        OwnerTankID = collector.GetOwnerTankID();
 
         //Debug.Log(teamNumber);
         GameSingleton.GetInstance().playerTeam = teamNumber;
