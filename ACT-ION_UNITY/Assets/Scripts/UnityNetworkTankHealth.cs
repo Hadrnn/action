@@ -71,10 +71,7 @@ public class UnityNetworkTankHealth : NetworkBehaviour
 
     private void SetHealthUI(float currentHealth)
     {
-        Debug.Log("SetHealthUI (network value/passed value)");
         // Set the slider's value appropriately.
-        Debug.Log(m_CurrentHealth.Value);
-        Debug.Log(currentHealth);
 
         m_Slider.value = currentHealth;
 

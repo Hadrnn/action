@@ -39,9 +39,12 @@ public class InfoCollector : MonoBehaviour
             case GameSingleton.GameMode.DeathMatch:
                 teams.Add(new Team(NewTeamNumber));
                 teams[NewTeamNumber].tanks.Add(Tank);
+
                 if (NetworkManager.Singleton) Tank.GetComponent<UnityNetworkTankMovement>().teamNumber = NewTeamNumber;
                 else Tank.GetComponent<TankMovement>().teamNumber = NewTeamNumber;
+                
                 ++NewTeamNumber;
+
                 break;
             case GameSingleton.GameMode.TeamDeathMatch:
                 if (!teamsSet) SetTeams();

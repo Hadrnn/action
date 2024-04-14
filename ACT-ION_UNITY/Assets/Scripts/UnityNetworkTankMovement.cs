@@ -65,7 +65,6 @@ public class UnityNetworkTankMovement : NetworkBehaviour
         // Add tank object to InfoCollector
         collector = GameObject.Find("InfoCollector").GetComponent<InfoCollector>();
         collector.AddTank(gameObject);
-        collector.SetFriendEnemyNetwork();
 
         if (IsOwner)
         {
@@ -81,7 +80,8 @@ public class UnityNetworkTankMovement : NetworkBehaviour
 
         // Store the original pitch of the audio source.
         m_OriginalPitch = m_MovementAudio.pitch;
-        
+
+        collector.SetFriendEnemyNetwork();
     }
 
 

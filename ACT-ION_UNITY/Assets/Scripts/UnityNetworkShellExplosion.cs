@@ -114,20 +114,10 @@ public class UnityNetworkShellExplosion : NetworkBehaviour
         }
     }
 
-    // [ServerRpc]
-    // public void DieServerRPC()
-    // {
-    //     NetworkObject shell = gameObject.GetComponent<NetworkObject>();
-    //     //shell.RemoveOwnership();
-    //     shell.Despawn();
-    // }
-
     [ClientRpc]
     public void DieClientRpc() {
-        Debug.Log("StartServerRPC");
+
         if (!IsHost) Explode();
-        // if (!IsServer) Debug.Log("Huy");
-        // else Debug.Log("I'm gay");
     }
 
     private float CalculateDamage(Vector3 targetPosition)

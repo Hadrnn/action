@@ -116,8 +116,8 @@ public class UnityNetworkTankShooting : NetworkBehaviour
         UnityNetworkShellExplosion explosion = shellInstance.GetComponent<UnityNetworkShellExplosion>();
         explosion.m_MaxLifeTime = m_CurrentLifeTime;
 
-        explosion.teamNumber = GetComponent<TankMovement>().teamNumber;
-        explosion.OwnerTankID = GetComponent<TankMovement>().GetOwnerTankID();
+        explosion.teamNumber = GetComponent<UnityNetworkTankMovement>().teamNumber;
+        explosion.OwnerTankID = GetComponent<UnityNetworkTankMovement>().GetOwnerTankID();
 
         m_CurrentLifeTime = m_MinLifeTime;
         shellInstance.velocity = m_Velocity * m_FireTransform.forward;
