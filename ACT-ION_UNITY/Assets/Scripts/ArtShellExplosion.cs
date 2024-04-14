@@ -12,9 +12,9 @@ public class ArtShellExplosion : MonoBehaviour
     public Vector3 forward;
     public float start_angle;
     public PlayerArtShooting tank;
+    public float velocity = 40f;
+    public float g = 20f;
 
-    private float velocity = 40f;
-    private float g = 20f;
     private float startTime;
     private Rigidbody m_Rigidbody;
     private float up_speed;
@@ -82,14 +82,15 @@ public class ArtShellExplosion : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.GetComponent<PlayerArtShooting>() != tank)
+        if (other.gameObject.GetComponent<PlayerArtShooting>() != null)
         {
-            Explode();
+            if (other.gameObject.GetComponent<PlayerArtShooting>() == tank)
+            {
+                Debug.Log("Im in myself");
+                return;
+            }
         }
-        else
-        {
-            Debug.Log("Im in myself");
-        }
+        Explode();
     }
 
 

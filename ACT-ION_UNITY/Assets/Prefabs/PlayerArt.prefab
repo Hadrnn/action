@@ -502,6 +502,8 @@ MonoBehaviour:
   turret: {fileID: 6882562704273340707}
   cooldown: 1
   start_angle: 0
+  g: 0
+  shell_speed: 0
 --- !u!1 &2123163753274216519
 GameObject:
   m_ObjectHideFlags: 0
@@ -783,6 +785,8 @@ MonoBehaviour:
   m_Camera: {fileID: 0}
   FireTransform: {fileID: 96195372528506961}
   direct: 1
+  g: 40
+  shel_speed: 80
 --- !u!1001 &1103764602266334750
 PrefabInstance:
   m_ObjectHideFlags: 0

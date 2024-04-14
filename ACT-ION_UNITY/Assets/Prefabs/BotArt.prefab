@@ -445,8 +445,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2.6, y: 2, z: 3.1}
-  m_Center: {x: 0, y: 1, z: 0}
+  m_Size: {x: 2.6, y: 3, z: 3.1}
+  m_Center: {x: 0, y: 1.5, z: 0}
 --- !u!82 &7648519407102326833
 AudioSource:
   m_ObjectHideFlags: 0
@@ -664,7 +664,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6277847113056423996}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 00c501359bafa154cac347dad21b5cdb, type: 3}
   m_Name: 
@@ -675,6 +675,7 @@ MonoBehaviour:
   m_EngineIdling: {fileID: 8300000, guid: 5573b5c3a7aced740b2d275ccd645e7d, type: 3}
   m_EngineDriving: {fileID: 8300000, guid: 2764b5e5b387a3440977ffceb658813a, type: 3}
   m_PitchRange: 0.2
+  m_FriendEnemy: {fileID: 0}
   counter: 0
   AgressiveDistance: 0
 --- !u!114 &2204018395025748782

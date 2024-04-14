@@ -17,6 +17,8 @@ public class PlayerArtShooting : MonoBehaviour
     public PlayerTurretTurning turret;
     public float cooldown = 1f;
     public float start_angle;
+    public float g;
+    public float shell_speed;
 
     private float ShootTime = 0f;
     private string m_FireButton;                // The input axis that is used for launching shells.
@@ -113,6 +115,8 @@ public class PlayerArtShooting : MonoBehaviour
         explosion.start_angle = start_angle;
         explosion.m_MaxLifeTime = m_CurrentLifeTime;
         explosion.tank = this;
+        explosion.g = g;
+        explosion.velocity = shell_speed;
         m_CurrentLifeTime = m_MinLifeTime;
         ShootTime = Time.time;
     }
