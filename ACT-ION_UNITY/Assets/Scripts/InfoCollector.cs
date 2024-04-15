@@ -29,7 +29,10 @@ public class InfoCollector : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Debug.Log((shells.Count, tanks.Count, mapObjects.Count, botMovement));
+        //foreach(Team team in teams)
+        //{
+        //    team.tanks.Sort();
+        //}
     }
 
     public void AddTank(GameObject Tank)
@@ -68,38 +71,46 @@ public class InfoCollector : MonoBehaviour
         }
     }
 
-    public void SetFriendEnemy()
+    public void SetBaseLights()
     {
-        Debug.Log("Set friend enemy");
-        for (ushort i = 0; i < teams.Count; ++i)
-        {
-            for (ushort j = 0; j < teams[i].tanks.Count; ++j)
-            {
-                TankMovement tank = teams[i].tanks[j].GetComponent<TankMovement>();
-                Color color;
-                if (teams[i].teamNumber == GameSingleton.GetInstance().playerTeam) color = Color.blue;
-                else color = Color.red;
+        GameObject[] bases = GameObject.FindGameObjectsWithTag("Base");
 
-                color.a = 0.5f;
-                tank.m_FriendEnemy.color = color; 
-            }
+        foreach (GameObject CTFBase in bases)
+        {
+            FlagBase currBase = CTFBase.GetComponent<FlagBase>();
+
+            if (currBase.teamNumber == GameSingleton.GetInstance().playerTeam) 
+                currBase.teamLight.color = Color.blue;
+            else currBase.teamLight.color = Color.red;
         }
     }
 
-    public void SetFriendEnemyNetwork()
+    public void SetFriendEnemy()
     {
-        //Debug.Log("Set friend enemy network");
         for (ushort i = 0; i < teams.Count; ++i)
         {
             for (ushort j = 0; j < teams[i].tanks.Count; ++j)
             {
-                UnityNetworkTankMovement tank = teams[i].tanks[j].GetComponent<UnityNetworkTankMovement>();
                 Color color;
-                if (teams[i].teamNumber == GameSingleton.GetInstance().playerTeam) color = Color.blue;
-                else color = Color.red;
+                if (NetworkManager.Singleton)
+                {
+                    UnityNetworkTankMovement tank = teams[i].tanks[j].GetComponent<UnityNetworkTankMovement>();
+                    if (teams[i].teamNumber == GameSingleton.GetInstance().playerTeam) color = Color.blue;
+                    else color = Color.red;
 
-                color.a = 0.5f;
-                tank.m_FriendEnemy.color = color;
+                    color.a = 0.5f;
+                    tank.m_FriendEnemy.color = color;
+                }
+                else
+                {
+                    TankMovement tank = teams[i].tanks[j].GetComponent<TankMovement>();
+                    if (teams[i].teamNumber == GameSingleton.GetInstance().playerTeam) color = Color.blue;
+                    else color = Color.red;
+
+                    color.a = 0.5f;
+                    tank.m_FriendEnemy.color = color;
+                }
+
             }
         }
     }

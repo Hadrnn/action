@@ -82,6 +82,8 @@ public class ArtShellExplosion : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (other.GetComponent<FlagCapture>() || other.GetComponent<FlagBase>()) return;
+
         if (other.gameObject.GetComponent<PlayerArtShooting>() != null)
         {
             if (other.gameObject.GetComponent<PlayerArtShooting>() == tank)

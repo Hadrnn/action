@@ -22,7 +22,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b73b3f36fa8034348be12d6476007b45, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -32.13
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b73b3f36fa8034348be12d6476007b45, type: 3}
       propertyPath: m_LocalPosition.y
@@ -73,10 +73,10 @@ PrefabInstance:
       addedObject: {fileID: 5155999942226607791}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: b73b3f36fa8034348be12d6476007b45, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 4048158196794769496}
+      addedObject: {fileID: 4285395404345963820}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: b73b3f36fa8034348be12d6476007b45, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 4285395404345963820}
+      addedObject: {fileID: 7494547810502488991}
   m_SourcePrefab: {fileID: 100100000, guid: b73b3f36fa8034348be12d6476007b45, type: 3}
 --- !u!1 &1551958281601312036 stripped
 GameObject:
@@ -102,21 +102,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.29999998, y: 0.020000005, z: 0.70000017}
+  m_Size: {x: 0.29999998, y: 0.3, z: 0.70000017}
   m_Center: {x: 0.14, y: 0, z: 0.35000008}
---- !u!114 &4048158196794769496
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1551958281601312036}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b9645d9791e79b44a9f4aa3a888af8ed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  teamNumber: 0
 --- !u!54 &4285395404345963820
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -144,3 +131,17 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
+--- !u!114 &7494547810502488991
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1551958281601312036}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9645d9791e79b44a9f4aa3a888af8ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  teamNumber: 0
+  teamBase: {fileID: 0}

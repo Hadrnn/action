@@ -81,7 +81,10 @@ public class UnityNetworkTankMovement : NetworkBehaviour
         // Store the original pitch of the audio source.
         m_OriginalPitch = m_MovementAudio.pitch;
 
-        collector.SetFriendEnemyNetwork();
+        collector.SetFriendEnemy();
+
+        if(GameSingleton.GetInstance().currentGameMode == GameSingleton.GameMode.CaptureTheFlag)
+            collector.SetBaseLights();
     }
 
 

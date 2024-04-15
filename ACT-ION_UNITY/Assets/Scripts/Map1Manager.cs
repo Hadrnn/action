@@ -204,8 +204,8 @@ public class Map1Manager : NetworkBehaviour
         {
             if (ticks > FriendEnemySetTick)
             {
-                if (NetworkManager.Singleton) GetComponent<InfoCollector>().SetFriendEnemyNetwork();
-                else GetComponent<InfoCollector>().SetFriendEnemy();
+                GetComponent<InfoCollector>().SetFriendEnemy();
+                GetComponent<InfoCollector>().SetBaseLights();
 
                 DidSetFriendEnemy = true;
             }
