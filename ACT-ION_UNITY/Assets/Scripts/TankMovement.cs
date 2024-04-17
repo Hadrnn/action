@@ -10,7 +10,7 @@ public class TankMovement : MonoBehaviour
     public AudioClip m_EngineDriving;           // Audio to play when the tank is moving.
     public float m_PitchRange = 0.2f;           // The amount by which the pitch of the engine noises can vary.
     public SpriteRenderer m_FriendEnemy;
-
+    public int forvard_multiplyer = 1;
 
     public int teamNumber { get; set; }
 
@@ -20,7 +20,6 @@ public class TankMovement : MonoBehaviour
     protected float m_HorizontalInputValue = 0;             // The current value of the turn input.
     protected float m_OriginalPitch;              // The pitch of the audio source at the start of the scene.
     protected BoxCollider m_Collider;
-    protected int forvard_multiplyer = 1;
     protected InfoCollector collector;
 
 

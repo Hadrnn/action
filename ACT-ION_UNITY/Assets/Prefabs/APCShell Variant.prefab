@@ -74,7 +74,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4901760849205557060, guid: 90181d6edaa9d9145b04dea24b474f54, type: 3}
       propertyPath: m_ExplosionRadius
-      value: 3
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

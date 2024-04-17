@@ -73,6 +73,7 @@ public class PlayerTankMovement : PlayerMovement
             m_Rigidbody.MovePosition(m_Rigidbody.position + movement);
             //Debug.Log("IM not stuck");
         }
+        /*        Debug.Log(teamNumber);*/
         //m_Rigidbody.AddForce(10*movement, ForceMode.VelocityChange);
     }
 }

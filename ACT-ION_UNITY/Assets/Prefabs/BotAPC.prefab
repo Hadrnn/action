@@ -317,7 +317,8 @@ MonoBehaviour:
   m_EngineIdling: {fileID: 8300000, guid: 5573b5c3a7aced740b2d275ccd645e7d, type: 3}
   m_EngineDriving: {fileID: 8300000, guid: 2764b5e5b387a3440977ffceb658813a, type: 3}
   m_PitchRange: 0.2
-  m_FriendEnemy: {fileID: 0}
+  m_FriendEnemy: {fileID: 8533903427881200584}
+  forvard_multiplyer: 1
   counter: 0
   AgressiveDistance: 0
 --- !u!114 &511380366209419145
@@ -342,7 +343,11 @@ MonoBehaviour:
   m_MaxLifeTime: 2
   m_MaxChargeTime: 0.75
   onReload: 0
-  cooldown: 1
+  cooldown: 3
+  birst_delay_time: 0.2
+  on_birst_delay: 0
+  max_magazine_size: 3
+  current_magazine_size: 3
 --- !u!1 &3228234422185565841
 GameObject:
   m_ObjectHideFlags: 0
@@ -472,6 +477,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ef847b3b07f6104f984d12fe00936a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  prew_t: 0
+  prew_m: 0
+  prew_alpha: 0
 --- !u!1 &5006886202743100670
 GameObject:
   m_ObjectHideFlags: 0
@@ -763,6 +771,11 @@ PrefabInstance:
 --- !u!224 &7043060522661798572 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6841667555942050080, guid: f932823af3c0d0c40a65af5b1008735d, type: 3}
+  m_PrefabInstance: {fileID: 4562012687980612492}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &8533903427881200584 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 5269499281763475524, guid: f932823af3c0d0c40a65af5b1008735d, type: 3}
   m_PrefabInstance: {fileID: 4562012687980612492}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5844878539763919570

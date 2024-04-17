@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ArtShellExplosion : MonoBehaviour
+public class BotArtShellExplosion : MonoBehaviour
 {
     public LayerMask m_TankMask;                        // Used to filter what the explosion affects, this should be set to "Players".
     public ParticleSystem m_ExplosionParticles;         // Reference to the particles that will play on explosion.
@@ -11,7 +11,7 @@ public class ArtShellExplosion : MonoBehaviour
     public float m_ExplosionRadius = 5f;                // The maximum distance away from the explosion tanks can be and are still affected.
     public Vector3 forward;
     public float start_angle;
-    public PlayerArtShooting tank;
+    public BotArtShooting tank;
     public float velocity = 40f;
     public float g = 20f;
 
@@ -23,11 +23,9 @@ public class ArtShellExplosion : MonoBehaviour
     {
         startTime = Time.time;
         m_Rigidbody = GetComponent<Rigidbody>();
-        forward *= Mathf.Cos(Mathf.Deg2Rad*start_angle);
+        forward *= Mathf.Cos(Mathf.Deg2Rad * start_angle);
         forward.y = Mathf.Sin(Mathf.Deg2Rad * start_angle);
         up_speed = velocity * Mathf.Sin(Mathf.Deg2Rad * start_angle);
-/*        Debug.Log(start_angle);
-        Debug.Log(up_speed);*/
     }
 
 
@@ -84,9 +82,9 @@ public class ArtShellExplosion : MonoBehaviour
     {
         if (other.GetComponent<FlagCapture>() || other.GetComponent<FlagBase>()) return;
 
-        if (other.gameObject.GetComponent<PlayerArtShooting>() != null)
+        if (other.gameObject.GetComponent<BotArtShooting>() != null)
         {
-            if (other.gameObject.GetComponent<PlayerArtShooting>() == tank)
+            if (other.gameObject.GetComponent<BotArtShooting>() == tank)
             {
 /*                Debug.Log("Im in myself");*/
                 return;
@@ -103,12 +101,12 @@ public class ArtShellExplosion : MonoBehaviour
             Explode();
         }
         Vector3 movement = Vector3.zero;
-        up_speed = up_speed - g*Time.deltaTime;
-        movement.x = velocity*Time.deltaTime * forward.x;
+        up_speed = up_speed - g * Time.deltaTime;
+        movement.x = velocity * Time.deltaTime * forward.x;
         movement.z = velocity * Time.deltaTime * forward.z;
         movement.y = up_speed * Time.deltaTime;
         m_Rigidbody.MovePosition(m_Rigidbody.position + movement);
- /*       Debug.Log(forward);*/
+        /*       Debug.Log(forward);*/
     }
 
     private float CalculateDamage(Vector3 targetPosition)

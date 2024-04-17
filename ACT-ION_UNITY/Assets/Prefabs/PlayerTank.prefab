@@ -300,6 +300,7 @@ MonoBehaviour:
   m_EngineDriving: {fileID: 8300000, guid: 2764b5e5b387a3440977ffceb658813a, type: 3}
   m_PitchRange: 0.2
   m_FriendEnemy: {fileID: 7657328454087989353}
+  forvard_multiplyer: 1
 --- !u!114 &7531764766687063497
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -317,7 +318,7 @@ MonoBehaviour:
   m_ShootingAudio: {fileID: 8053691943601281791}
   m_ChargingClip: {fileID: 8300000, guid: 26eb6f8197d8401449286b42e7ff33f1, type: 3}
   m_FireClip: {fileID: 8300000, guid: 715c8cf8e36b2b143a6aacba41b63972, type: 3}
-  m_Velocity: 30
+  m_Velocity: 50
   m_MinLifeTime: 1
   m_MaxLifeTime: 2
   m_MaxChargeTime: 0.75
@@ -334,7 +335,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad63e5db008ee4a4d81de5271f0d795b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_StartingHealth: 10000
+  m_StartingHealth: 100
   m_Slider: {fileID: 8190479420126477365}
   m_FillImage: {fileID: 5761259968366063341}
   m_FullHealthColor: {r: 0, g: 1, b: 0, a: 1}

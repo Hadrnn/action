@@ -460,6 +460,7 @@ MonoBehaviour:
   m_EngineDriving: {fileID: 8300000, guid: 2764b5e5b387a3440977ffceb658813a, type: 3}
   m_PitchRange: 0.2
   m_FriendEnemy: {fileID: 286023483231326178}
+  forvard_multiplyer: 1
 --- !u!114 &1403342378434826868
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -784,9 +785,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Camera: {fileID: 0}
   FireTransform: {fileID: 96195372528506961}
-  direct: 1
-  g: 40
-  shel_speed: 80
+  direct: 0
+  g: 10
+  shel_speed: 40
 --- !u!1001 &1103764602266334750
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -77,6 +77,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74ad18fae66e6064387c79d91db2d4ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  prew_t: 0
+  prew_m: 0
+  prew_alpha: 0
 --- !u!1 &4921215065507373529
 GameObject:
   m_ObjectHideFlags: 0
@@ -377,6 +380,7 @@ MonoBehaviour:
   m_EngineDriving: {fileID: 8300000, guid: 2764b5e5b387a3440977ffceb658813a, type: 3}
   m_PitchRange: 0.2
   m_FriendEnemy: {fileID: 5100160365226678908}
+  forvard_multiplyer: 1
   counter: 0
   AgressiveDistance: 0
 --- !u!114 &8093939207552187271
@@ -396,7 +400,7 @@ MonoBehaviour:
   m_ShootingAudio: {fileID: 6079601123456779928}
   m_ChargingClip: {fileID: 8300000, guid: 26eb6f8197d8401449286b42e7ff33f1, type: 3}
   m_FireClip: {fileID: 8300000, guid: 715c8cf8e36b2b143a6aacba41b63972, type: 3}
-  m_Velocity: 40
+  m_Velocity: 50
   m_MinLifeTime: 1
   m_MaxLifeTime: 2
   m_MaxChargeTime: 0.75

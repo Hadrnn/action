@@ -520,6 +520,7 @@ PrefabInstance:
     - {fileID: -8322144500888346102, guid: 8436dfd1b340cb345bc9e083e2108e89, type: 3}
     - {fileID: 65702495048144492, guid: 8436dfd1b340cb345bc9e083e2108e89, type: 3}
     - {fileID: 5050422055867433376, guid: 8436dfd1b340cb345bc9e083e2108e89, type: 3}
+    - {fileID: 8899497938440840844, guid: 8436dfd1b340cb345bc9e083e2108e89, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 8436dfd1b340cb345bc9e083e2108e89, type: 3}
       insertIndex: -1
@@ -537,12 +538,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -2451923898616798751, guid: 8436dfd1b340cb345bc9e083e2108e89, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1604594533}
-    - targetCorrespondingSourceObject: {fileID: 8899497938440840844, guid: 8436dfd1b340cb345bc9e083e2108e89, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1856116452}
-    - targetCorrespondingSourceObject: {fileID: 8899497938440840844, guid: 8436dfd1b340cb345bc9e083e2108e89, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1856116454}
     - targetCorrespondingSourceObject: {fileID: 6233704701764165761, guid: 8436dfd1b340cb345bc9e083e2108e89, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2083618729}
@@ -937,15 +932,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tickTime: 0.02
-  Type: 3
+  Type: 6
   ST: 1
   Mode: 1
   FriendlyFire: 1
   UnityNetworkManager: {fileID: 7640481245423487163, guid: fe0bbd41349293d47a7cc70593b09473, type: 3}
   UnityNetworkMenu: {fileID: 6535677236963878315, guid: 096de73100e08584e8187d4620d69267, type: 3}
   UnityNetworkEventSystem: {fileID: 2523935134142243851, guid: c3ab7bca9ac4c2c42868cdb4c39dc152, type: 3}
-  BotTank1: {fileID: 4921215065507373529, guid: 636be22d66f319f429293860c45c0f23, type: 3}
-  BotTank2: {fileID: 7476058638182901261, guid: ffb59e64e6a5e7c46b1f84b00b73cfd7, type: 3}
+  BotTank1: {fileID: 183483168606623715, guid: 1669694a915d95246a05a37d9866d25b, type: 3}
+  BotTank2: {fileID: 1661361813523471116, guid: b6d27e08a6b97d9429bdbaafe9e8c24c, type: 3}
   Bot1Pos: {x: 0, y: 0, z: 10}
   Bot2Pos: {x: 0, y: 0, z: -10}
   PlayerPos: {x: 0, y: 0, z: -30}
@@ -1308,46 +1303,6 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1844382408}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 811564ef881a4e442a350e1eff3591c7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!1 &1856116448 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8899497938440840844, guid: 8436dfd1b340cb345bc9e083e2108e89, type: 3}
-  m_PrefabInstance: {fileID: 607299623}
-  m_PrefabAsset: {fileID: 0}
---- !u!136 &1856116452
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1856116448}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.03
-  m_Height: 0.08
-  m_Direction: 2
-  m_Center: {x: 0.000956118, y: -0.001665676, z: 0.00023392016}
---- !u!114 &1856116454
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1856116448}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 811564ef881a4e442a350e1eff3591c7, type: 3}
