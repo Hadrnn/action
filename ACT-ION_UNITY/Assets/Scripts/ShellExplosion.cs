@@ -10,10 +10,9 @@ public class ShellExplosion : MonoBehaviour
     public float m_MaxLifeTime = 1f;                    // The time in seconds before the shell is removed.
     public float m_ExplosionRadius = 5f;                // The maximum distance away from the explosion tanks can be and are still affected.
 
-    public int OwnerTankID { get; set; }
-    public int teamNumber { get; set; }
+    public InfoCollector.Team.Tank owner { get; set; }
 
-    private float startTime;
+    protected float startTime;
 
     private void Start()
     {
@@ -21,7 +20,7 @@ public class ShellExplosion : MonoBehaviour
     }
 
 
-    private void Explode()
+    protected virtual void Explode()
     {
         // Collect all the colliders in a sphere from the shell's current position to a radius of the explosion radius.
         Collider[] colliders = Physics.OverlapSphere(transform.position, m_ExplosionRadius, m_TankMask);
@@ -47,13 +46,13 @@ public class ShellExplosion : MonoBehaviour
                 continue;
 
 
-            if (!GameSingleton.GetInstance().friendlyFire && targetRigidbody.GetComponent<TankMovement>().teamNumber == teamNumber) continue;
+            if (!GameSingleton.GetInstance().friendlyFire && targetRigidbody.GetComponent<TankMovement>().teamNumber == owner.team.teamNumber) continue;
 
             // Calculate the amount of damage the target should take based on it's distance from the shell.
             float damage = CalculateDamage(targetRigidbody.position);
 
             // Deal this damage to the tank.
-            targetHealth.TakeDamage(damage);
+            targetHealth.TakeDamage(damage, owner);
         }
         // Unparent the particles from the shell.
         m_ExplosionParticles.transform.parent = null;

@@ -71,7 +71,7 @@ public class TankMovement : MonoBehaviour
 
             for (ushort j = 0; j < collector.teams[i].tanks.Count; ++j)
             {
-                Transform Enemy = collector.teams[i].tanks[j].transform;
+                Transform Enemy = collector.teams[i].tanks[j].tank.transform;
                 if (!Enemy.gameObject.activeSelf) continue;
 
                 float currentDistance = Vector3.Distance(tank.position, Enemy.position);

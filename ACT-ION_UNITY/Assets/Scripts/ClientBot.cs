@@ -45,21 +45,21 @@ public class ClientBot : MonoBehaviour
 
         ////////////
         /// Bots positions 
-        NeuralTankMovement possiblyNeural = collector.teams[1].tanks[0].GetComponent<NeuralTankMovement>();
+        NeuralTankMovement possiblyNeural = collector.teams[1].tanks[0].tank.GetComponent<NeuralTankMovement>();
         int AL_bot = -1;
         if (possiblyNeural)
         {
             Debug.Log("Im right about possibly neural tanks");
-            AL_bot_pos = collector.teams[0].tanks[0].transform.position;
-            NN_bot_pos = collector.teams[1].tanks[0].transform.position;
+            AL_bot_pos = collector.teams[0].tanks[0].tank.transform.position;
+            NN_bot_pos = collector.teams[1].tanks[0].tank.transform.position;
             AL_bot = 0;
         }
         else
         {
             Debug.Log("Im wrong about possibly neural tanks");
             AL_bot = 1;
-            AL_bot_pos = collector.teams[1].tanks[0].transform.position;
-            NN_bot_pos = collector.teams[0].tanks[0].transform.position;
+            AL_bot_pos = collector.teams[1].tanks[0].tank.transform.position;
+            NN_bot_pos = collector.teams[0].tanks[0].tank.transform.position;
         }
         /////////////////
         
@@ -68,7 +68,7 @@ public class ClientBot : MonoBehaviour
         /// CAN SHOOT 
         Vector3 direction = (NN_bot_pos - AL_bot_pos).normalized;
         float distance = Vector3.Distance(AL_bot_pos, NN_bot_pos);
-        Collider ALBotCollider = collector.teams[AL_bot].tanks[0].GetComponent<Collider>();
+        Collider ALBotCollider = collector.teams[AL_bot].tanks[0].tank.GetComponent<Collider>();
         RaycastHit hit;
         int can_shoot = 0;
         if (Physics.Raycast(AL_bot_pos, direction, out hit, distance))

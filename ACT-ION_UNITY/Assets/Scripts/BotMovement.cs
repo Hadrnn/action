@@ -517,7 +517,8 @@ public abstract class BotMovement : TankMovement
         //sw = new StreamWriter("C:\\Users\\��������\\Desktop\\Log.txt");
         // Add tank object to InfoCollector
         collector = GameObject.Find("InfoCollector").GetComponent<InfoCollector>();
-        collector.AddTank(gameObject);
+        GetComponent<TankShooting>().tank = collector.AddTank(gameObject);
+
         OwnerTankID = collector.GetOwnerTankID();
 
         // Store the original pitch of the audio source.

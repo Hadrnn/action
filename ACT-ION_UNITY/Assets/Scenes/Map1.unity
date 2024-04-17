@@ -934,15 +934,15 @@ MonoBehaviour:
   tickTime: 0.02
   Type: 6
   ST: 1
-  Mode: 1
+  Mode: 0
   FriendlyFire: 1
   UnityNetworkManager: {fileID: 7640481245423487163, guid: fe0bbd41349293d47a7cc70593b09473, type: 3}
   UnityNetworkMenu: {fileID: 6535677236963878315, guid: 096de73100e08584e8187d4620d69267, type: 3}
   UnityNetworkEventSystem: {fileID: 2523935134142243851, guid: c3ab7bca9ac4c2c42868cdb4c39dc152, type: 3}
-  BotTank1: {fileID: 183483168606623715, guid: 1669694a915d95246a05a37d9866d25b, type: 3}
-  BotTank2: {fileID: 1661361813523471116, guid: b6d27e08a6b97d9429bdbaafe9e8c24c, type: 3}
-  Bot1Pos: {x: 0, y: 0, z: 10}
-  Bot2Pos: {x: 0, y: 0, z: -10}
+  BotTank1: {fileID: 1661361813523471116, guid: b6d27e08a6b97d9429bdbaafe9e8c24c, type: 3}
+  BotTank2: {fileID: 4921215065507373529, guid: 636be22d66f319f429293860c45c0f23, type: 3}
+  Pos1: {x: 0, y: 0, z: 10}
+  Pos2: {x: 0, y: 0, z: -10}
   PlayerPos: {x: 0, y: 0, z: -30}
   NetworkPrefabs: {fileID: 11400000, guid: a6173291b553f114e8597fccf64c8959, type: 2}
   PlayerPrefabs: {fileID: 11400000, guid: eeb9404dc71753e4e9d3e53e0393d539, type: 2}

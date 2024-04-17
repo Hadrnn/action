@@ -41,7 +41,7 @@ public class TankHealth : MonoBehaviour
         SetHealthUI();
     }
 
-    public void TakeDamage(float amount)
+    public void TakeDamage(float amount, InfoCollector.Team.Tank owner)
     {
         // Reduce current health by the amount of damage done.
         m_CurrentHealth -= amount;
@@ -57,6 +57,11 @@ public class TankHealth : MonoBehaviour
             if (gameObject.GetComponent<NeuralTankMovement>()) collector.gameResult = "LOSE";
             else collector.gameResult = "WIN";
 
+            if(owner != GetComponent<TankShooting>().tank)
+            {
+                ++owner.kills;
+                ++owner.team.teamKills;
+            }
             //if (playerNumber == 0) collector.gameResult = "WIN";
             //else collector.gameResult = "LOSE";
             OnDeath();

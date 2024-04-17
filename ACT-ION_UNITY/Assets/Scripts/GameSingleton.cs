@@ -17,6 +17,8 @@ public class GameSingleton
         public const int DeathMatch = 0;
         public const int TeamDeathMatch = 1;
         public const int CaptureTheFlag = 2;
+        public const int TeamBattle = 3;
+        public const int Domination = 4;
     }
 
     static GameSingleton instance;
