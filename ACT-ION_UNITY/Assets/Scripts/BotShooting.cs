@@ -3,23 +3,10 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class BotShooting : MonoBehaviour
+public class BotShooting : TankShooting
 {
-    public Rigidbody m_Shell;                   // Prefab of the shell.
-    public Transform m_FireTransform;           // A child of the tank where the shells are spawned.
-    public AudioSource m_ShootingAudio;         // Reference to the audio source used to play the shooting audio. NB: different to the movement audio source.
-    public AudioClip m_ChargingClip;            // Audio that plays when each shot is charging up.
-    public AudioClip m_FireClip;                // Audio that plays when each shot is fired.
-    public float m_Velocity = 30f;
-    public float m_MinLifeTime = 1f;        // The force given to the shell if the fire button is not held.
-    public float m_MaxLifeTime = 2f;        // The force given to the shell if the fire button is held for the max charge time.
-    public float m_MaxChargeTime = 0.75f;       // How long the shell can charge for before it is fired at max force.
     public bool onReload = false;
 
-    public float cooldown = 1f;
-    protected float ShootTime = 0f;
-
-    protected float m_CurrentLifeTime;         // The force that will be given to the shell when the fire button is released.
 
     protected BotMovement Body;
     // How fast the launch force increases, based on the max charge time.
@@ -68,6 +55,8 @@ public class BotShooting : MonoBehaviour
 
         ShellExplosion explosion = shellInstance.GetComponent<ShellExplosion>();
         explosion.m_MaxLifeTime = m_CurrentLifeTime;
+        explosion.owner = tank;
+
         m_CurrentLifeTime = m_MinLifeTime;
         ShootTime = Time.time;
 

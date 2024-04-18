@@ -1,12 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using System.Net;
 using System.Net.Sockets;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using UnityEngine.UIElements;
+
+
 public class ClientBot : MonoBehaviour
 {
     public Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp); // Create socket
@@ -41,34 +37,137 @@ public class ClientBot : MonoBehaviour
     void Start_working()
     {
         InfoCollector collector = GameObject.Find("InfoCollector").GetComponent<InfoCollector>();
-        
+
         // Вызов функции для сообщения для сервера: message = GetInfo()
 
-        Vector3 AL_bot_pos = collector.teams[1].tanks[0].transform.position;
-        Vector3 NN_bot_pos = collector.teams[0].tanks[0].transform.position;
-        //Debug.Log(AL_bot_pos);
+        Vector3 AL_bot_pos;
+        Vector3 NN_bot_pos;
 
+        ////////////
+        /// Bots positions 
+        NeuralTankMovement possiblyNeural = collector.teams[1].tanks[0].tank.GetComponent<NeuralTankMovement>();
+        int AL_bot = -1;
+        if (possiblyNeural)
+        {
+            Debug.Log("Im right about possibly neural tanks");
+            AL_bot_pos = collector.teams[0].tanks[0].tank.transform.position;
+            NN_bot_pos = collector.teams[1].tanks[0].tank.transform.position;
+            AL_bot = 0;
+        }
+        else
+        {
+            Debug.Log("Im wrong about possibly neural tanks");
+            AL_bot = 1;
+            AL_bot_pos = collector.teams[1].tanks[0].tank.transform.position;
+            NN_bot_pos = collector.teams[0].tanks[0].tank.transform.position;
+        }
+        /////////////////
+        
+
+        /////////////////////
+        /// CAN SHOOT 
         Vector3 direction = (NN_bot_pos - AL_bot_pos).normalized;
         float distance = Vector3.Distance(AL_bot_pos, NN_bot_pos);
-        Collider PlayerCollider = collector.teams[0].tanks[0].GetComponent<Collider>();
+        Collider ALBotCollider = collector.teams[AL_bot].tanks[0].tank.GetComponent<Collider>();
         RaycastHit hit;
         int can_shoot = 0;
         if (Physics.Raycast(AL_bot_pos, direction, out hit, distance))
         {
-            if (hit.collider == PlayerCollider)
+            if (hit.collider == ALBotCollider)
             {
                 can_shoot = 1;
             }
         }
-        message = 
+        ////////////////////
+
+
+
+
+        ////////////////////////////////////////////
+        // CLOSEST BULLET POSITION 
+        Vector3 ClosestBulletPos;
+        if (collector.shells.Count == 0) ClosestBulletPos = new Vector3(1000, 1000, 1000);
+        else ClosestBulletPos = new Vector3(0, 0, 0);
+        float minDistance = 1000;
+
+        for (int i = 0; i < collector.shells.Count; ++i)
+        {
+            float currentDistance = Vector3.Distance(NN_bot_pos, collector.shells[i].transform.position);
+            if (currentDistance < minDistance)
+            {
+                ClosestBulletPos = collector.shells[i].transform.position;
+                minDistance = currentDistance;
+            }
+        }
+        ////////////////////////////////////////////
+        ///
+
+
+
+        ////////////////////////////
+        /// UP DOWN LEFT RIGHT CLOSEST HITBOX
+        Vector3 [] collisionArray= new Vector3[4];  
+        distance = 1000;
+        direction = new Vector3(1, 0, 0);
+        if (Physics.Raycast(AL_bot_pos, direction, out hit, distance))
+        {
+            collisionArray[0] = hit.collider.transform.position;
+        }
+        else
+        {
+            Debug.LogWarning("DID NOT FIND SOMETHING TO COLLIDE WITH");
+        }
+
+        direction = new Vector3(0, 0, 1);
+        if (Physics.Raycast(AL_bot_pos, direction, out hit, distance))
+        {
+            collisionArray[1] = hit.collider.transform.position;
+        }
+        else
+        {
+            Debug.LogWarning("DID NOT FIND SOMETHING TO COLLIDE WITH");
+        }
+
+        direction = new Vector3(-1, 0, 0);
+        if (Physics.Raycast(AL_bot_pos, direction, out hit, distance))
+        {
+            collisionArray[2] = hit.collider.transform.position;
+        }
+        else
+        {
+            Debug.LogWarning("DID NOT FIND SOMETHING TO COLLIDE WITH");
+        }
+
+        direction = new Vector3(0, 0, -1);
+        if (Physics.Raycast(AL_bot_pos, direction, out hit, distance))
+        {
+            collisionArray[3] = hit.collider.transform.position;
+        }
+        else
+        {
+            Debug.LogWarning("DID NOT FIND SOMETHING TO COLLIDE WITH");
+        }
+
+        ///////////////////////
+
+
+
+        message =
             NN_bot_pos.x.ToString() + " " + NN_bot_pos.z.ToString() + " " + AL_bot_pos.x.ToString() + " " + AL_bot_pos.z.ToString() + " " + can_shoot.ToString() + " " + collector.gameResult;
 
+        message += ClosestBulletPos.x.ToString() + " " + ClosestBulletPos.x.ToString() + " ";
+
+        for (int i = 0; i< 4; ++i)
+        {
+            message += collisionArray[i].x.ToString() + " " + collisionArray[i].x.ToString() + " ";
+        }
+
         Send_message();
-        if (collector.gameResult != "Playing")
+/*        if (collector.gameResult != "Playing")
         {
             Close_connection();
             Destroy(gameObject);
-        }
+        }*/
         Get_message();
         Debug.Log($"Get message  {d_answer}");
         // Вызов функции для изменения позиции: ChangePosition(d_answer)

@@ -53,7 +53,7 @@ public class PlayerTankMovement : PlayerMovement
             delta_angle = (180 + delta_angle) * forvard_multiplyer;
         }
 
-        float turn = -(float)(System.Math.Sign(delta_angle) * Time.deltaTime * m_TurnSpeed * 0.8);
+        float turn = -(float)(System.Math.Sign(delta_angle) * Time.deltaTime * m_TurnSpeed);
 
         Quaternion turnRotation = Quaternion.Euler(0f, turn, 0f);
 
@@ -62,7 +62,7 @@ public class PlayerTankMovement : PlayerMovement
 
         if ((m_VerticalInputValue != 0) || (m_HorizontalInputValue != 0))
         {
-            movement = transform.forward * m_Speed * Time.deltaTime * 1.3f * forvard_multiplyer;
+            movement = transform.forward * m_Speed * Time.deltaTime * forvard_multiplyer;
         }
 
         // Apply this movement to the rigidbody's position.
@@ -73,6 +73,7 @@ public class PlayerTankMovement : PlayerMovement
             m_Rigidbody.MovePosition(m_Rigidbody.position + movement);
             //Debug.Log("IM not stuck");
         }
+        /*        Debug.Log(teamNumber);*/
         //m_Rigidbody.AddForce(10*movement, ForceMode.VelocityChange);
     }
 }

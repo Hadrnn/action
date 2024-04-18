@@ -7,6 +7,10 @@ using Quaternion = UnityEngine.Quaternion;
 
 public class BotTankMovement : BotMovement
 {
+    public BotMovement Me()
+    {
+        return this;
+    }
     protected override void Decision()
     {
         Transform Enemy = FindClosestEnemy(teamNumber, transform, collector);
@@ -15,13 +19,12 @@ public class BotTankMovement : BotMovement
         }   
 
         Vector3 EnemyPosition = Enemy.position;
-        //Vector3 EnemyPosition = collector.teams[0].tanks[0].transform.position;
         Vector3 MyPosition = transform.position;
         Vector3 DeltaPosition = MyPosition - EnemyPosition;
         float Length = DeltaPosition.magnitude;
         if (!Gun.onReload || Length > 40)
         {
-            GameState Start = new GameState();
+            GameState Start = new GameState(0);
             
             Start.position = transform.position;
             Start.forward = transform.forward;
@@ -68,7 +71,7 @@ public class BotTankMovement : BotMovement
 
             Vector3 TargetPosition = cover_position + mult;
 
-            GameState Start = new GameState();
+            GameState Start = new GameState(0);
             Start.position = transform.position;
             Start.forward = transform.forward;
             Start.forward_multiplyer = forvard_multiplyer;
@@ -132,17 +135,16 @@ public class BotTankMovement : BotMovement
         }
         else
         {
-            turn = -(float)(System.Math.Sign(delta_angle) * 0.02f * m_TurnSpeed * 0.8);
+            turn = -(float)(System.Math.Sign(delta_angle) * Time.deltaTime * m_TurnSpeed);
         }
         Quaternion turnRotation = Quaternion.Euler(0f, turn, 0f);
         m_Rigidbody.MoveRotation(m_Rigidbody.rotation * turnRotation);
         Vector3 movement = new Vector3(0f, 0f, 0f);
         if ((m_VerticalInputValue != 0) || (m_HorizontalInputValue != 0))
         {
-            movement = transform.forward * m_Speed * 0.02f * 1.3f * forvard_multiplyer;
+            movement = transform.forward * m_Speed * Time.deltaTime * forvard_multiplyer;
         }
 
-        //m_Rigidbody.MovePosition(m_Rigidbody.position + movement);
         Collider[] collisionArray = Physics.OverlapBox(m_Rigidbody.position + movement, m_Collider.size / 2, m_Rigidbody.rotation, ~0, QueryTriggerInteraction.Ignore);
 
         if (collisionArray.Length == 1)

@@ -21,7 +21,7 @@ public class NeuralTurretTurning : MonoBehaviour
         InfoCollector collector = GameObject.Find("InfoCollector").GetComponent<InfoCollector>();
         //TargetPos = collector.teams[teamNumber - 1].tanks[0].transform.position;
 
-        Transform Enemy = TankMovement.FindClosestEnemy(Body.GetTeamNumber(), transform, collector);
+        Transform Enemy = TankMovement.FindClosestEnemy(Body.teamNumber, transform, collector);
         if (Enemy.Equals(transform))
         {
             return;

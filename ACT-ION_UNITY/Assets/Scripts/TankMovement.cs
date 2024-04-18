@@ -9,25 +9,29 @@ public class TankMovement : MonoBehaviour
     public AudioClip m_EngineIdling;            // Audio to play when the tank isn't moving.
     public AudioClip m_EngineDriving;           // Audio to play when the tank is moving.
     public float m_PitchRange = 0.2f;           // The amount by which the pitch of the engine noises can vary.
+    public SpriteRenderer m_FriendEnemy;
+    public int forvard_multiplyer = 1;
 
+    public int teamNumber { get; set; }
 
-    protected int teamNumber;
-    public static Vector3 DidNotFindEnemy = new Vector3(0, -10, 0);
+    protected int OwnerTankID;
     protected Rigidbody m_Rigidbody;              // Reference used to move the tank.
     protected float m_VerticalInputValue = 0;         // The current value of the movement input.
     protected float m_HorizontalInputValue = 0;             // The current value of the turn input.
     protected float m_OriginalPitch;              // The pitch of the audio source at the start of the scene.
     protected BoxCollider m_Collider;
-    protected int forvard_multiplyer = 1;
+    protected static InfoCollector collector;
 
-    public void SetTeamNumber(int teamNumber_)
+
+    private void Awake()
     {
-        teamNumber = teamNumber_;
+        m_Rigidbody = GetComponent<Rigidbody>();
+        m_Collider = GetComponent<BoxCollider>();
     }
 
-    public int GetTeamNumber()
+    public int GetOwnerTankID()
     {
-        return teamNumber;
+        return OwnerTankID;
     }
     protected void EngineAudio()
     {
@@ -67,7 +71,7 @@ public class TankMovement : MonoBehaviour
 
             for (ushort j = 0; j < collector.teams[i].tanks.Count; ++j)
             {
-                Transform Enemy = collector.teams[i].tanks[j].transform;
+                Transform Enemy = collector.teams[i].tanks[j].tank.transform;
                 if (!Enemy.gameObject.activeSelf) continue;
 
                 float currentDistance = Vector3.Distance(tank.position, Enemy.position);

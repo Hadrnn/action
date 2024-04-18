@@ -11,6 +11,12 @@ public class UnityNetworkTankMovement : NetworkBehaviour
     public AudioClip m_EngineDriving;           // Audio to play when the tank is moving.
     public float m_PitchRange = 0.2f;           // The amount by which the pitch of the engine noises can vary.
     public int forvard_multiplyer = 1;
+    public SpriteRenderer m_FriendEnemy;
+
+
+    public int teamNumber { get; set; }
+
+    protected int OwnerTankID;
 
     private string m_VerticalAxisName;          // The name of the input axis for moving forward and back.
     private string m_HorizontalAxisName;              // The name of the input axis for turning.
@@ -19,7 +25,7 @@ public class UnityNetworkTankMovement : NetworkBehaviour
     private float m_HorizontalInputValue;             // The current value of the turn input.
     private float m_OriginalPitch;              // The pitch of the audio source at the start of the scene.
     private BoxCollider m_Collider;
-
+    private InfoCollector collector;
     private void Awake()
     {
         m_Rigidbody = GetComponent<Rigidbody>();
@@ -30,9 +36,12 @@ public class UnityNetworkTankMovement : NetworkBehaviour
         Vector3 SpawnPos = new Vector3(10, 0, 10);
         //m_Rigidbody.MovePosition(SpawnPos);
         transform.position = SpawnPos;
-    }   
+    }
 
-
+    public int GetOwnerTankID()
+    {
+        return OwnerTankID;
+    }
     private void OnEnable()
     {
         // When the tank is turned on, make sure it's not kinematic.
@@ -53,6 +62,10 @@ public class UnityNetworkTankMovement : NetworkBehaviour
 
     private void Start()
     {
+        // Add tank object to InfoCollector
+        collector = GameObject.Find("InfoCollector").GetComponent<InfoCollector>();
+        collector.AddTank(gameObject);
+
         if (IsOwner)
         {
             m_VerticalAxisName = "Vertical";
@@ -61,10 +74,17 @@ public class UnityNetworkTankMovement : NetworkBehaviour
             GameObject cameraRig = GameObject.Find("CameraRig");
             CameraFollower follower = cameraRig.GetComponent<CameraFollower>();
             follower.m_Target = transform;
+
+            GameSingleton.GetInstance().playerTeam = teamNumber;
         }
 
         // Store the original pitch of the audio source.
         m_OriginalPitch = m_MovementAudio.pitch;
+
+        collector.SetFriendEnemy();
+
+        if(GameSingleton.GetInstance().currentGameMode == GameSingleton.GameMode.CaptureTheFlag)
+            collector.SetBaseLights();
     }
 
 

@@ -11,6 +11,11 @@ public class UnityNetworkShellExplosion : NetworkBehaviour
     public float m_MaxLifeTime = 2f;                    // The time in seconds before the shell is removed.
     public float m_ExplosionRadius = 5f;                // The maximum distance away from the explosion tanks can be and are still affected.
 
+
+    public int OwnerTankID { get; set; }
+    public int teamNumber { get; set; }
+
+
     private float startTime;
 
 
@@ -74,6 +79,9 @@ public class UnityNetworkShellExplosion : NetworkBehaviour
             if (!targetHealth)
                 continue;
 
+            if (!GameSingleton.GetInstance().friendlyFire && targetRigidbody.GetComponent<UnityNetworkTankMovement>().teamNumber == teamNumber) continue;
+
+
             // Calculate the amount of damage the target should take based on it's distance from the shell.
             float damage = CalculateDamage(targetRigidbody.position);
 
@@ -106,20 +114,10 @@ public class UnityNetworkShellExplosion : NetworkBehaviour
         }
     }
 
-    // [ServerRpc]
-    // public void DieServerRPC()
-    // {
-    //     NetworkObject shell = gameObject.GetComponent<NetworkObject>();
-    //     //shell.RemoveOwnership();
-    //     shell.Despawn();
-    // }
-
     [ClientRpc]
     public void DieClientRpc() {
-        Debug.Log("StartServerRPC");
+
         if (!IsHost) Explode();
-        // if (!IsServer) Debug.Log("Huy");
-        // else Debug.Log("I'm gay");
     }
 
     private float CalculateDamage(Vector3 targetPosition)

@@ -41,7 +41,7 @@ public class TankHealth : MonoBehaviour
         SetHealthUI();
     }
 
-    public void TakeDamage(float amount)
+    public void TakeDamage(float amount, InfoCollector.Team.Tank owner)
     {
         // Reduce current health by the amount of damage done.
         m_CurrentHealth -= amount;
@@ -57,6 +57,11 @@ public class TankHealth : MonoBehaviour
             if (gameObject.GetComponent<NeuralTankMovement>()) collector.gameResult = "LOSE";
             else collector.gameResult = "WIN";
 
+            if(owner != GetComponent<TankShooting>().tank)
+            {
+                ++owner.kills;
+                ++owner.team.teamKills;
+            }
             //if (playerNumber == 0) collector.gameResult = "WIN";
             //else collector.gameResult = "LOSE";
             OnDeath();
@@ -92,6 +97,13 @@ public class TankHealth : MonoBehaviour
         SpawnManager manager = GameObject.Find("InfoCollector").GetComponent<SpawnManager>();
         manager.dead.Add(gameObject);
         manager.deathTime.Add(Time.time);
+
+        FlagCapture flag = GetComponentInChildren<FlagCapture>();
+        if (flag)
+        {
+            Debug.Log("I have a flag while dying");
+            flag.transform.SetParent(null);
+        }
 
         gameObject.SetActive(false);
     }

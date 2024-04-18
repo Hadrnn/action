@@ -24,6 +24,15 @@ public enum SpawnType
     Determined = 0,
     Randomized = 1,
 }
+
+public enum GameMode
+{
+    DeathMatch = 0,
+    TeamDeathMatch = 1,
+    CaptureTheFlag = 2,
+    TeamBattle = 3,
+    Domitanion = 4,
+}
 public class Map1Manager : NetworkBehaviour
 {
     /// <summary>
@@ -33,6 +42,8 @@ public class Map1Manager : NetworkBehaviour
 
     public GameType Type = GameType.SinglePlayerBot;
     public SpawnType ST = SpawnType.Determined;
+    public GameMode Mode = GameMode.DeathMatch;
+    public bool FriendlyFire = true;
 
     public GameObject UnityNetworkManager;
     public GameObject UnityNetworkMenu;
@@ -41,8 +52,14 @@ public class Map1Manager : NetworkBehaviour
     public GameObject BotTank1;
     public GameObject BotTank2;
 
-    public Vector3 Bot1Pos = new Vector3(0f, 0f, 10f);
-    public Vector3 Bot2Pos = new Vector3(0f, 0f, -30f);
+    /// <summary>
+    /// Spawn position of bot 1 or team 1 spawn
+    /// </summary>
+    public Vector3 Pos1 = new Vector3(0f, 0f, 10f);
+    /// <summary>
+    /// Spawn position of bot 2 or team 2 spawn
+    /// </summary>
+    public Vector3 Pos2 = new Vector3(0f, 0f, -30f);
     public Vector3 PlayerPos = new Vector3(0f, 0f, -10f);
 
     public NetworkPrefabsList NetworkPrefabs;
@@ -54,16 +71,75 @@ public class Map1Manager : NetworkBehaviour
     private const string ServerAddressMark = "address=";
     private const string ServerPortMark = "port=";
 
+    private int ticks = 0;
+    private bool DidSetFriendEnemy = false;
+    private const int FriendEnemySetTick = 2;
+
+    private void Awake()
+    {
+        GameSingleton.GetInstance().friendlyFire = FriendlyFire;
+
+        switch (Mode)
+        {
+            case GameMode.TeamDeathMatch:
+                GameSingleton.GetInstance().currentGameMode = GameSingleton.GameMode.TeamDeathMatch;
+                break;
+            case GameMode.DeathMatch:
+                GameSingleton.GetInstance().currentGameMode = GameSingleton.GameMode.DeathMatch;
+                break;
+            case GameMode.CaptureTheFlag:
+                GameSingleton.GetInstance().currentGameMode = GameSingleton.GameMode.CaptureTheFlag;
+                break;
+            case GameMode.TeamBattle:
+                GameSingleton.GetInstance().currentGameMode = GameSingleton.GameMode.TeamBattle;
+                break;
+            case GameMode.Domitanion:
+                GameSingleton.GetInstance().currentGameMode = GameSingleton.GameMode.Domination;
+                break;
+            default:
+                Debug.Log("MODE NOT IN START SWITCH");
+                break;
+        }
+
+        if (Mode == GameMode.TeamDeathMatch ||
+           Mode == GameMode.CaptureTheFlag ||
+           Mode == GameMode.TeamBattle)
+        {
+            InfoCollector collector = GetComponent<InfoCollector>();
+            collector.team1Spawn = Pos1;
+            collector.team2Spawn = Pos2;
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
+
         Time.fixedDeltaTime = tickTime;
+
+
+
         switch (Type)
         {
             case GameType.SinglePlayerBot:
-                Instantiate(BotTank1, Bot1Pos, Quaternion.Euler(new Vector3(0f, 0f, 0f)));
-                Instantiate(BotTank2, Bot2Pos, Quaternion.Euler(new Vector3(0f, 0f, 0f)));
-                Instantiate(PlayerPrefabs.PrefabList[GameSingleton.GetInstance().currentTank], PlayerPos, Quaternion.Euler(new Vector3(0f, 0f, 0f)));
+                switch (Mode)
+                {
+                    case GameMode.TeamDeathMatch:
+                        Instantiate(BotTank1, SpawnManager.GetSpawnPos(Pos1, 40), Quaternion.Euler(new Vector3(0f, 0f, 0f)));
+                        Instantiate(BotTank1, SpawnManager.GetSpawnPos(Pos1, 40), Quaternion.Euler(new Vector3(0f, 0f, 0f)));
+                        Instantiate(BotTank1, SpawnManager.GetSpawnPos(Pos1, 40), Quaternion.Euler(new Vector3(0f, 0f, 0f)));
+                        Instantiate(BotTank1, SpawnManager.GetSpawnPos(Pos1, 40), Quaternion.Euler(new Vector3(0f, 0f, 0f)));
+                        Instantiate(BotTank1, SpawnManager.GetSpawnPos(Pos1, 40), Quaternion.Euler(new Vector3(0f, 0f, 0f)));
+                        Instantiate(PlayerPrefabs.PrefabList[GameSingleton.GetInstance().currentTank], SpawnManager.GetSpawnPos(Pos1, 30), Quaternion.Euler(new Vector3(0f, 0f, 0f)));
+                        break;
+                    case GameMode.DeathMatch:
+                        Instantiate(BotTank1, Pos1, Quaternion.Euler(new Vector3(0f, 0f, 0f)));
+                        Instantiate(BotTank2, Pos2, Quaternion.Euler(new Vector3(0f, 0f, 0f)));
+                        Instantiate(PlayerPrefabs.PrefabList[GameSingleton.GetInstance().currentTank], PlayerPos, Quaternion.Euler(new Vector3(0f, 0f, 0f)));
+                        break;
+                    default:
+                        break;
+                }
                 break;
             case GameType.UnityNetwork:
                 GameObject manager = Instantiate(UnityNetworkManager);
@@ -83,12 +159,12 @@ public class Map1Manager : NetworkBehaviour
                 switch (ST)
                 {
                     case SpawnType.Determined:
-                        Instantiate(BotTank1, Bot1Pos, Quaternion.Euler(new Vector3(0f, 0f, 0f)));
-                        Instantiate(BotTank2, Bot2Pos, Quaternion.Euler(new Vector3(0f, 0f, 0f)));
+                        Instantiate(BotTank1, Pos1, Quaternion.Euler(new Vector3(0f, 0f, 0f)));
+                        Instantiate(BotTank2, Pos2, Quaternion.Euler(new Vector3(0f, 0f, 0f)));
                         break;
                     case SpawnType.Randomized:
-                        Instantiate(BotTank1, SpawnManager.GetSpawnPos(Bot1Pos, 30), Quaternion.Euler(new Vector3(0f, 0f, 0f)));
-                        Instantiate(BotTank2, SpawnManager.GetSpawnPos(Bot2Pos, 30), Quaternion.Euler(new Vector3(0f, 0f, 0f)));
+                        Instantiate(BotTank1, SpawnManager.GetSpawnPos(Pos1, 30), Quaternion.Euler(new Vector3(0f, 0f, 0f)));
+                        Instantiate(BotTank2, SpawnManager.GetSpawnPos(Pos2, 30), Quaternion.Euler(new Vector3(0f, 0f, 0f)));
                         break;
                     default:
                         break;
@@ -124,7 +200,7 @@ public class Map1Manager : NetworkBehaviour
                 Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 socket.Connect("25.12.195.48", 9999);
                 // Отправка сообщения с требованиями игры
-                var message = "PlayerName=Qwerty Map=Map1";
+                var message = "PlayerName=Player1 Map=Map1";
                 var messageBytes = Encoding.UTF8.GetBytes(message);
                 socket.Send(messageBytes);
                 // Получения ответа для коннекта к нужной игре
@@ -144,6 +220,25 @@ public class Map1Manager : NetworkBehaviour
             default:
                 break;
         }
+
+
+    }
+
+    private void Update()
+    {
+        if (!DidSetFriendEnemy)
+        {
+            if (ticks > FriendEnemySetTick)
+            {
+                GetComponent<InfoCollector>().SetFriendEnemy();
+                GetComponent<InfoCollector>().SetBaseLights();
+
+                DidSetFriendEnemy = true;
+            }
+            ++ticks;
+        }
+        //if (NetworkManager.Singleton) GetComponent<InfoCollector>().SetFriendEnemyNetwork();
+        //else GetComponent<InfoCollector>().SetFriendEnemy();
     }
 
     private void HandleAnswer(string[] parameters)

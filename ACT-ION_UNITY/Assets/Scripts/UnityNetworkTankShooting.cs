@@ -115,6 +115,10 @@ public class UnityNetworkTankShooting : NetworkBehaviour
         // Set the shell's velocity to the launch force in the fire position's forward direction.
         UnityNetworkShellExplosion explosion = shellInstance.GetComponent<UnityNetworkShellExplosion>();
         explosion.m_MaxLifeTime = m_CurrentLifeTime;
+
+        explosion.teamNumber = GetComponent<UnityNetworkTankMovement>().teamNumber;
+        explosion.OwnerTankID = GetComponent<UnityNetworkTankMovement>().GetOwnerTankID();
+
         m_CurrentLifeTime = m_MinLifeTime;
         shellInstance.velocity = m_Velocity * m_FireTransform.forward;
     }

@@ -9,16 +9,42 @@ public class SpawnManager : NetworkBehaviour
     public List<float> deathTime = new();
 
     public float RespawnTime = 2;
+    public bool endOfRound { get; set; }
+
+    private InfoCollector collector;
     // Start is called before the first frame update
     void Start()
     {
-
+        collector = GetComponent<InfoCollector>();
+        endOfRound = false;
     }
 
     // Update is called once per frame
     void Update()
     {
         Vector3 spawnAreaPos = new Vector3(0, 0, 0);
+
+
+        if (GameSingleton.GetInstance().currentGameMode == GameSingleton.GameMode.TeamBattle)
+        {
+            if (!endOfRound) return;
+
+            foreach( InfoCollector.Team team in collector.teams)
+            {
+                foreach(InfoCollector.Team.Tank tank in team.tanks)
+                {
+                    if (NetworkManager.Singleton) tank.tank.GetComponent<UnityNetworkTankHealth>().MoveOnRespawn(GetSpawnPos(team.teamSpawn, 30));
+                    else tank.tank.transform.position = GetSpawnPos(team.teamSpawn, 30);
+                    tank.tank.SetActive(true);
+                }
+            }
+
+            endOfRound = false;
+
+            return;
+        }
+
+
         if (dead.Count != deathTime.Count)
         {
             throw new Exception("Dead count not equal death time count");
