@@ -101,7 +101,7 @@ public class PlayerArtShooting : TankShooting
 
         ArtShellExplosion explosion = shellInstance.GetComponent<ArtShellExplosion>();
         explosion.forward = turret.transform.forward;
-        explosion.owner = tank;
+        explosion.owner = tankHolder;
         explosion.start_angle = start_angle;
         explosion.m_MaxLifeTime = m_CurrentLifeTime;
         explosion.tank = this;

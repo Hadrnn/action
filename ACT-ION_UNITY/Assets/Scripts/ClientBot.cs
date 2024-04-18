@@ -106,12 +106,13 @@ public class ClientBot : MonoBehaviour
 
         ////////////////////////////
         /// UP DOWN LEFT RIGHT CLOSEST HITBOX
-        Vector3 [] collisionArray= new Vector3[4];  
+        float [] collisionArray= new float[4];  
         distance = 1000;
         direction = new Vector3(1, 0, 0);
         if (Physics.Raycast(AL_bot_pos, direction, out hit, distance))
         {
-            collisionArray[0] = hit.collider.transform.position;
+            
+            collisionArray[0] = hit.distance;
         }
         else
         {
@@ -121,7 +122,7 @@ public class ClientBot : MonoBehaviour
         direction = new Vector3(0, 0, 1);
         if (Physics.Raycast(AL_bot_pos, direction, out hit, distance))
         {
-            collisionArray[1] = hit.collider.transform.position;
+            collisionArray[1] = hit.distance;
         }
         else
         {
@@ -131,7 +132,7 @@ public class ClientBot : MonoBehaviour
         direction = new Vector3(-1, 0, 0);
         if (Physics.Raycast(AL_bot_pos, direction, out hit, distance))
         {
-            collisionArray[2] = hit.collider.transform.position;
+            collisionArray[2] = hit.distance;
         }
         else
         {
@@ -141,7 +142,7 @@ public class ClientBot : MonoBehaviour
         direction = new Vector3(0, 0, -1);
         if (Physics.Raycast(AL_bot_pos, direction, out hit, distance))
         {
-            collisionArray[3] = hit.collider.transform.position;
+            collisionArray[3] = hit.distance;
         }
         else
         {
@@ -159,7 +160,7 @@ public class ClientBot : MonoBehaviour
 
         for (int i = 0; i< 4; ++i)
         {
-            message += collisionArray[i].x.ToString() + " " + collisionArray[i].x.ToString() + " ";
+            message += collisionArray[i].ToString() + " ";
         }
 
         Send_message();

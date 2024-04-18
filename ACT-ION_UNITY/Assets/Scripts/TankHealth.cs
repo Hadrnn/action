@@ -41,15 +41,12 @@ public class TankHealth : MonoBehaviour
         SetHealthUI();
     }
 
-    public void TakeDamage(float amount, InfoCollector.Team.Tank owner)
+    public void TakeDamage(float amount, InfoCollector.Team.TankHolder shellOwner)
     {
-        // Reduce current health by the amount of damage done.
         m_CurrentHealth -= amount;
 
-        // Change the UI elements appropriately.
         SetHealthUI();
 
-        // If the current health is at or below zero and it has not yet been registered, call OnDeath.
         if (m_CurrentHealth <= 0f && !m_Dead)
         {
             // FOR NEURAL BOT LEARNING
@@ -57,14 +54,10 @@ public class TankHealth : MonoBehaviour
             if (gameObject.GetComponent<NeuralTankMovement>()) collector.gameResult = "LOSE";
             else collector.gameResult = "WIN";
 
-            if(owner != GetComponent<TankShooting>().tank)
-            {
-                ++owner.kills;
-                ++owner.team.teamKills;
-            }
+
             //if (playerNumber == 0) collector.gameResult = "WIN";
             //else collector.gameResult = "LOSE";
-            OnDeath();
+            OnDeath(shellOwner);
         }
     }
 
@@ -79,7 +72,7 @@ public class TankHealth : MonoBehaviour
     }
 
 
-    private void OnDeath()
+    private void OnDeath(InfoCollector.Team.TankHolder shellOwner)
     {
         // Set the flag so that this function is only called once.
         m_Dead = true;
@@ -97,6 +90,17 @@ public class TankHealth : MonoBehaviour
         SpawnManager manager = GameObject.Find("InfoCollector").GetComponent<SpawnManager>();
         manager.dead.Add(gameObject);
         manager.deathTime.Add(Time.time);
+
+        InfoCollector.Team.TankHolder holder = GetComponent<TankShooting>().tankHolder;
+        ++holder.deaths;
+        --holder.team.alivePlayers;
+
+        if (shellOwner != holder)
+        {
+            ++shellOwner.kills;
+            //Debug.Log(shellOwner.kills);
+            ++shellOwner.team.teamKills;
+        }
 
         FlagCapture flag = GetComponentInChildren<FlagCapture>();
         if (flag)

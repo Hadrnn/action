@@ -10,7 +10,7 @@ public class ShellExplosion : MonoBehaviour
     public float m_MaxLifeTime = 1f;                    // The time in seconds before the shell is removed.
     public float m_ExplosionRadius = 5f;                // The maximum distance away from the explosion tanks can be and are still affected.
 
-    public InfoCollector.Team.Tank owner { get; set; }
+    public InfoCollector.Team.TankHolder owner { get; set; }
 
     protected float startTime;
 
