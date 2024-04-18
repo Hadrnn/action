@@ -20,7 +20,7 @@ public class TankMovement : MonoBehaviour
     protected float m_HorizontalInputValue = 0;             // The current value of the turn input.
     protected float m_OriginalPitch;              // The pitch of the audio source at the start of the scene.
     protected BoxCollider m_Collider;
-    protected InfoCollector collector;
+    protected static InfoCollector collector;
 
 
     private void Awake()

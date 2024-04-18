@@ -373,8 +373,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7a382a4d5a8b0141b6600ae59f74dfd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Speed: 12
-  m_TurnSpeed: 300
+  m_Speed: 16
+  m_TurnSpeed: 240
   m_MovementAudio: {fileID: 2428661251615838560}
   m_EngineIdling: {fileID: 8300000, guid: 5573b5c3a7aced740b2d275ccd645e7d, type: 3}
   m_EngineDriving: {fileID: 8300000, guid: 2764b5e5b387a3440977ffceb658813a, type: 3}
@@ -404,8 +404,8 @@ MonoBehaviour:
   m_MinLifeTime: 1
   m_MaxLifeTime: 2
   m_MaxChargeTime: 0.75
-  onReload: 0
   cooldown: 1.5
+  onReload: 0
 --- !u!114 &840718881434148107
 MonoBehaviour:
   m_ObjectHideFlags: 0

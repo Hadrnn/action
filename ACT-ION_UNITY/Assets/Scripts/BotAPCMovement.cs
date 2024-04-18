@@ -23,7 +23,7 @@ public class BotAPCMovement : BotMovement
         Double Length = DeltaPosition.magnitude;
         if (!Gun.onReload || Length > 40)
         {
-            GameState Start = new GameState();
+            GameState Start = new GameState(0);
             
             Start.position = transform.position;
             Start.forward = transform.forward;
@@ -70,7 +70,7 @@ public class BotAPCMovement : BotMovement
 
             Vector3 TargetPosition = cover_position + mult;
 
-            GameState Start = new GameState();
+            GameState Start = new GameState(0);
             Start.position = transform.position;
             Start.forward = transform.forward;
             Start.forward_multiplyer = forvard_multiplyer;
@@ -134,14 +134,14 @@ public class BotAPCMovement : BotMovement
         }
         else
         {
-            turn = -(float)(System.Math.Sign(delta_angle) * 0.02f * m_TurnSpeed * 0.8);
+            turn = -(float)(System.Math.Sign(delta_angle) * Time.deltaTime * m_TurnSpeed);
         }
         Quaternion turnRotation = Quaternion.Euler(0f, turn, 0f);
         m_Rigidbody.MoveRotation(m_Rigidbody.rotation * turnRotation);
         Vector3 movement = new Vector3(0f, 0f, 0f);
         if ((m_VerticalInputValue != 0) || (m_HorizontalInputValue != 0))
         {
-            movement = transform.forward * m_Speed * 0.02f * 1.3f * forvard_multiplyer;
+            movement = transform.forward * m_Speed * Time.deltaTime * forvard_multiplyer;
         }
 
         //m_Rigidbody.MovePosition(m_Rigidbody.position + movement);

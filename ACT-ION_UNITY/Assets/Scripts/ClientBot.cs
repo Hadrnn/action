@@ -163,11 +163,11 @@ public class ClientBot : MonoBehaviour
         }
 
         Send_message();
-        if (collector.gameResult != "Playing")
+/*        if (collector.gameResult != "Playing")
         {
             Close_connection();
             Destroy(gameObject);
-        }
+        }*/
         Get_message();
         Debug.Log($"Get message  {d_answer}");
         // Вызов функции для изменения позиции: ChangePosition(d_answer)
