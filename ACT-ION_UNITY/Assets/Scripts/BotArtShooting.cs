@@ -59,7 +59,7 @@ public class BotArtShooting : BotShooting
         BotArtShellExplosion explosion = shellInstance.GetComponent<BotArtShellExplosion>();
 /*        Debug.Log(explosion.forward);*/
         explosion.forward = turret.transform.forward;
-        explosion.owner = tank;
+        explosion.owner = tankHolder;
 
         explosion.start_angle = start_angle;
         explosion.m_MaxLifeTime = m_CurrentLifeTime;

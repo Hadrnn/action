@@ -16,7 +16,7 @@ public class TankShooting : MonoBehaviour
     public float m_MaxChargeTime = 0.75f;       // How long the shell can charge for before it is fired at max force.
     public float cooldown = 1f;
 
-    public InfoCollector.Team.Tank tank { get; set; }
+    public InfoCollector.Team.TankHolder tankHolder { get; set; }
     protected float ShootTime = 0f;
     protected float m_CurrentLifeTime;         // The force that will be given to the shell when the fire button is released.
 

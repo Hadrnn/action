@@ -61,7 +61,7 @@ public class BotARTGunTurning : MonoBehaviour
             direct = false;
             V = shel_speed * 2;
             G = g * 8;
-            mult = 1.2f;
+            mult = 1f;
         }
 
         if ((TargetPos - prew_target_poses.Peek()).magnitude > 1.2)

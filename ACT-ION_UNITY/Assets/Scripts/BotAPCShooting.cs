@@ -62,11 +62,11 @@ public class BotAPCShooting : BotShooting
 
         ShellExplosion explosion = shellInstance.GetComponent<ShellExplosion>();
         explosion.m_MaxLifeTime = m_CurrentLifeTime;
-        explosion.owner = tank;
+        explosion.owner = tankHolder;
 
         m_CurrentLifeTime = m_MinLifeTime;
         ShootTime = Time.time;
 
-        Body.counter = BotMovement.discret;
+        Body.counter = Body.discret;
     }
 }

@@ -8,6 +8,7 @@ using Random = UnityEngine.Random;
 
 public class BotARTMovement : BotMovement
 {
+    public int target_radius;
     protected override void Decision()
     {
 
@@ -29,9 +30,9 @@ public class BotARTMovement : BotMovement
         {
             current_distanse_to_my_cover = (collector.mapObjects[i].transform.position - MyPosition).magnitude; 
             current_distanse_to_enemy_cover = (collector.mapObjects[i].transform.position - EnemyPosition).magnitude;
-            if (current_distanse_to_my_cover + current_distanse_to_enemy_cover < min_summ)
+            if (current_distanse_to_my_cover - current_distanse_to_enemy_cover < min_summ)
             {
-                min_summ = current_distanse_to_my_cover + current_distanse_to_enemy_cover;
+                min_summ = 0.5f*current_distanse_to_my_cover - (1 - 0.5f)*current_distanse_to_enemy_cover;
                 cover_index = i;
             }
         }
@@ -49,7 +50,7 @@ public class BotARTMovement : BotMovement
 
         Vector3 TargetPosition = cover_position + mult;
 
-        GameState Start = new GameState(0);
+        GameState Start = new GameState(0, discret, target_radius);
         Start.position = transform.position;
         Start.forward = transform.forward;
         Start.forward_multiplyer = forvard_multiplyer;
@@ -60,6 +61,15 @@ public class BotARTMovement : BotMovement
         Start.ourRigidbody = GetComponent<Rigidbody>();
         Start.hitbox = GetComponent<BoxCollider>();
         Vector3 decision = AStar(Start);
+        if (decision.x == 0 & decision.z == 0)
+        {
+            List<Vector2> numbers = new List<Vector2> { new Vector2(1, 0), new Vector2(-1, 0), new Vector2(0, 1), new Vector2(0, -1), new Vector2(1, 1), new Vector2(-1, -1), new Vector2(1, -1), new Vector2(-1, 1) };
+            System.Random rd = new System.Random();
+            int randomIndex = rd.Next(0, 8);
+            Vector2 randomNumber = numbers[randomIndex];
+            decision.x = randomNumber.x;
+            decision.z = randomNumber.y;
+        }
         m_HorizontalInputValue = decision.x;
         m_VerticalInputValue = decision.z;
 }

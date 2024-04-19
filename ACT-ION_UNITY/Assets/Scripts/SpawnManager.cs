@@ -7,16 +7,18 @@ public class SpawnManager : NetworkBehaviour
 {
     public List<GameObject> dead = new();
     public List<float> deathTime = new();
-
+    public float roundRestartDelay = 2f;
     public float RespawnTime = 2;
-    public bool endOfRound { get; set; }
 
+    public bool endOfRound { get; set; }
+    public float roundEndTime { get; set; }
     private InfoCollector collector;
     // Start is called before the first frame update
     void Start()
     {
         collector = GetComponent<InfoCollector>();
         endOfRound = false;
+        roundEndTime = -1;
     }
 
     // Update is called once per frame
@@ -27,18 +29,36 @@ public class SpawnManager : NetworkBehaviour
 
         if (GameSingleton.GetInstance().currentGameMode == GameSingleton.GameMode.TeamBattle)
         {
+            float currTime = Time.time;
             if (!endOfRound) return;
 
-            foreach( InfoCollector.Team team in collector.teams)
+            if (roundEndTime == -1)
             {
-                foreach(InfoCollector.Team.Tank tank in team.tanks)
-                {
-                    if (NetworkManager.Singleton) tank.tank.GetComponent<UnityNetworkTankHealth>().MoveOnRespawn(GetSpawnPos(team.teamSpawn, 30));
-                    else tank.tank.transform.position = GetSpawnPos(team.teamSpawn, 30);
-                    tank.tank.SetActive(true);
-                }
+                roundEndTime = currTime;
+                Debug.Log("Set round end time");
             }
 
+            if (currTime < roundRestartDelay + roundEndTime)
+            {
+                Debug.Log("On delay");
+                return;
+            }
+
+            Debug.Log("Round ended, respawning");
+            foreach( InfoCollector.Team team in collector.teams)
+            {
+                foreach(InfoCollector.Team.TankHolder tankHolder in team.tanks)
+                {
+                    if (NetworkManager.Singleton) tankHolder.tank.GetComponent<UnityNetworkTankHealth>().MoveOnRespawn(GetSpawnPos(team.teamSpawn, 30));
+                    else tankHolder.tank.transform.position = GetSpawnPos(team.teamSpawn, 30);
+
+                    tankHolder.tank.SetActive(false);
+                    tankHolder.tank.SetActive(true);
+                }
+                team.alivePlayers = team.tanks.Count;
+            }
+
+            roundEndTime = -1;
             endOfRound = false;
 
             return;

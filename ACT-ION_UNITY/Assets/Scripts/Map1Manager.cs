@@ -125,6 +125,7 @@ public class Map1Manager : NetworkBehaviour
                 switch (Mode)
                 {
                     case GameMode.TeamDeathMatch:
+                    case GameMode.TeamBattle:
                         Instantiate(BotTank1, SpawnManager.GetSpawnPos(Pos1, 40), Quaternion.Euler(new Vector3(0f, 0f, 0f)));
                         Instantiate(BotTank1, SpawnManager.GetSpawnPos(Pos1, 40), Quaternion.Euler(new Vector3(0f, 0f, 0f)));
                         Instantiate(BotTank1, SpawnManager.GetSpawnPos(Pos1, 40), Quaternion.Euler(new Vector3(0f, 0f, 0f)));
@@ -232,7 +233,7 @@ public class Map1Manager : NetworkBehaviour
             {
                 GetComponent<InfoCollector>().SetFriendEnemy();
                 GetComponent<InfoCollector>().SetBaseLights();
-
+                //Debug.Log("Set friend enemy");
                 DidSetFriendEnemy = true;
             }
             ++ticks;

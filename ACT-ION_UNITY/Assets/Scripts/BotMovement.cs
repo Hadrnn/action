@@ -6,11 +6,11 @@ using UnityEngine;
 public abstract class BotMovement : TankMovement
 {
 
-    public const int discret = 25;
+    public int discret = 25;
     public int counter = 0;
     
     public double AgressiveDistance;
-    protected const int Astar_deep = 20;
+    protected const int Astar_deep = 60;
 
     protected BotShooting Gun;
 
@@ -44,7 +44,6 @@ public abstract class BotMovement : TankMovement
 
                 if (current.IsFinish())
                 {
-                    Debug.Log(i);
                     break;
                 }
                 if (current.CanMoveUp())
@@ -121,7 +120,7 @@ public abstract class BotMovement : TankMovement
                 }
                 if (que.empty)
                 {
-                    Debug.LogWarning("Que is empty");
+/*                    Debug.LogWarning("Que is empty");*/
                     broken_out = true;
                     break;
                 }
@@ -136,6 +135,7 @@ public abstract class BotMovement : TankMovement
         }
         else
         {
+            que.Pop();
             if (start.CanMoveUp())
             {
                 GameState newState = start.MoveUp();
@@ -208,7 +208,14 @@ public abstract class BotMovement : TankMovement
                     que.Push(newState);
                 }
             }
-            current = que.last;
+            if (!que.empty)
+            {
+                current = que.last;
+            }
+            else
+            {
+                current = start;
+            }
         }
 
         if (broken_out)
@@ -285,14 +292,6 @@ public abstract class BotMovement : TankMovement
                     que.Push(newState);
                 }
             }
-            /*            try
-                        {
-                            current = que.last;
-                        }
-                        catch
-                        {
-                            current = start;
-                        }*/
             current = que.top;
         }
         Vector3 result = current.move;
@@ -409,9 +408,12 @@ public abstract class BotMovement : TankMovement
         public float distance_to_finish;
         public float distance_to_start;
         public int iterration_number;
-        public GameState(int iterration_number_in)
+        public int discret;
+        public GameState(int iterration_number_in, int discret_in, int target_radius_in)
         {
             iterration_number = iterration_number_in;
+            discret = discret_in;
+            target_radius = target_radius_in;
         }
 
         public List<Vector3> shells_positions_recalculate(List<Vector3> shells_positions, List<Vector3> shells_forwards, List<float> shells_speeds)
@@ -429,7 +431,7 @@ public abstract class BotMovement : TankMovement
             List<Vector3> shells_forwards = new List<Vector3>();
             List<float> shells_speeds = new List<float>();
             Vector3 axis = new Vector3(0, 1, 0);
-            if (iterration_number < 2)
+            if (iterration_number < Astar_deep)
             {
                 for (int i = 0; i < collector.shells.Count; i++)
                 {
@@ -446,7 +448,7 @@ public abstract class BotMovement : TankMovement
             }
 
 
-            GameState next = new GameState(iterration_number + 1);
+            GameState next = new GameState(iterration_number + 1, discret, target_radius);
             next.position = this.position;
             next.forward = this.forward;
             next.forward_multiplyer = this.forward_multiplyer;
@@ -511,7 +513,7 @@ public abstract class BotMovement : TankMovement
                 Quaternion newRotation = Quaternion.Euler(new_forward_angle);
                 Vector3 colliderSize = hitbox.size;
 
-                Collider[] collisionArray = Physics.OverlapBox(new_position, colliderSize / 2, newRotation, ~0, QueryTriggerInteraction.Ignore);
+                Collider[] collisionArray = Physics.OverlapBox(new_position, colliderSize / 1.5f, newRotation, ~0, QueryTriggerInteraction.Ignore);
 
                 if (collisionArray.Length == 1 && collisionArray[0].GetComponent<Rigidbody>() == ourRigidbody)
                 {
@@ -521,13 +523,13 @@ public abstract class BotMovement : TankMovement
                 {
                     return false;
                 }
-                if (iterration_number < 2)
+                if (iterration_number < Astar_deep)
                 {
                     shells_positions = shells_positions_recalculate(shells_positions, shells_forwards, shells_speeds);
 
                     for (int j = 0; j < shells_positions.Count; j++)
                     {
-                        if ((shells_positions[j] - new_position).magnitude < (colliderSize.x * 2))
+                        if ((shells_positions[j] - new_position).magnitude < (colliderSize.magnitude*1.15))
                         {
                             return false;
                         }
@@ -579,7 +581,7 @@ public abstract class BotMovement : TankMovement
 
         public GameState MakeMove(double control_angle, Vector3 control)
         {
-            GameState next = new GameState(iterration_number + 1);
+            GameState next = new GameState(iterration_number + 1, discret, target_radius);
             next.position = this.position;
             next.forward = this.forward;
             next.forward_multiplyer = this.forward_multiplyer;
@@ -729,8 +731,10 @@ public abstract class BotMovement : TankMovement
     {
         //sw = new StreamWriter("C:\\Users\\��������\\Desktop\\Log.txt");
         // Add tank object to InfoCollector
-        collector = GameObject.Find("InfoCollector").GetComponent<InfoCollector>();
-        GetComponent<TankShooting>().tank = collector.AddTank(gameObject);
+        if (!collector) collector = GameObject.Find("InfoCollector").GetComponent<InfoCollector>();
+        //else Debug.Log("Collector already set");
+            
+        GetComponent<TankShooting>().tankHolder = collector.AddTank(gameObject);
 
         OwnerTankID = collector.GetOwnerTankID();
 

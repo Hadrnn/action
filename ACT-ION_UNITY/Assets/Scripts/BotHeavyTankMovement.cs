@@ -1,10 +1,12 @@
 using UnityEngine;
 using Vector3 = UnityEngine.Vector3;
 using Quaternion = UnityEngine.Quaternion;
+using System.Collections.Generic;
 
 
 public class BotHeavyTankMovement : BotMovement
 {
+    public int target_radius;
     protected override void Decision()
     {
         Transform Enemy = FindClosestEnemy(teamNumber, transform, collector);
@@ -15,7 +17,7 @@ public class BotHeavyTankMovement : BotMovement
 
         Vector3 EnemyPosition = Enemy.position;
 
-        GameState Start = new GameState(0);
+        GameState Start = new GameState(0, discret, target_radius);
             
         Start.position = transform.position;
         Start.forward = transform.forward;
@@ -27,11 +29,17 @@ public class BotHeavyTankMovement : BotMovement
         Start.ourRigidbody = GetComponent<Rigidbody>();
         Start.hitbox = GetComponent<BoxCollider>();
         Vector3 decision = AStar(Start);
-        if (!(decision.x == 0 && decision.z == 0))
+        if (decision.x == 0 & decision.z == 0)
         {
-            m_HorizontalInputValue = decision.x;
-            m_VerticalInputValue = decision.z;
+            List<Vector2> numbers = new List<Vector2> { new Vector2(1, 0), new Vector2(-1, 0), new Vector2(0, 1), new Vector2(0, -1), new Vector2(1, 1), new Vector2(-1, -1), new Vector2(1, -1), new Vector2(-1, 1) };
+            System.Random rd = new System.Random();
+            int randomIndex = rd.Next(0, 8);
+            Vector2 randomNumber = numbers[randomIndex];
+            decision.x = randomNumber.x;
+            decision.z = randomNumber.y;
         }
+        m_HorizontalInputValue = decision.x;
+        m_VerticalInputValue = decision.z;
     }
     protected override void Move()
     {

@@ -1,11 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BotAPCTurretTurning : MonoBehaviour
+public class BotAPCTurretTurning : MonoBehaviour 
 {
     protected BotAPCShooting Gun;
-    protected int delay = 150;
-    protected int delay_counter = 0;
+    public float delay = 1;
+    protected float delay_counter = 0;
     protected InfoCollector collector;
     protected Transform FireTransform;
     protected Transform BotTransform;
@@ -98,23 +98,30 @@ public class BotAPCTurretTurning : MonoBehaviour
         transform.LookAt(TargetPos, Vector3.up);
         transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
         Vector3 GunPos = FireTransform.position;
-        Vector3 direction = (TargetPos - BotPos).normalized;
-        float distance = Vector3.Distance(BotPos, TargetPos);
+        float distance = Vector3.Distance(GunPos, TargetPos);
         Collider PlayerCollider = Target.GetComponent<Collider>();
-        RaycastHit hit;
-        Physics.Raycast(GunPos, direction, out hit, distance);
+        Vector3 shooting_square = new Vector3(3, 0.1f, distance);
+        Collider[] collisionArray = Physics.OverlapBox(GunPos + (TargetPos - GunPos) / 2, shooting_square / 2, FireTransform.rotation, ~0, QueryTriggerInteraction.Ignore);
 
-        if (hit.collider == null | hit.collider == PlayerCollider)
+        if (collisionArray.Length == 0)
         {
-            if (delay_counter < delay & Gun.current_magazine_size == Gun.max_magazine_size)
+            Gun.Fire();
+            if (Gun.current_magazine_size == 0)
             {
-                delay_counter += 1;
+                delay_counter = Time.time;
             }
-            else
+        }
+        else if (collisionArray.Length == 1 & collisionArray[0] == PlayerCollider)
+        {
+            Gun.Fire();
+            if (Gun.current_magazine_size == 0)
             {
-                Gun.Fire();
-                delay_counter = 0;
+                delay_counter = Time.time;
             }
+        }
+        else
+        {
+            Debug.Log("Стена");
         }
     }
 }
