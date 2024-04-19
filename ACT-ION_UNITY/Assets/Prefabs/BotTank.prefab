@@ -77,6 +77,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74ad18fae66e6064387c79d91db2d4ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  delay: 1.5
   prew_t: 0
   prew_m: 0
   prew_alpha: 0
@@ -381,8 +382,10 @@ MonoBehaviour:
   m_PitchRange: 0.2
   m_FriendEnemy: {fileID: 5100160365226678908}
   forvard_multiplyer: 1
+  discret: 25
   counter: 0
   AgressiveDistance: 0
+  target_radius: 15
 --- !u!114 &8093939207552187271
 MonoBehaviour:
   m_ObjectHideFlags: 0

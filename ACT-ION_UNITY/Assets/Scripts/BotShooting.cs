@@ -60,6 +60,6 @@ public class BotShooting : TankShooting
         m_CurrentLifeTime = m_MinLifeTime;
         ShootTime = Time.time;
 
-        Body.counter = BotMovement.discret;
+        Body.counter = Body.discret;
     }
 }
