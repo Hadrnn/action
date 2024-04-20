@@ -679,8 +679,11 @@ MonoBehaviour:
   m_PitchRange: 0.2
   m_FriendEnemy: {fileID: 1415256056465996289}
   forvard_multiplyer: 1
+  discret: 25
   counter: 0
   AgressiveDistance: 0
+  target_radius: 20
+  Astar_deep: 60
 --- !u!114 &2204018395025748782
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -702,12 +705,12 @@ MonoBehaviour:
   m_MinLifeTime: 1
   m_MaxLifeTime: 2
   m_MaxChargeTime: 0.75
-  turret: {fileID: 7984706525575818260}
   cooldown: 1
+  onReload: 0
+  turret: {fileID: 7984706525575818260}
   start_angle: 0
   g: 0
   shell_speed: 0
-  onReload: 0
 --- !u!1 &6754103984632887767
 GameObject:
   m_ObjectHideFlags: 0

@@ -10,7 +10,6 @@ public abstract class BotMovement : TankMovement
     public int counter = 0;
     
     public double AgressiveDistance;
-    protected const int Astar_deep = 60;
 
     protected BotShooting Gun;
 
@@ -19,7 +18,7 @@ public abstract class BotMovement : TankMovement
         string result = $"{(int)(current.position.x * 10)} {(int)(current.position.y * 10)} {(int)(current.position.z * 10)} {(int)(current.forward.x * 10)} {(int)(current.forward.y * 10)} {(int)(current.forward.z * 10)}";
         return result;
     }
-    protected static Vector3 AStar(GameState start)
+    protected static Vector3 AStar(GameState start, int Astar_deep)
     {
         bool broken_out = false;
         PriorityQueue<GameState> que = new PriorityQueue<GameState>();
@@ -44,6 +43,7 @@ public abstract class BotMovement : TankMovement
 
                 if (current.IsFinish())
                 {
+                    Debug.Log(i);
                     break;
                 }
                 if (current.CanMoveUp())
@@ -135,89 +135,91 @@ public abstract class BotMovement : TankMovement
         }
         else
         {
-            que.Pop();
-            if (start.CanMoveUp())
-            {
-                GameState newState = start.MoveUp();
-                if (!visited.ContainsKey(GameStateToString(newState)))
-                {
-                    visited[GameStateToString(newState)] = newState;
-                    que.Push(newState);
-                }
-            }
-            if (start.CanMoveDown())
-            {
-                GameState newState = start.MoveDown();
-                if (!visited.ContainsKey(GameStateToString(newState)))
-                {
-                    visited[GameStateToString(newState)] = newState;
-                    que.Push(newState);
-                }
-            }
-            if (start.CanMoveRight())
-            {
-                GameState newState = start.MoveRight();
-                if (!visited.ContainsKey(GameStateToString(newState)))
-                {
-                    visited[GameStateToString(newState)] = newState;
-                    que.Push(newState);
-                }
-            }
-            if (start.CanMoveLeft())
-            {
-                GameState newState = start.MoveLeft();
-                if (!visited.ContainsKey(GameStateToString(newState)))
-                {
-                    visited[GameStateToString(newState)] = newState;
-                    que.Push(newState);
-                }
-            }
-            if (current.CanMoveRightUp())
-            {
-                GameState newState = start.MoveRightUp();
-                if (!visited.ContainsKey(GameStateToString(newState)))
-                {
-                    visited[GameStateToString(newState)] = newState;
-                    que.Push(newState);
-                }
-            }
-            if (start.CanMoveLeftUp())
-            {
-                GameState newState = start.MoveLeftUp();
-                if (!visited.ContainsKey(GameStateToString(newState)))
-                {
-                    visited[GameStateToString(newState)] = newState;
-                    que.Push(newState);
-                }
-            }
-            if (start.CanMoveRightDown())
-            {
-                GameState newState = start.MoveRightDown();
-                if (!visited.ContainsKey(GameStateToString(newState)))
-                {
-                    visited[GameStateToString(newState)] = newState;
-                    que.Push(newState);
-                }
-            }
-            if (start.CanMoveLeftDown())
-            {
-                GameState newState = start.MoveLeftDown();
-                if (!visited.ContainsKey(GameStateToString(newState)))
-                {
-                    visited[GameStateToString(newState)] = newState;
-                    que.Push(newState);
-                }
-            }
-            if (!que.empty)
-            {
-                current = que.last;
-            }
-            else
-            {
-                current = start;
-            }
+            /*            que.Pop();
+                        if (start.CanMoveUp())
+                        {
+                            GameState newState = start.MoveUp();
+                            if (!visited.ContainsKey(GameStateToString(newState)))
+                            {
+                                visited[GameStateToString(newState)] = newState;
+                                que.Push(newState);
+                            }
+                        }
+                        if (start.CanMoveDown())
+                        {
+                            GameState newState = start.MoveDown();
+                            if (!visited.ContainsKey(GameStateToString(newState)))
+                            {
+                                visited[GameStateToString(newState)] = newState;
+                                que.Push(newState);
+                            }
+                        }
+                        if (start.CanMoveRight())
+                        {
+                            GameState newState = start.MoveRight();
+                            if (!visited.ContainsKey(GameStateToString(newState)))
+                            {
+                                visited[GameStateToString(newState)] = newState;
+                                que.Push(newState);
+                            }
+                        }
+                        if (start.CanMoveLeft())
+                        {
+                            GameState newState = start.MoveLeft();
+                            if (!visited.ContainsKey(GameStateToString(newState)))
+                            {
+                                visited[GameStateToString(newState)] = newState;
+                                que.Push(newState);
+                            }
+                        }
+                        if (current.CanMoveRightUp())
+                        {
+                            GameState newState = start.MoveRightUp();
+                            if (!visited.ContainsKey(GameStateToString(newState)))
+                            {
+                                visited[GameStateToString(newState)] = newState;
+                                que.Push(newState);
+                            }
+                        }
+                        if (start.CanMoveLeftUp())
+                        {
+                            GameState newState = start.MoveLeftUp();
+                            if (!visited.ContainsKey(GameStateToString(newState)))
+                            {
+                                visited[GameStateToString(newState)] = newState;
+                                que.Push(newState);
+                            }
+                        }
+                        if (start.CanMoveRightDown())
+                        {
+                            GameState newState = start.MoveRightDown();
+                            if (!visited.ContainsKey(GameStateToString(newState)))
+                            {
+                                visited[GameStateToString(newState)] = newState;
+                                que.Push(newState);
+                            }
+                        }
+                        if (start.CanMoveLeftDown())
+                        {
+                            GameState newState = start.MoveLeftDown();
+                            if (!visited.ContainsKey(GameStateToString(newState)))
+                            {
+                                visited[GameStateToString(newState)] = newState;
+                                que.Push(newState);
+                            }
+                        }
+                        if (!que.empty)
+                        {
+                            current = que.last;
+                        }
+                        else
+                        {
+                            current = start;
+                        }*/
+            current = start;
         }
-
+        que = new PriorityQueue<GameState>();
+        que.Push(start);
         if (broken_out)
         {
             if (start.CanMoveUp())
@@ -401,7 +403,7 @@ public abstract class BotMovement : TankMovement
 
         public float m_TurnSpeed = 300f;
         public float m_Speed = 12;
-        public int target_radius = 20;
+        public int target_radius;
         public Vector3 TargetPosition = Vector3.zero;
         public GameState prew_state = null;
         public Vector3 move = Vector3.zero;
@@ -431,21 +433,19 @@ public abstract class BotMovement : TankMovement
             List<Vector3> shells_forwards = new List<Vector3>();
             List<float> shells_speeds = new List<float>();
             Vector3 axis = new Vector3(0, 1, 0);
-            if (iterration_number < Astar_deep)
+            for (int i = 0; i < collector.shells.Count; i++)
             {
-                for (int i = 0; i < collector.shells.Count; i++)
+                if (Mathf.Abs(Vector3.SignedAngle((this.position -
+                    (collector.shells[i].transform.position +
+                    collector.shells[i].transform.forward * iterration_number * discret * Time.deltaTime * collector.shells[i].transform.GetComponent<Rigidbody>().velocity.magnitude)),
+                    collector.shells[i].transform.forward, axis)) < 90)
                 {
-                    if (Mathf.Abs(Vector3.SignedAngle((this.position -
-                        (collector.shells[i].transform.position +
-                        collector.shells[i].transform.forward * iterration_number * discret * Time.deltaTime * collector.shells[i].transform.GetComponent<Rigidbody>().velocity.magnitude)),
-                        collector.shells[i].transform.forward, axis)) < 90)
-                    {
-                        shells_positions.Add(collector.shells[i].transform.position);
-                        shells_forwards.Add(collector.shells[i].transform.forward);
-                        shells_speeds.Add(collector.shells[i].transform.GetComponent<Rigidbody>().velocity.magnitude);
-                    }
+                    shells_positions.Add(collector.shells[i].transform.position);
+                    shells_forwards.Add(collector.shells[i].transform.forward);
+                    shells_speeds.Add(collector.shells[i].transform.GetComponent<Rigidbody>().velocity.magnitude);
                 }
             }
+            
 
 
             GameState next = new GameState(iterration_number + 1, discret, target_radius);
@@ -513,7 +513,7 @@ public abstract class BotMovement : TankMovement
                 Quaternion newRotation = Quaternion.Euler(new_forward_angle);
                 Vector3 colliderSize = hitbox.size;
 
-                Collider[] collisionArray = Physics.OverlapBox(new_position, colliderSize / 1.5f, newRotation, ~0, QueryTriggerInteraction.Ignore);
+                Collider[] collisionArray = Physics.OverlapBox(new_position, colliderSize / 2, newRotation, ~0, QueryTriggerInteraction.Ignore);
 
                 if (collisionArray.Length == 1 && collisionArray[0].GetComponent<Rigidbody>() == ourRigidbody)
                 {
@@ -523,18 +523,17 @@ public abstract class BotMovement : TankMovement
                 {
                     return false;
                 }
-                if (iterration_number < Astar_deep)
-                {
-                    shells_positions = shells_positions_recalculate(shells_positions, shells_forwards, shells_speeds);
 
-                    for (int j = 0; j < shells_positions.Count; j++)
+                shells_positions = shells_positions_recalculate(shells_positions, shells_forwards, shells_speeds);
+
+                for (int j = 0; j < shells_positions.Count; j++)
+                {
+                    if ((shells_positions[j] - new_position).magnitude < (colliderSize.magnitude*1.15))
                     {
-                        if ((shells_positions[j] - new_position).magnitude < (colliderSize.magnitude*1.15))
-                        {
-                            return false;
-                        }
+                        return false;
                     }
                 }
+                
             }
             return true;
         }
@@ -635,6 +634,10 @@ public abstract class BotMovement : TankMovement
                 next.forward = rotationQuaternion * next.forward;
                 Vector3 movement = next.forward * next.m_Speed * Time.deltaTime * next.forward_multiplyer;
                 next.position = next.position + movement;
+                if (next.IsFinish())
+                {
+                    break;
+                }
             }
             next.prew_state = this;
             next.move = control;

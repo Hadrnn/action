@@ -385,7 +385,8 @@ MonoBehaviour:
   discret: 25
   counter: 0
   AgressiveDistance: 0
-  target_radius: 15
+  target_radius: 20
+  Astar_deep: 60
 --- !u!114 &8093939207552187271
 MonoBehaviour:
   m_ObjectHideFlags: 0

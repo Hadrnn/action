@@ -66,7 +66,7 @@ public class PlayerARTGunTurning : MonoBehaviour
             Gun.shell_speed = shel_speed*2;
             transform.Rotate(angles - prew_angles);
             prew_angles = angles;
-            Debug.Log(max_dist);
+/*            Debug.Log(max_dist);*/
         }
     }
 }

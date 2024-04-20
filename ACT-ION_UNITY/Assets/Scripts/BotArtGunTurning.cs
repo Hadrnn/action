@@ -23,13 +23,13 @@ public class BotARTGunTurning : MonoBehaviour
         Gun = gameObject.GetComponentInParent<BotArtShooting>();
         collector = GameObject.Find("InfoCollector").GetComponent<InfoCollector>();
         Vector3 prew_target_pos = TankMovement.FindClosestEnemy(BotTransform.GetComponent<TankMovement>().teamNumber, BotTransform, collector).position;
-        for (int i = 0; i < 40; i++)
+        for (int i = 0; i < 10; i++)
         {
             prew_target_poses.Enqueue(prew_target_pos);
         }
     }
 
-    void Update()
+    void FixedUpdate()
     {
         Vector3 angles = new Vector3(0, 0, 0);
         Transform Target = TankMovement.FindClosestEnemy(BotTransform.GetComponent<TankMovement>().teamNumber, BotTransform, collector);
@@ -64,7 +64,7 @@ public class BotARTGunTurning : MonoBehaviour
             mult = 1f;
         }
 
-        if ((TargetPos - prew_target_poses.Peek()).magnitude > 1.2)
+        if ((TargetPos - prew_target_poses.Peek()).magnitude > 2)
         {
             Vector3 Target_forward = Target.forward;
             int Target_forward_mult = Target.GetComponent<TankMovement>().forvard_multiplyer;

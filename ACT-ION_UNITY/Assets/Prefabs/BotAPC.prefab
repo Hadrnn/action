@@ -311,17 +311,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2966b3ba38613f34d924f51f4e30fd51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Speed: 20
-  m_TurnSpeed: 200
+  m_Speed: 19
+  m_TurnSpeed: 180
   m_MovementAudio: {fileID: 3542796956565980498}
   m_EngineIdling: {fileID: 8300000, guid: 5573b5c3a7aced740b2d275ccd645e7d, type: 3}
   m_EngineDriving: {fileID: 8300000, guid: 2764b5e5b387a3440977ffceb658813a, type: 3}
   m_PitchRange: 0.2
   m_FriendEnemy: {fileID: 8533903427881200584}
   forvard_multiplyer: 1
-  discret: 18
+  discret: 25
   counter: 0
   AgressiveDistance: 0
+  target_radius: 25
+  Astar_deep: 60
 --- !u!114 &511380366209419145
 MonoBehaviour:
   m_ObjectHideFlags: 0
