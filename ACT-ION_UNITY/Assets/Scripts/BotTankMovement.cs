@@ -9,6 +9,7 @@ using System.Collections.Generic;
 public class BotTankMovement : BotMovement
 {
     public int target_radius;
+    public int Astar_deep;
     protected override void Decision()
     {
         Transform Enemy = FindClosestEnemy(teamNumber, transform, collector);
@@ -20,7 +21,7 @@ public class BotTankMovement : BotMovement
         Vector3 MyPosition = transform.position;
         Vector3 DeltaPosition = MyPosition - EnemyPosition;
         float Length = DeltaPosition.magnitude;
-        if (!Gun.onReload || Length > 40)
+        if (!Gun.onReload)
         {
             GameState Start = new GameState(0, discret, target_radius);
             
@@ -33,7 +34,7 @@ public class BotTankMovement : BotMovement
             Start.distance_to_start = 0;
             Start.ourRigidbody = GetComponent<Rigidbody>();
             Start.hitbox = GetComponent<BoxCollider>();
-            Vector3 decision = AStar(Start);
+            Vector3 decision = AStar(Start, Astar_deep);
             if (decision.x == 0 & decision.z == 0)
             {
                 List<Vector2> numbers = new List<Vector2> { new Vector2(1, 0), new Vector2(-1, 0), new Vector2(0, 1), new Vector2(0, -1), new Vector2(1, 1), new Vector2(-1, -1), new Vector2(1, -1), new Vector2(-1, 1) };
@@ -48,18 +49,25 @@ public class BotTankMovement : BotMovement
         }
         else
         {
-            float current_distanse_to_my_cover = (collector.mapObjects[0].transform.position - MyPosition).magnitude;
-            float min_summ = current_distanse_to_my_cover;
-            int cover_index = 0;
+            float current_distanse_to_my_cover;
+            float distanse_from_enemy_to_cover;
+            float min_summ = 10000;
+            int cover_index = -1;
 
-            for (int i = 1; i < collector.mapObjects.Count; i++)
+            for (int i = 0; i < collector.mapObjects.Count; i++)
             {
+
                 current_distanse_to_my_cover = (collector.mapObjects[i].transform.position - MyPosition).magnitude;
-                if (current_distanse_to_my_cover < min_summ)
+                distanse_from_enemy_to_cover = (collector.mapObjects[i].transform.position - EnemyPosition).magnitude;
+                if (current_distanse_to_my_cover < min_summ & distanse_from_enemy_to_cover < 45)
                 {
                     min_summ = current_distanse_to_my_cover;
                     cover_index = i;
                 }
+            }
+            if (cover_index < 0)
+            {
+                return;
             }
             Vector3 cover_position = collector.mapObjects[cover_index].transform.position;
 
@@ -85,7 +93,7 @@ public class BotTankMovement : BotMovement
             Start.distance_to_start = 0;
             Start.ourRigidbody = GetComponent<Rigidbody>();
             Start.hitbox = GetComponent<BoxCollider>();
-            Vector3 decision = AStar(Start);
+            Vector3 decision = AStar(Start, Astar_deep);
             if (decision.x == 0 & decision.z == 0)
             {
                 List<Vector2> numbers = new List<Vector2> { new Vector2(1, 0), new Vector2(-1, 0), new Vector2(0, 1), new Vector2(0, -1), new Vector2(1, 1), new Vector2(-1, -1), new Vector2(1, -1), new Vector2(-1, 1) };

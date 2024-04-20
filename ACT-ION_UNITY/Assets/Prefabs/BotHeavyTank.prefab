@@ -459,6 +459,7 @@ MonoBehaviour:
   counter: 0
   AgressiveDistance: 0
   target_radius: 20
+  Astar_deep: 60
 --- !u!1 &7858720210010952355
 GameObject:
   m_ObjectHideFlags: 0

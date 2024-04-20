@@ -9,16 +9,26 @@ public class SpawnManager : NetworkBehaviour
     public List<float> deathTime = new();
     public float roundRestartDelay = 2f;
     public float RespawnTime = 2;
-
+    static public int defaultSpawnRadius = 30;
     public bool endOfRound { get; set; }
     public float roundEndTime { get; set; }
+
+
     private InfoCollector collector;
+    private static List<Vector3> pos = new(); 
+
     // Start is called before the first frame update
     void Start()
     {
         collector = GetComponent<InfoCollector>();
         endOfRound = false;
         roundEndTime = -1;
+
+        pos.Add(new Vector3(0, 0, 34));
+        pos.Add(new Vector3(-50, 0, 0));
+        pos.Add(new Vector3(37, 0, 10));
+        pos.Add(new Vector3(0, 0, -55));
+
     }
 
     // Update is called once per frame
@@ -49,8 +59,8 @@ public class SpawnManager : NetworkBehaviour
             {
                 foreach(InfoCollector.Team.TankHolder tankHolder in team.tanks)
                 {
-                    if (NetworkManager.Singleton) tankHolder.tank.GetComponent<UnityNetworkTankHealth>().MoveOnRespawn(GetSpawnPos(team.teamSpawn, 30));
-                    else tankHolder.tank.transform.position = GetSpawnPos(team.teamSpawn, 30);
+                    if (NetworkManager.Singleton) tankHolder.tank.GetComponent<UnityNetworkTankHealth>().MoveOnRespawn(GetSpawnPos(team.teamSpawn, defaultSpawnRadius));
+                    else tankHolder.tank.transform.position = GetSpawnPos(team.teamSpawn, defaultSpawnRadius);
 
                     tankHolder.tank.SetActive(false);
                     tankHolder.tank.SetActive(true);
@@ -84,7 +94,7 @@ public class SpawnManager : NetworkBehaviour
                     //dead[i].transform.position = GetSpawnPos(spawnAreaPos, 30);
                     //RespawnClientRpc(dead[i], spawnPos);
                     //dead[i].transform.position = GetSpawnPos(spawnAreaPos, 30);
-                    dead[i].GetComponent<UnityNetworkTankHealth>().MoveOnRespawn(GetSpawnPos(spawnAreaPos, 30));
+                    dead[i].GetComponent<UnityNetworkTankHealth>().MoveOnRespawn(GetSpawnPos(spawnAreaPos, defaultSpawnRadius));
                     dead[i].SetActive(true);
 
                     //dead[i].transform.position = GetSpawnPos(spawnAreaPos, 30);
@@ -101,7 +111,7 @@ public class SpawnManager : NetworkBehaviour
 
                 if (Time.time > deathTime[i] + RespawnTime)
                 {
-                    dead[i].transform.position = GetSpawnPos(spawnAreaPos, 30);
+                    dead[i].transform.position = GetSpawnPos(spawnAreaPos, defaultSpawnRadius);
                     dead[i].SetActive(true);
                     dead.RemoveAt(i);
                     deathTime.RemoveAt(i);
@@ -116,13 +126,19 @@ public class SpawnManager : NetworkBehaviour
         Vector3 spawnPos;
         Collider[] collisionArray;
 
+
         do
         {
-            spawnPos = new Vector3(spawnOrigin.x + UnityEngine.Random.Range(-spawnRadius, spawnRadius), 0,
-                                   spawnOrigin.z + UnityEngine.Random.Range(-spawnRadius, spawnRadius));
+            spawnPos = pos[UnityEngine.Random.Range(0, 3)];
             collisionArray = Physics.OverlapBox(spawnPos, Vector3.one * spawnClearArea, Quaternion.Euler(Vector3.zero), ~0, QueryTriggerInteraction.Ignore);
-            //Debug.Log("Trying to get a spawnpoint");
         }
+        //do
+        //{
+        //    spawnPos = new Vector3(spawnOrigin.x + UnityEngine.Random.Range(-spawnRadius, spawnRadius), 0,
+        //                           spawnOrigin.z + UnityEngine.Random.Range(-spawnRadius, spawnRadius));
+        //    collisionArray = Physics.OverlapBox(spawnPos, Vector3.one * spawnClearArea, Quaternion.Euler(Vector3.zero), ~0, QueryTriggerInteraction.Ignore);
+        //    //Debug.Log("Trying to get a spawnpoint");
+        //}
         while (collisionArray.Length != 0);
 
         return spawnPos;

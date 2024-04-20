@@ -9,6 +9,7 @@ using Random = UnityEngine.Random;
 public class BotARTMovement : BotMovement
 {
     public int target_radius;
+    public int Astar_deep;
     protected override void Decision()
     {
 
@@ -21,20 +22,24 @@ public class BotARTMovement : BotMovement
         }
 
         Vector3 EnemyPosition = Enemy.position;
-        float current_distanse_to_my_cover = (collector.mapObjects[0].transform.position - MyPosition).magnitude;
-        float current_distanse_to_enemy_cover = (collector.mapObjects[0].transform.position - EnemyPosition).magnitude;
-        float min_summ = current_distanse_to_my_cover + current_distanse_to_enemy_cover;
-        int cover_index = 0;
+        float current_distanse_to_my_cover;
+        float current_distanse_to_enemy_cover;
+        float min_summ = 10000;
+        int cover_index = -1;
 
-        for (int i = 1; i < collector.mapObjects.Count; i++)
+        for (int i = 0; i < collector.mapObjects.Count; i++)
         {
             current_distanse_to_my_cover = (collector.mapObjects[i].transform.position - MyPosition).magnitude; 
             current_distanse_to_enemy_cover = (collector.mapObjects[i].transform.position - EnemyPosition).magnitude;
-            if (current_distanse_to_my_cover - current_distanse_to_enemy_cover < min_summ)
+            if (current_distanse_to_my_cover - current_distanse_to_enemy_cover < min_summ & current_distanse_to_enemy_cover < 60)
             {
                 min_summ = 0.5f*current_distanse_to_my_cover - (1 - 0.5f)*current_distanse_to_enemy_cover;
                 cover_index = i;
             }
+        }
+        if (cover_index < 0)
+        {
+            return;
         }
         Vector3 cover_position = collector.mapObjects[cover_index].transform.position;
 
@@ -60,7 +65,7 @@ public class BotARTMovement : BotMovement
         Start.distance_to_start = 0;
         Start.ourRigidbody = GetComponent<Rigidbody>();
         Start.hitbox = GetComponent<BoxCollider>();
-        Vector3 decision = AStar(Start);
+        Vector3 decision = AStar(Start, Astar_deep);
         if (decision.x == 0 & decision.z == 0)
         {
             List<Vector2> numbers = new List<Vector2> { new Vector2(1, 0), new Vector2(-1, 0), new Vector2(0, 1), new Vector2(0, -1), new Vector2(1, 1), new Vector2(-1, -1), new Vector2(1, -1), new Vector2(-1, 1) };

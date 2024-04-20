@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
 
 public class BotTurretTurning : MonoBehaviour
 {
@@ -98,24 +97,22 @@ public class BotTurretTurning : MonoBehaviour
 
         transform.LookAt(TargetPos, Vector3.up);
         transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
-        Vector3 GunPos = FireTransform.position;
-        float distance = Vector3.Distance(GunPos, TargetPos);
-        Collider PlayerCollider = Target.GetComponent<Collider>();
-        Vector3 shooting_square = new Vector3(3, 0.1f, distance);
-
-
-        Collider[] collisionArray = Physics.OverlapBox(GunPos + (TargetPos - GunPos) /2, shooting_square / 2, FireTransform.rotation, ~0, QueryTriggerInteraction.Ignore);
-        
-        if (collisionArray.Length == 0)
+        if ((BotPos - TargetPos).magnitude < 40)
         {
-            Gun.Fire();
-        }
-        else if(collisionArray.Length == 1 & collisionArray[0] == PlayerCollider) 
-        {
-            Gun.Fire();
-        }
-        else {
-            Debug.Log("Стена");
+            Vector3 GunPos = FireTransform.position;
+            float distance = Vector3.Distance(GunPos, TargetPos);
+            Collider PlayerCollider = Target.GetComponent<Collider>();
+            Vector3 shooting_square = new Vector3(3, 0.1f, distance);
+            Collider[] collisionArray = Physics.OverlapBox(GunPos + (TargetPos - GunPos) / 2, shooting_square / 2, FireTransform.rotation, ~0, QueryTriggerInteraction.Ignore);
+            if (collisionArray.Length == 0)
+            {
+                Gun.Fire();
+            }
+            else if (collisionArray.Length == 1 & collisionArray[0] == PlayerCollider)
+            {
+                Gun.Fire();
+            }
+
         }
     }
 }

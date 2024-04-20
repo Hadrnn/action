@@ -98,7 +98,14 @@ public class BotArtShellExplosion : ShellExplosion
         movement.z = velocity * Time.deltaTime * forward.z;
         movement.y = up_speed * Time.deltaTime;
         m_Rigidbody.MovePosition(m_Rigidbody.position + movement);
-        /*       Debug.Log(forward);*/
+        Vector3 speed_forward = movement.normalized;
+        Vector3 speed_forward_another_axis = new Vector3(speed_forward.y, 0, Mathf.Sqrt(speed_forward.x * speed_forward.x + speed_forward.z * speed_forward.z));
+        Vector3 forward_another_axis = new Vector3(transform.forward.y, 0, Mathf.Sqrt(transform.forward.x * transform.forward.x + transform.forward.z * transform.forward.z));
+        Vector3 Axis = new Vector3(0, 1, 0);
+        float turn = -Vector3.SignedAngle(forward_another_axis, speed_forward_another_axis, Axis);
+        Debug.Log(turn);
+        Quaternion turnRotation = Quaternion.Euler(0f, turn, 0f);
+        m_Rigidbody.MoveRotation(m_Rigidbody.rotation * turnRotation);
     }
 
     private float CalculateDamage(Vector3 targetPosition)

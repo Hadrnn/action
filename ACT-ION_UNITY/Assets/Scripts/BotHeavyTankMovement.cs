@@ -7,6 +7,7 @@ using System.Collections.Generic;
 public class BotHeavyTankMovement : BotMovement
 {
     public int target_radius;
+    public int Astar_deep;
     protected override void Decision()
     {
         Transform Enemy = FindClosestEnemy(teamNumber, transform, collector);
@@ -28,7 +29,7 @@ public class BotHeavyTankMovement : BotMovement
         Start.distance_to_start = 0;
         Start.ourRigidbody = GetComponent<Rigidbody>();
         Start.hitbox = GetComponent<BoxCollider>();
-        Vector3 decision = AStar(Start);
+        Vector3 decision = AStar(Start, Astar_deep);
         if (decision.x == 0 & decision.z == 0)
         {
             List<Vector2> numbers = new List<Vector2> { new Vector2(1, 0), new Vector2(-1, 0), new Vector2(0, 1), new Vector2(0, -1), new Vector2(1, 1), new Vector2(-1, -1), new Vector2(1, -1), new Vector2(-1, 1) };

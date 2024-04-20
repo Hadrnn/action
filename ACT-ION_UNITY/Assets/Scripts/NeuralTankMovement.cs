@@ -14,7 +14,6 @@ public class NeuralTankMovement : TankMovement
 
     private void OnEnable()
     {
-        InfoCollector collector = GameObject.Find("InfoCollector").GetComponent<InfoCollector>();
         collector.gameResult = "Playing";
         // When the tank is turned on, make sure it's not kinematic.
         m_Rigidbody.isKinematic = false;
@@ -34,12 +33,16 @@ public class NeuralTankMovement : TankMovement
 
     private void Start()
     {
-        // Add tank object to InfoCollector
-        InfoCollector collector = GameObject.Find("InfoCollector").GetComponent<InfoCollector>();
-        collector.AddTank(gameObject);
 
-        // Store the original pitch of the audio source.
+        if (!collector) collector = GameObject.Find("InfoCollector").GetComponent<InfoCollector>();
+        //else Debug.Log("Collector already set");
+
+        GetComponent<TankShooting>().tankHolder = collector.AddTank(gameObject);
+
+        OwnerTankID = collector.GetOwnerTankID();
+
         m_OriginalPitch = m_MovementAudio.pitch;
+
 
         GameObject cameraRig = GameObject.Find("CameraRig");
         CameraFollower follower = cameraRig.GetComponent<CameraFollower>();
@@ -61,7 +64,6 @@ public class NeuralTankMovement : TankMovement
 
     private void Decision()
     {
-        InfoCollector collector = GameObject.Find("InfoCollector").GetComponent<InfoCollector>();
         string command = collector.botMovement;
         string[] parts = command.Split(' ');
         m_HorizontalInputValue = float.Parse(parts[0]);
