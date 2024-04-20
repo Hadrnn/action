@@ -1,6 +1,4 @@
 using UnityEngine;
-using UnityEngine.UI;
-using Unity.Netcode;
 using Unity.VisualScripting;
 
 public class BotArtShooting : BotShooting

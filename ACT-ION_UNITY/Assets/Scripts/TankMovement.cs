@@ -62,6 +62,7 @@ public class TankMovement : MonoBehaviour
 
     public static Transform FindClosestEnemy(int teamNumber_, Transform tank, InfoCollector collector)
     {
+        Debug.Log("in find enemy");
 
         Transform Target = tank;
         float closestDistance = 100000;

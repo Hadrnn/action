@@ -11,14 +11,19 @@ public abstract class BotMovement : TankMovement
     
     public double AgressiveDistance;
 
+    public int Astar_deep;
+
+    public GameState currentStartState;
+    public Vector3 curentDecision;
     protected BotShooting Gun;
+
 
     static string GameStateToString(GameState current)
     {
         string result = $"{(int)(current.position.x * 10)} {(int)(current.position.y * 10)} {(int)(current.position.z * 10)} {(int)(current.forward.x * 10)} {(int)(current.forward.y * 10)} {(int)(current.forward.z * 10)}";
         return result;
     }
-    protected static Vector3 AStar(GameState start, int Astar_deep)
+    public static Vector3 AStar(GameState start, int Astar_deep)
     {
         bool broken_out = false;
         PriorityQueue<GameState> que = new PriorityQueue<GameState>();
@@ -43,7 +48,7 @@ public abstract class BotMovement : TankMovement
 
                 if (current.IsFinish())
                 {
-                    Debug.Log(i);
+                    //Debug.Log(i);
                     break;
                 }
                 if (current.CanMoveUp())
@@ -395,7 +400,7 @@ public abstract class BotMovement : TankMovement
     public class GameState : IComparable
     {
         public Rigidbody ourRigidbody;
-        public BoxCollider hitbox;
+        public Vector3 hitbox;
 
         public Vector3 position = Vector3.zero;
         public Vector3 forward = Vector3.zero;
@@ -411,6 +416,8 @@ public abstract class BotMovement : TankMovement
         public float distance_to_start;
         public int iterration_number;
         public int discret;
+
+        static float deltaTime = Time.deltaTime;
         public GameState(int iterration_number_in, int discret_in, int target_radius_in)
         {
             iterration_number = iterration_number_in;
@@ -422,7 +429,7 @@ public abstract class BotMovement : TankMovement
         {
             for (int i = 0; i < shells_positions.Count; ++i)
             {
-                shells_positions[i] = shells_positions[i] + shells_forwards[i]*shells_speeds[i]*Time.deltaTime;
+                shells_positions[i] = shells_positions[i] + shells_forwards[i]*shells_speeds[i]*deltaTime;
             }
             return shells_positions;
         }
@@ -433,18 +440,18 @@ public abstract class BotMovement : TankMovement
             List<Vector3> shells_forwards = new List<Vector3>();
             List<float> shells_speeds = new List<float>();
             Vector3 axis = new Vector3(0, 1, 0);
-            for (int i = 0; i < collector.shells.Count; i++)
-            {
-                if (Mathf.Abs(Vector3.SignedAngle((this.position -
-                    (collector.shells[i].transform.position +
-                    collector.shells[i].transform.forward * iterration_number * discret * Time.deltaTime * collector.shells[i].transform.GetComponent<Rigidbody>().velocity.magnitude)),
-                    collector.shells[i].transform.forward, axis)) < 90)
-                {
-                    shells_positions.Add(collector.shells[i].transform.position);
-                    shells_forwards.Add(collector.shells[i].transform.forward);
-                    shells_speeds.Add(collector.shells[i].transform.GetComponent<Rigidbody>().velocity.magnitude);
-                }
-            }
+            //for (int i = 0; i < collector.shells.Count; i++)
+            //{
+            //    if (Mathf.Abs(Vector3.SignedAngle((this.position -
+            //        (collector.shells[i].transform.position +
+            //        collector.shells[i].transform.forward * iterration_number * discret * Time.deltaTime * collector.shells[i].transform.GetComponent<Rigidbody>().velocity.magnitude)),
+            //        collector.shells[i].transform.forward, axis)) < 90)
+            //    {
+            //        shells_positions.Add(collector.shells[i].transform.position);
+            //        shells_forwards.Add(collector.shells[i].transform.forward);
+            //        shells_speeds.Add(collector.shells[i].transform.GetComponent<Rigidbody>().velocity.magnitude);
+            //    }
+            //}
             
 
 
@@ -493,7 +500,7 @@ public abstract class BotMovement : TankMovement
                 float turn;
                 if (System.Math.Abs(delta_angle) > 3)
                 {
-                    turn = -(float)(System.Math.Sign(delta_angle) * Time.deltaTime * next.m_TurnSpeed); ;
+                    turn = -(float)(System.Math.Sign(delta_angle) * deltaTime * next.m_TurnSpeed); ;
                 }
                 else
                 {
@@ -504,14 +511,15 @@ public abstract class BotMovement : TankMovement
                 next.forward = rotationQuaternion * next.forward;
 
                 Vector3 movement = new Vector3(0f, 0f, 0f);
-                movement = next.forward * next.m_Speed * Time.deltaTime * next.forward_multiplyer;
+                movement = next.forward * next.m_Speed * deltaTime * next.forward_multiplyer;
                 next.position += movement;
 
 
                 Vector3 new_forward_angle = new Vector3(0, (float)(forward_angle + turn), 0);
                 Vector3 new_position = next.position;
                 Quaternion newRotation = Quaternion.Euler(new_forward_angle);
-                Vector3 colliderSize = hitbox.size;
+                Vector3 colliderSize = hitbox;
+
 
                 Collider[] collisionArray = Physics.OverlapBox(new_position, colliderSize / 2, newRotation, ~0, QueryTriggerInteraction.Ignore);
 
@@ -624,7 +632,7 @@ public abstract class BotMovement : TankMovement
                 float turn;
                 if (System.Math.Abs(delta_angle) > 3)
                 {
-                    turn = -(float)(System.Math.Sign(delta_angle) * Time.deltaTime * next.m_TurnSpeed); ;
+                    turn = -(float)(System.Math.Sign(delta_angle) * deltaTime * next.m_TurnSpeed); ;
                 }
                 else
                 {
@@ -632,7 +640,7 @@ public abstract class BotMovement : TankMovement
                 }
                 Quaternion rotationQuaternion = Quaternion.AngleAxis(turn, Vector3.up);
                 next.forward = rotationQuaternion * next.forward;
-                Vector3 movement = next.forward * next.m_Speed * Time.deltaTime * next.forward_multiplyer;
+                Vector3 movement = next.forward * next.m_Speed * deltaTime * next.forward_multiplyer;
                 next.position = next.position + movement;
                 if (next.IsFinish())
                 {
@@ -762,6 +770,6 @@ public abstract class BotMovement : TankMovement
     }
 
     protected abstract void Move();
-    protected abstract void Decision();
+    public abstract void Decision();
 
 }

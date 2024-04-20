@@ -9,8 +9,8 @@ using Random = UnityEngine.Random;
 public class BotARTMovement : BotMovement
 {
     public int target_radius;
-    public int Astar_deep;
-    protected override void Decision()
+    //public int Astar_deep;
+    public override void Decision()
     {
 
         Vector3 MyPosition = transform.position;
@@ -64,7 +64,7 @@ public class BotARTMovement : BotMovement
         Start.distance_to_finish = dist.magnitude;
         Start.distance_to_start = 0;
         Start.ourRigidbody = GetComponent<Rigidbody>();
-        Start.hitbox = GetComponent<BoxCollider>();
+        Start.hitbox = GetComponent<BoxCollider>().size;
         Vector3 decision = AStar(Start, Astar_deep);
         if (decision.x == 0 & decision.z == 0)
         {

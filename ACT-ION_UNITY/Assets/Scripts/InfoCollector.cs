@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -16,10 +17,15 @@ public class InfoCollector : MonoBehaviour
     public Vector3 team1Spawn { get; set; }
     public Vector3 team2Spawn { get; set; }
 
+    public static Mutex takingFromQueue { get; set; }
+
+    public static Queue<BotMovement> astarQueue { get; set; }
+
     private bool teamsSet = false;
     private static int NewTeamNumber = 0;
     private int NewOwnerID = 0;
-
+    private static bool needToWork;
+    private Thread astarThread;
     public class Team
     {
         public class TankHolder
@@ -62,6 +68,39 @@ public class InfoCollector : MonoBehaviour
 
     }
 
+    private void OnEnable()
+    {
+        takingFromQueue = new Mutex();
+        needToWork = true;
+        astarThread = new Thread(Worker);
+        astarQueue = new Queue<BotMovement>();
+
+        astarThread.Start();
+    }
+
+    private static void Worker()
+    {
+        while (needToWork)
+        {
+            if(astarQueue.Count != 0)
+            {
+                takingFromQueue.WaitOne();
+                BotMovement bot = astarQueue.Dequeue();
+                takingFromQueue.ReleaseMutex();
+
+                bot.curentDecision = BotMovement.AStar(bot.currentStartState, bot.Astar_deep);
+                
+                Debug.Log("counting astar");
+            }
+        }
+    }
+    private void OnDisable() 
+    {
+        needToWork = false;
+        Debug.LogWarning("Trying to end thread");
+        astarThread.Join();
+        Debug.LogWarning("ended thread");
+    }
     // Update is called once per frame
     void Update()
     {

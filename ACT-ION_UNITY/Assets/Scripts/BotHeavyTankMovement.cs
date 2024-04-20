@@ -7,8 +7,38 @@ using System.Collections.Generic;
 public class BotHeavyTankMovement : BotMovement
 {
     public int target_radius;
-    public int Astar_deep;
-    protected override void Decision()
+    //public int Astar_deep;
+
+    private void FixedUpdate()
+    {
+        if (counter < discret)
+        {
+            counter++;
+        }
+        else
+        {
+            Decision();
+            InfoCollector.astarQueue.Enqueue(this);
+            counter = 0;
+        }
+
+        m_HorizontalInputValue = curentDecision.x;
+        m_VerticalInputValue = curentDecision.z;
+
+
+        if (curentDecision.x == 0 & curentDecision.z == 0)
+        {
+            List<Vector2> numbers = new List<Vector2> { new Vector2(1, 0), new Vector2(-1, 0), new Vector2(0, 1), new Vector2(0, -1), new Vector2(1, 1), new Vector2(-1, -1), new Vector2(1, -1), new Vector2(-1, 1) };
+            System.Random rd = new System.Random();
+            int randomIndex = rd.Next(0, 8);
+            Vector2 randomNumber = numbers[randomIndex];
+            curentDecision.x = randomNumber.x;
+            curentDecision.z = randomNumber.y;
+        }
+
+        Move();
+    }
+    public override void Decision()
     {
         Transform Enemy = FindClosestEnemy(teamNumber, transform, collector);
         if (Enemy.Equals(transform))
@@ -28,19 +58,22 @@ public class BotHeavyTankMovement : BotMovement
         Start.distance_to_finish = dist.magnitude;
         Start.distance_to_start = 0;
         Start.ourRigidbody = GetComponent<Rigidbody>();
-        Start.hitbox = GetComponent<BoxCollider>();
-        Vector3 decision = AStar(Start, Astar_deep);
-        if (decision.x == 0 & decision.z == 0)
-        {
-            List<Vector2> numbers = new List<Vector2> { new Vector2(1, 0), new Vector2(-1, 0), new Vector2(0, 1), new Vector2(0, -1), new Vector2(1, 1), new Vector2(-1, -1), new Vector2(1, -1), new Vector2(-1, 1) };
-            System.Random rd = new System.Random();
-            int randomIndex = rd.Next(0, 8);
-            Vector2 randomNumber = numbers[randomIndex];
-            decision.x = randomNumber.x;
-            decision.z = randomNumber.y;
-        }
-        m_HorizontalInputValue = decision.x;
-        m_VerticalInputValue = decision.z;
+        Start.hitbox = GetComponent<BoxCollider>().size;
+
+        currentStartState = Start;
+        //Vector3 decision = AStar(Start, Astar_deep);
+
+
+        //if (decision.x == 0 & decision.z == 0)
+        //{
+        //    List<Vector2> numbers = new List<Vector2> { new Vector2(1, 0), new Vector2(-1, 0), new Vector2(0, 1), new Vector2(0, -1), new Vector2(1, 1), new Vector2(-1, -1), new Vector2(1, -1), new Vector2(-1, 1) };
+        //    System.Random rd = new System.Random();
+        //    int randomIndex = rd.Next(0, 8);
+        //    Vector2 randomNumber = numbers[randomIndex];
+        //    decision.x = randomNumber.x;
+        //    decision.z = randomNumber.y;
+        //}
+
     }
     protected override void Move()
     {
