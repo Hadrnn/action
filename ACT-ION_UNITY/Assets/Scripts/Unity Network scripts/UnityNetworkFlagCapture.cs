@@ -12,6 +12,22 @@ public class UnityNetworkFlagCapture : NetworkBehaviour
 
     private void Start()
     {
+        GameObject[] bases = GameObject.FindGameObjectsWithTag("Base");
+
+        foreach (GameObject CTFBase in bases)
+        {
+            UnityNetworkFlagBase currBase = CTFBase.GetComponent<UnityNetworkFlagBase>();
+
+            if (currBase.teamNumber.Value == teamNumber.Value)
+            {
+                Debug.Log("Flag found a base");
+                teamBase = currBase.transform;
+                break;
+            }
+
+        }
+
+
         if (teamBase.GetComponent<UnityNetworkFlagBase>().teamNumber.Value != teamNumber.Value)
         {
             throw new System.Exception("NOT MATHCING TEAM NUMBER OF FLAG AND FLAG BASE");
