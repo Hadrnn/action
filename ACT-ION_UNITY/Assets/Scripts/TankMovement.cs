@@ -14,7 +14,6 @@ public class TankMovement : MonoBehaviour
 
     public int teamNumber { get; set; }
 
-    protected int OwnerTankID;
     protected Rigidbody m_Rigidbody;              // Reference used to move the tank.
     protected float m_VerticalInputValue = 0;         // The current value of the movement input.
     protected float m_HorizontalInputValue = 0;             // The current value of the turn input.
@@ -29,10 +28,6 @@ public class TankMovement : MonoBehaviour
         m_Collider = GetComponent<BoxCollider>();
     }
 
-    public int GetOwnerTankID()
-    {
-        return OwnerTankID;
-    }
     protected void EngineAudio()
     {
         // If there is no input (the tank is stationary)...

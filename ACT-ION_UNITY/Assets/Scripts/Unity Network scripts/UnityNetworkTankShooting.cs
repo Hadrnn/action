@@ -23,6 +23,8 @@ public class UnityNetworkTankShooting : NetworkBehaviour
     private float m_ChargeSpeed;                // How fast the launch force increases, based on the max charge time.
     private bool m_Fired;                       // Whether or not the shell has been launched with this button press.
 
+    public InfoCollector.Team.TankHolder tankHolder { get; set; }
+
 
     private void OnEnable()
     {
@@ -115,9 +117,7 @@ public class UnityNetworkTankShooting : NetworkBehaviour
         // Set the shell's velocity to the launch force in the fire position's forward direction.
         UnityNetworkShellExplosion explosion = shellInstance.GetComponent<UnityNetworkShellExplosion>();
         explosion.m_MaxLifeTime = m_CurrentLifeTime;
-
-        explosion.teamNumber = GetComponent<UnityNetworkTankMovement>().teamNumber;
-        explosion.OwnerTankID = GetComponent<UnityNetworkTankMovement>().GetOwnerTankID();
+        explosion.owner = tankHolder;
 
         m_CurrentLifeTime = m_MinLifeTime;
         shellInstance.velocity = m_Velocity * m_FireTransform.forward;

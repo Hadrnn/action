@@ -39,7 +39,6 @@ public class NeuralTankMovement : TankMovement
 
         GetComponent<TankShooting>().tankHolder = collector.AddTank(gameObject);
 
-        OwnerTankID = collector.GetOwnerTankID();
 
         m_OriginalPitch = m_MovementAudio.pitch;
 

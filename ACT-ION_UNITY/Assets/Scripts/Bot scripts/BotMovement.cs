@@ -739,8 +739,6 @@ public abstract class BotMovement : TankMovement
             
         GetComponent<TankShooting>().tankHolder = collector.AddTank(gameObject);
 
-        OwnerTankID = collector.GetOwnerTankID();
-
         // Store the original pitch of the audio source.
         m_OriginalPitch = m_MovementAudio.pitch;
 

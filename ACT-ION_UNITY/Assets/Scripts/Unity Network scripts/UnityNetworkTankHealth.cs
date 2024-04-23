@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using Unity.Netcode;
+using Unity.VisualScripting;
 
 public class UnityNetworkTankHealth : NetworkBehaviour
 {
@@ -48,19 +49,22 @@ public class UnityNetworkTankHealth : NetworkBehaviour
         //SetHealthUI();
     }
 
-    public void TakeDamage(float amount)
+    public void TakeDamage(float amount, InfoCollector.Team.TankHolder shellOwner)
     {
+
         // Reduce current health by the amount of damage done.
         m_CurrentHealth.Value -= amount;
         // Change the UI elements appropriately.
         SetHealthUIClientRpc(m_CurrentHealth.Value);
         //SetHealthUI();
 
+
+        
         // If the current health is at or below zero and it has not yet been registered, call OnDeath.
         if (m_CurrentHealth.Value <= 0f && !m_Dead)
         {
-            OnDeathClientRpc();
-            OnDeath();
+            OnDeathClientRpc(shellOwner.team.teamNumber, shellOwner.tankID);
+            OnDeath(shellOwner.team.teamNumber, shellOwner.tankID);
         }
     }
 
@@ -86,9 +90,9 @@ public class UnityNetworkTankHealth : NetworkBehaviour
     }
 
     [ClientRpc]
-    private void OnDeathClientRpc()
+    private void OnDeathClientRpc(int killerTeamNumber, int killerTankID)
     {
-        OnDeath();
+        OnDeath(killerTeamNumber, killerTankID);
     }
 
     public void MoveOnRespawn(Vector3 position)
@@ -101,7 +105,7 @@ public class UnityNetworkTankHealth : NetworkBehaviour
         transform.position = position;
         
     }
-    private void OnDeath()
+    private void OnDeath(int killerTeamNumber, int killerTankID)
     {
         // Set the flag so that this function is only called once.
         m_Dead = true;
@@ -117,13 +121,49 @@ public class UnityNetworkTankHealth : NetworkBehaviour
         m_ExplosionAudio.Play();
 
         SpawnManager manager = GameObject.Find("InfoCollector").GetComponent<SpawnManager>();
+        InfoCollector collector = manager.GetComponent<InfoCollector>();
+
         manager.dead.Add(gameObject);
         manager.deathTime.Add(Time.time);
+
+        InfoCollector.Team.TankHolder holder = GetComponent<TankShooting>().tankHolder;
+        ++holder.deaths;
+        --holder.team.alivePlayers;
+
+
+        InfoCollector.Team.TankHolder shellOwner = null;
+
+
+        foreach (InfoCollector.Team.TankHolder tankHolder in collector.teams[killerTeamNumber].tanks)
+        {
+            if (tankHolder.tankID == killerTankID)
+            {
+                Debug.Log("FOUND HIM");
+                shellOwner = tankHolder;
+                break;
+            }
+        }
+
+
+        if ((shellOwner != null) && (shellOwner != holder)) 
+        {
+            ++shellOwner.kills;
+            ++shellOwner.team.teamKills;
+        }
+
+        UnityNetworkFlagCapture flag = GetComponentInChildren<UnityNetworkFlagCapture>();
+        if (flag)
+        {
+            Debug.Log("I have a flag while dying");
+            flag.transform.SetParent(null);
+        }
 
         Vector3 Grave = new Vector3(transform.position.x,-10, transform.position.z);
         //transform.position = Grave;
         GetComponent<Rigidbody>().MovePosition(Grave);
         // Turn the tank off.
+
+
         gameObject.SetActive(false);
     }
 }

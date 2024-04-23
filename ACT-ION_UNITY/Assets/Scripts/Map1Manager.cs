@@ -75,6 +75,10 @@ public class Map1Manager : NetworkBehaviour
     private bool DidSetFriendEnemy = false;
     private const int FriendEnemySetTick = 2;
 
+    private const int FlagBaseIndex = 4;
+    private const int FlagIndex = 5;
+    private const int DominationBaseIndex = 6;
+
     private void Awake()
     {
         GameSingleton.GetInstance().friendlyFire = FriendlyFire;
@@ -174,55 +178,74 @@ public class Map1Manager : NetworkBehaviour
                 break;
             case GameType.UnityServer:
 
-                string[] parameters = System.Environment.GetCommandLineArgs();
                 //string path = "C:/Users/bukin/Desktop/action/TestBuild/OutputTest.txt";
                 //using (StreamWriter sw = new StreamWriter(path))
-                HandleAnswer(parameters);
 
+                string[] parameters = System.Environment.GetCommandLineArgs();
+                HandleAnswer(parameters);
                 Instantiate(UnityNetworkEventSystem);
 
                 GameObject ServerManager = Instantiate(UnityNetworkManager);
                 UnityTransport ServerTransport = ServerManager.GetComponent<UnityTransport>();
                 ServerTransport.ConnectionData.Address = ServerAddress;
                 ServerTransport.ConnectionData.Port = ServerPort;
-                //ServerTransport.ConnectionData.Port = 9000;
-
 
                 NetworkManager.Singleton.StartServer();
+
+                if (Mode == GameMode.CaptureTheFlag)
+                {
+                    UnityNetworkFlagBase flagBase = Instantiate(NetworkPrefabs.PrefabList[FlagBaseIndex].Prefab,
+                        Pos1, Quaternion.Euler(0, 0, 0)).GetComponent<UnityNetworkFlagBase>();
+                    UnityNetworkFlagCapture flag = Instantiate(NetworkPrefabs.PrefabList[FlagIndex].Prefab).GetComponent<UnityNetworkFlagCapture>();
+                    flagBase.teamNumber.Value = flag.teamNumber.Value = 0;
+                    flag.teamBase = flagBase.transform;
+
+                    flagBase = Instantiate(NetworkPrefabs.PrefabList[FlagBaseIndex].Prefab,
+                        Pos1, Quaternion.Euler(0, 0, 0)).GetComponent<UnityNetworkFlagBase>();
+                    flag = Instantiate(NetworkPrefabs.PrefabList[FlagIndex].Prefab).GetComponent<UnityNetworkFlagCapture>();
+                    flagBase.teamNumber.Value = flag.teamNumber.Value = 1;
+                    flag.teamBase = flagBase.transform;
+
+                }
+                else if (Mode == GameMode.Domitanion)
+                {
+
+                }
+
+
                 break;
             case GameType.UnityClient:
+
                 Instantiate(UnityNetworkEventSystem);
                 GameObject ClientManager = Instantiate(UnityNetworkManager);
                 UnityTransport ClientTransport = ClientManager.GetComponent<UnityTransport>();
 
                 //// GET DATA FROM OUR PYTHON SERVER
                 //// CHECK IF ADDRESS? PORT IS NOT EMPTY
-                // Коннект к серверу
+                ///
+                // Connect to server
                 Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 socket.Connect("25.12.195.48", 9999);
-                // Отправка сообщения с требованиями игры
-                var message = "PlayerName=Player1 Map=Map1";
-                var messageBytes = Encoding.UTF8.GetBytes(message);
+                // Send message
+                string message = "PlayerName=Player1 Map=Map1";
+                byte[] messageBytes = Encoding.UTF8.GetBytes(message);
                 socket.Send(messageBytes);
-                // Получения ответа для коннекта к нужной игре
-                var answer = new byte[2048];
+                // Recieve answer
+                byte[] answer = new byte[2048];
                 socket.Receive(answer);
-                var d_answer = Encoding.UTF8.GetString(answer);
+                string d_answer = Encoding.UTF8.GetString(answer);
                 socket.Close();
-                // Обработка ответа
+
+                // Answer handling
                 HandleAnswer(d_answer.Split(' '));
                 ClientTransport.ConnectionData.Address = ServerAddress;
                 ClientTransport.ConnectionData.Port = ServerPort;
-                // ClientTransport.ConnectionData.Address = "25.12.195.48";
-                // ClientTransport.ConnectionData.Port = 9111;
 
                 NetworkManager.Singleton.StartClient();
                 break;
             default:
                 break;
         }
-
-
     }
 
     private void Update()

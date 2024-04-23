@@ -10,8 +10,8 @@ public class BotArtShooting : BotShooting
     public float g;
     public float shell_speed;
 
-    private float m_ChargeSpeed;                // How fast the launch force increases, based on the max charge time.
-    private bool m_Fired;                       // Whether or not the shell has been launched with this button press.
+    //private float m_ChargeSpeed;                // How fast the launch force increases, based on the max charge time.
+    //private bool m_Fired;                       // Whether or not the shell has been launched with this button press.
 
     private void OnEnable()
     {
@@ -39,7 +39,7 @@ public class BotArtShooting : BotShooting
             return;
         }
 
-        m_Fired = true;
+        //m_Fired = true;
         Vector3 tank_pos = transform.position;
         Vector3 forvard = tank_pos - m_FireTransform.position;
         forvard = forvard.normalized;

@@ -12,8 +12,8 @@ public class UnityNetworkShellExplosion : NetworkBehaviour
     public float m_ExplosionRadius = 5f;                // The maximum distance away from the explosion tanks can be and are still affected.
 
 
-    public int OwnerTankID { get; set; }
-    public int teamNumber { get; set; }
+    public InfoCollector.Team.TankHolder owner { get; set; }
+
 
 
     private float startTime;
@@ -79,14 +79,14 @@ public class UnityNetworkShellExplosion : NetworkBehaviour
             if (!targetHealth)
                 continue;
 
-            if (!GameSingleton.GetInstance().friendlyFire && targetRigidbody.GetComponent<UnityNetworkTankMovement>().teamNumber == teamNumber) continue;
+            if (!GameSingleton.GetInstance().friendlyFire && targetRigidbody.GetComponent<UnityNetworkTankMovement>().teamNumber == owner.team.teamNumber) continue;
 
 
             // Calculate the amount of damage the target should take based on it's distance from the shell.
             float damage = CalculateDamage(targetRigidbody.position);
 
             // Deal this damage to the tank.
-            targetHealth.TakeDamage(damage);
+            targetHealth.TakeDamage(damage, owner);
         }
     }
 

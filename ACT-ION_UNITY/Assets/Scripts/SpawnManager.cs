@@ -94,7 +94,8 @@ public class SpawnManager : NetworkBehaviour
                     //dead[i].transform.position = GetSpawnPos(spawnAreaPos, 30);
                     //RespawnClientRpc(dead[i], spawnPos);
                     //dead[i].transform.position = GetSpawnPos(spawnAreaPos, 30);
-                    dead[i].GetComponent<UnityNetworkTankHealth>().MoveOnRespawn(GetSpawnPos(spawnAreaPos, defaultSpawnRadius));
+                    InfoCollector.Team.TankHolder tank = dead[i].GetComponent<UnityNetworkTankShooting>().tankHolder;
+                    dead[i].GetComponent<UnityNetworkTankHealth>().MoveOnRespawn(GetSpawnPos(tank.team.teamSpawn, defaultSpawnRadius));
                     dead[i].SetActive(true);
 
                     //dead[i].transform.position = GetSpawnPos(spawnAreaPos, 30);
@@ -127,18 +128,18 @@ public class SpawnManager : NetworkBehaviour
         Collider[] collisionArray;
 
 
-        do
-        {
-            spawnPos = pos[UnityEngine.Random.Range(0, 3)];
-            collisionArray = Physics.OverlapBox(spawnPos, Vector3.one * spawnClearArea, Quaternion.Euler(Vector3.zero), ~0, QueryTriggerInteraction.Ignore);
-        }
         //do
         //{
-        //    spawnPos = new Vector3(spawnOrigin.x + UnityEngine.Random.Range(-spawnRadius, spawnRadius), 0,
-        //                           spawnOrigin.z + UnityEngine.Random.Range(-spawnRadius, spawnRadius));
+        //    spawnPos = pos[UnityEngine.Random.Range(0, 3)];
         //    collisionArray = Physics.OverlapBox(spawnPos, Vector3.one * spawnClearArea, Quaternion.Euler(Vector3.zero), ~0, QueryTriggerInteraction.Ignore);
-        //    //Debug.Log("Trying to get a spawnpoint");
         //}
+        do
+        {
+            spawnPos = new Vector3(spawnOrigin.x + UnityEngine.Random.Range(-spawnRadius, spawnRadius), 0,
+                                   spawnOrigin.z + UnityEngine.Random.Range(-spawnRadius, spawnRadius));
+            collisionArray = Physics.OverlapBox(spawnPos, Vector3.one * spawnClearArea, Quaternion.Euler(Vector3.zero), ~0, QueryTriggerInteraction.Ignore);
+            //Debug.Log("Trying to get a spawnpoint");
+        }
         while (collisionArray.Length != 0);
 
         return spawnPos;

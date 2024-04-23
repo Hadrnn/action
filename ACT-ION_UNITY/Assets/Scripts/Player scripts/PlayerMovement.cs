@@ -34,7 +34,6 @@ public abstract class PlayerMovement : TankMovement
         //else Debug.Log("Collector already set");
 
         GetComponent<TankShooting>().tankHolder = collector.AddTank(gameObject);
-        OwnerTankID = collector.GetOwnerTankID();
 
         GameSingleton.GetInstance().playerTeam = teamNumber;
 
