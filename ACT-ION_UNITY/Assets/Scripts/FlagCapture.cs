@@ -11,7 +11,24 @@ public class FlagCapture : MonoBehaviour
 
     private void Start()
     {
-        if(teamBase.GetComponent<FlagBase>().teamNumber != teamNumber)
+
+
+        GameObject[] bases = GameObject.FindGameObjectsWithTag("Base");
+
+        foreach (GameObject CTFBase in bases)
+        {
+            FlagBase currBase = CTFBase.GetComponent<FlagBase>();
+
+            if (currBase.teamNumber == teamNumber)
+            {
+                Debug.Log("Flag found a base");
+                teamBase = currBase.transform;
+                break;
+            }
+
+        }
+
+        if (teamBase.GetComponent<FlagBase>().teamNumber != teamNumber)
         {
             throw new System.Exception("NOT MATHCING TEAM NUMBER OF FLAG AND FLAG BASE");
         }
@@ -25,8 +42,9 @@ public class FlagCapture : MonoBehaviour
             Debug.Log("Im on Enemy Base");
             transform.SetParent(null);
             transform.position = teamBase.position;
+            IsCaptured = false;
         }
-        
+
         TankMovement tank = other.GetComponent<TankMovement>();
 
         if (!tank || IsCaptured) return;
@@ -37,12 +55,16 @@ public class FlagCapture : MonoBehaviour
             Debug.Log("Im returning to base");
             
             transform.position = teamBase.position;
+            IsCaptured = false;
+
             return;
         }
 
         transform.SetParent(other.transform);
 
         transform.position = other.transform.position;
+
+        IsCaptured = true;
     }
 
 

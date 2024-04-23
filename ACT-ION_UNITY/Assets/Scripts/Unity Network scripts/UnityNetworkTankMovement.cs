@@ -15,6 +15,7 @@ public class UnityNetworkTankMovement : NetworkBehaviour
 
 
     public int teamNumber { get; set; }
+    public InfoCollector collector { get; private set; }
 
 
     private string m_VerticalAxisName;          // The name of the input axis for moving forward and back.
@@ -24,7 +25,6 @@ public class UnityNetworkTankMovement : NetworkBehaviour
     private float m_HorizontalInputValue;             // The current value of the turn input.
     private float m_OriginalPitch;              // The pitch of the audio source at the start of the scene.
     private BoxCollider m_Collider;
-    private InfoCollector collector;
     private void Awake()
     {
         m_Rigidbody = GetComponent<Rigidbody>();

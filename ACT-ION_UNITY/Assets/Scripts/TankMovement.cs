@@ -13,13 +13,14 @@ public class TankMovement : MonoBehaviour
     public int forvard_multiplyer = 1;
 
     public int teamNumber { get; set; }
+    public static InfoCollector collector { get; protected set; }
 
     protected Rigidbody m_Rigidbody;              // Reference used to move the tank.
     protected float m_VerticalInputValue = 0;         // The current value of the movement input.
     protected float m_HorizontalInputValue = 0;             // The current value of the turn input.
     protected float m_OriginalPitch;              // The pitch of the audio source at the start of the scene.
     protected BoxCollider m_Collider;
-    protected static InfoCollector collector;
+
 
 
     private void Awake()

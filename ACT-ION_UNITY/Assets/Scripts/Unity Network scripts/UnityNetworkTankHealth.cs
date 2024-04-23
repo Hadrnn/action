@@ -120,8 +120,9 @@ public class UnityNetworkTankHealth : NetworkBehaviour
         // Play the tank explosion sound effect.
         m_ExplosionAudio.Play();
 
-        SpawnManager manager = GameObject.Find("InfoCollector").GetComponent<SpawnManager>();
-        InfoCollector collector = manager.GetComponent<InfoCollector>();
+        InfoCollector collector = GetComponent<UnityNetworkTankMovement>().collector;
+        SpawnManager manager = collector.GetComponent<SpawnManager>();
+
 
         manager.dead.Add(gameObject);
         manager.deathTime.Add(Time.time);
