@@ -109,15 +109,17 @@ public class UnityNetworkTankShooting : NetworkBehaviour
         Rigidbody shellInstance =
             Instantiate(m_Shell, m_FireTransform.position, m_FireTransform.rotation) as Rigidbody;
 
+        UnityNetworkShellExplosion explosion = shellInstance.GetComponent<UnityNetworkShellExplosion>();
+        explosion.m_MaxLifeTime = m_CurrentLifeTime;
+        explosion.owner = tankHolder;
+
         NetworkObject new_shell = shellInstance.GetComponent<NetworkObject>();
 
         new_shell.Spawn();
         //new_shell.RemoveOwnership();
 
         // Set the shell's velocity to the launch force in the fire position's forward direction.
-        UnityNetworkShellExplosion explosion = shellInstance.GetComponent<UnityNetworkShellExplosion>();
-        explosion.m_MaxLifeTime = m_CurrentLifeTime;
-        explosion.owner = tankHolder;
+
 
         m_CurrentLifeTime = m_MinLifeTime;
         shellInstance.velocity = m_Velocity * m_FireTransform.forward;

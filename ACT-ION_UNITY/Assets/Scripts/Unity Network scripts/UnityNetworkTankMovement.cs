@@ -59,7 +59,7 @@ public class UnityNetworkTankMovement : NetworkBehaviour
     {
         // Add tank object to InfoCollector
         collector = GameObject.Find("InfoCollector").GetComponent<InfoCollector>();
-        collector.AddTank(gameObject);
+        GetComponent<UnityNetworkTankShooting>().tankHolder = collector.AddTank(gameObject);
 
         if (IsOwner)
         {

@@ -201,18 +201,25 @@ public class Map1Manager : NetworkBehaviour
                         Pos1, Quaternion.Euler(-90, 0, 0)).GetComponent<UnityNetworkFlagBase>();
                     UnityNetworkFlagCapture flag = Instantiate(NetworkMapObjects.PrefabList[FlagIndex].Prefab,
                         Pos1, Quaternion.Euler(-90, 0, 0)).GetComponent<UnityNetworkFlagCapture>();
+
                     flagBase.teamNumber = new NetworkVariable<int>(0);
                     flag.teamNumber = new NetworkVariable<int>(0);
                     flag.teamBase = flagBase.transform;
+                    flag.GetComponent<NetworkObject>().Spawn();
+                    flagBase.GetComponent<NetworkObject>().Spawn();
+
 
 
                     flagBase = Instantiate(NetworkMapObjects.PrefabList[FlagBaseIndex].Prefab,
                         Pos2, Quaternion.Euler(-90, 0, 0)).GetComponent<UnityNetworkFlagBase>();
                     flag = Instantiate(NetworkMapObjects.PrefabList[FlagIndex].Prefab,
                         Pos2, Quaternion.Euler(-90, 0, 0)).GetComponent<UnityNetworkFlagCapture>();
+
                     flagBase.teamNumber = new NetworkVariable<int>(1);
                     flag.teamNumber = new NetworkVariable<int>(1);
                     flag.teamBase = flagBase.transform;
+                    flag.GetComponent<NetworkObject>().Spawn();
+                    flagBase.GetComponent<NetworkObject>().Spawn();
 
                 }
                 else if (Mode == GameMode.Domitanion)

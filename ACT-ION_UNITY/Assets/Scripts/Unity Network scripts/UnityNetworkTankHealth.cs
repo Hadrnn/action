@@ -56,7 +56,7 @@ public class UnityNetworkTankHealth : NetworkBehaviour
         m_CurrentHealth.Value -= amount;
         // Change the UI elements appropriately.
         SetHealthUIClientRpc(m_CurrentHealth.Value);
-        //SetHealthUI();
+        SetHealthUI(m_CurrentHealth.Value);
 
 
         
@@ -126,7 +126,7 @@ public class UnityNetworkTankHealth : NetworkBehaviour
         manager.dead.Add(gameObject);
         manager.deathTime.Add(Time.time);
 
-        InfoCollector.Team.TankHolder holder = GetComponent<TankShooting>().tankHolder;
+        InfoCollector.Team.TankHolder holder = GetComponent<UnityNetworkTankShooting>().tankHolder;
         ++holder.deaths;
         --holder.team.alivePlayers;
 
