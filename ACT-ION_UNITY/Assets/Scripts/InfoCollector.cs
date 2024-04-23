@@ -139,7 +139,7 @@ public class InfoCollector : NetworkBehaviour
     {
         GameObject[] bases = GameObject.FindGameObjectsWithTag("Base");
 
-        if (NetworkManager.Singleton && IsClient)
+        if (NetworkManager.Singleton)
         {
                 foreach (GameObject CTFBase in bases)
                 {

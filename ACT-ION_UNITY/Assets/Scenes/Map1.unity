@@ -825,10 +825,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 807510649}
+  - component: {fileID: 807510652}
   - component: {fileID: 807510648}
   - component: {fileID: 807510650}
   - component: {fileID: 807510651}
-  - component: {fileID: 807510652}
   - component: {fileID: 807510653}
   - component: {fileID: 807510654}
   m_Layer: 0
@@ -932,9 +932,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tickTime: 0.02
-  Type: 3
+  Type: 4
   ST: 1
-  Mode: 0
+  Mode: 2
   FriendlyFire: 1
   UnityNetworkManager: {fileID: 7640481245423487163, guid: fe0bbd41349293d47a7cc70593b09473, type: 3}
   UnityNetworkMenu: {fileID: 6535677236963878315, guid: 096de73100e08584e8187d4620d69267, type: 3}

@@ -195,15 +195,20 @@ public class Map1Manager : NetworkBehaviour
                 if (Mode == GameMode.CaptureTheFlag)
                 {
                     UnityNetworkFlagBase flagBase = Instantiate(NetworkPrefabs.PrefabList[FlagBaseIndex].Prefab,
-                        Pos1, Quaternion.Euler(0, 0, 0)).GetComponent<UnityNetworkFlagBase>();
-                    UnityNetworkFlagCapture flag = Instantiate(NetworkPrefabs.PrefabList[FlagIndex].Prefab).GetComponent<UnityNetworkFlagCapture>();
-                    flagBase.teamNumber.Value = flag.teamNumber.Value = 0;
+                        Pos1, Quaternion.Euler(-90, 0, 0)).GetComponent<UnityNetworkFlagBase>();
+                    UnityNetworkFlagCapture flag = Instantiate(NetworkPrefabs.PrefabList[FlagIndex].Prefab,
+                        Pos1, Quaternion.Euler(-90, 0, 0)).GetComponent<UnityNetworkFlagCapture>();
+                    flagBase.teamNumber = new NetworkVariable<int>(0);
+                    flag.teamNumber = new NetworkVariable<int>(0);
                     flag.teamBase = flagBase.transform;
 
+
                     flagBase = Instantiate(NetworkPrefabs.PrefabList[FlagBaseIndex].Prefab,
-                        Pos1, Quaternion.Euler(0, 0, 0)).GetComponent<UnityNetworkFlagBase>();
-                    flag = Instantiate(NetworkPrefabs.PrefabList[FlagIndex].Prefab).GetComponent<UnityNetworkFlagCapture>();
-                    flagBase.teamNumber.Value = flag.teamNumber.Value = 1;
+                        Pos2, Quaternion.Euler(-90, 0, 0)).GetComponent<UnityNetworkFlagBase>();
+                    flag = Instantiate(NetworkPrefabs.PrefabList[FlagIndex].Prefab,
+                        Pos2, Quaternion.Euler(-90, 0, 0)).GetComponent<UnityNetworkFlagCapture>();
+                    flagBase.teamNumber = new NetworkVariable<int>(1);
+                    flag.teamNumber = new NetworkVariable<int>(1);
                     flag.teamBase = flagBase.transform;
 
                 }
