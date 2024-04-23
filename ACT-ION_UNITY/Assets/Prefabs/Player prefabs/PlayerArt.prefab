@@ -500,8 +500,8 @@ MonoBehaviour:
   m_MinLifeTime: 3
   m_MaxLifeTime: 6
   m_MaxChargeTime: 0.75
-  turret: {fileID: 6882562704273340707}
   cooldown: 1
+  turret: {fileID: 6882562704273340707}
   start_angle: 0
   g: 0
   shell_speed: 0
@@ -866,7 +866,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5220157697784575084, guid: 87a756f5805994a409bdb96e127369e1, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 5.5
+      value: 4.5
       objectReference: {fileID: 0}
     - target: {fileID: 5220157697784575084, guid: 87a756f5805994a409bdb96e127369e1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

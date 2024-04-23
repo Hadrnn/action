@@ -429,6 +429,7 @@ MonoBehaviour:
   m_EngineDriving: {fileID: 8300000, guid: 2764b5e5b387a3440977ffceb658813a, type: 3}
   m_PitchRange: 0.2
   m_FriendEnemy: {fileID: 4917690393463307730}
+  forvard_multiplyer: 1
 --- !u!114 &6169148169335266044
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -815,6 +816,10 @@ PrefabInstance:
     - target: {fileID: 5220157697784575084, guid: 87a756f5805994a409bdb96e127369e1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5263147210680115929, guid: 87a756f5805994a409bdb96e127369e1, type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7787338641968689362, guid: 87a756f5805994a409bdb96e127369e1, type: 3}
       propertyPath: m_AnchorMax.x

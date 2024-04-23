@@ -44,18 +44,17 @@ public class UnityNetworkFlagCapture : NetworkBehaviour
         if (PossiblyBase && PossiblyBase.teamNumber.Value != teamNumber.Value)
         {
             Debug.Log("Im on Enemy Base");
-            //GetComponent<NetworkObject>().TryRemoveParent();
             transform.SetParent(null);
             SetParentClientRpc(-1,-1);
 
             transform.position = teamBase.position;
+            transform.rotation = Quaternion.Euler(-90, 0, 0);
             IsCaptured = false;
             return;
         }
 
 
         UnityNetworkTankMovement tank = other.GetComponent<UnityNetworkTankMovement>();
-        InfoCollector.Team.TankHolder holder = GetComponent<UnityNetworkTankShooting>().tankHolder;
 
 
         if (!tank || IsCaptured) return;
@@ -66,18 +65,21 @@ public class UnityNetworkFlagCapture : NetworkBehaviour
             Debug.Log("Im returning to base");
 
             transform.position = teamBase.position;
+            transform.rotation = Quaternion.Euler(-90, 0, 0);
             IsCaptured = false;
             return;
         }
 
-        //GetComponent<NetworkObject>().TrySetParent(other.transform, true); ;
+        InfoCollector.Team.TankHolder holder = other.GetComponent<UnityNetworkTankShooting>().tankHolder;
+
         transform.SetParent(other.transform);
         SetParentClientRpc(holder.team.teamNumber, holder.tankID);
 
 
-        //transform.position = Vector3.zero;
         transform.position = other.transform.position;
+        transform.rotation = Quaternion.Euler(-90, 0, 0);
         IsCaptured = true;
+
     }
 
     [ClientRpc]
@@ -86,6 +88,8 @@ public class UnityNetworkFlagCapture : NetworkBehaviour
         if ((teamNumber == -1) && (tankID == -1))
         {
             transform.SetParent(null);
+            transform.position = teamBase.position;
+            transform.rotation = Quaternion.Euler(-90, 0, 0);
             return;
         }
 
@@ -96,6 +100,8 @@ public class UnityNetworkFlagCapture : NetworkBehaviour
             {
                 Debug.Log("FOUND HIM");
                 transform.SetParent(tankHolder.tank.transform);
+                transform.position = tankHolder.tank.transform.position;
+                transform.rotation = Quaternion.Euler(-90, 0, 0);
                 break;
             }
         }
