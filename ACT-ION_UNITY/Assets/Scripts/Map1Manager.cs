@@ -62,7 +62,10 @@ public class Map1Manager : NetworkBehaviour
     public Vector3 Pos2 = new Vector3(0f, 0f, -30f);
     public Vector3 PlayerPos = new Vector3(0f, 0f, -10f);
 
-    public NetworkPrefabsList NetworkPrefabs;
+    public NetworkPrefabsList NetworkTankPrefabs;
+    public NetworkPrefabsList NetworkMapObjects;
+
+
     public PlayerPrefabsList PlayerPrefabs;
 
     private string ServerAddress = "";
@@ -75,9 +78,9 @@ public class Map1Manager : NetworkBehaviour
     private bool DidSetFriendEnemy = false;
     private const int FriendEnemySetTick = 2;
 
-    private const int FlagBaseIndex = 4;
-    private const int FlagIndex = 5;
-    private const int DominationBaseIndex = 6;
+    private const int FlagIndex = 0;
+    private const int FlagBaseIndex = 1;
+    private const int DominationBaseIndex = 2;
 
     private void Awake()
     {
@@ -194,18 +197,18 @@ public class Map1Manager : NetworkBehaviour
 
                 if (Mode == GameMode.CaptureTheFlag)
                 {
-                    UnityNetworkFlagBase flagBase = Instantiate(NetworkPrefabs.PrefabList[FlagBaseIndex].Prefab,
+                    UnityNetworkFlagBase flagBase = Instantiate(NetworkMapObjects.PrefabList[FlagBaseIndex].Prefab,
                         Pos1, Quaternion.Euler(-90, 0, 0)).GetComponent<UnityNetworkFlagBase>();
-                    UnityNetworkFlagCapture flag = Instantiate(NetworkPrefabs.PrefabList[FlagIndex].Prefab,
+                    UnityNetworkFlagCapture flag = Instantiate(NetworkMapObjects.PrefabList[FlagIndex].Prefab,
                         Pos1, Quaternion.Euler(-90, 0, 0)).GetComponent<UnityNetworkFlagCapture>();
                     flagBase.teamNumber = new NetworkVariable<int>(0);
                     flag.teamNumber = new NetworkVariable<int>(0);
                     flag.teamBase = flagBase.transform;
 
 
-                    flagBase = Instantiate(NetworkPrefabs.PrefabList[FlagBaseIndex].Prefab,
+                    flagBase = Instantiate(NetworkMapObjects.PrefabList[FlagBaseIndex].Prefab,
                         Pos2, Quaternion.Euler(-90, 0, 0)).GetComponent<UnityNetworkFlagBase>();
-                    flag = Instantiate(NetworkPrefabs.PrefabList[FlagIndex].Prefab,
+                    flag = Instantiate(NetworkMapObjects.PrefabList[FlagIndex].Prefab,
                         Pos2, Quaternion.Euler(-90, 0, 0)).GetComponent<UnityNetworkFlagCapture>();
                     flagBase.teamNumber = new NetworkVariable<int>(1);
                     flag.teamNumber = new NetworkVariable<int>(1);
@@ -292,7 +295,7 @@ public class Map1Manager : NetworkBehaviour
         {
             Debug.Log("Current tank is");
             Debug.Log(GameSingleton.GetInstance().currentTank);
-            GameObject HostTank = Instantiate(NetworkPrefabs.PrefabList[GameSingleton.GetInstance().currentTank].Prefab);
+            GameObject HostTank = Instantiate(NetworkTankPrefabs.PrefabList[GameSingleton.GetInstance().currentTank].Prefab);
             HostTank.GetComponent<NetworkObject>().Spawn();
             //HostTank.GetComponent<NetworkObject>().SpawnAsPlayerObject(0,true);
         }
@@ -305,7 +308,7 @@ public class Map1Manager : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)] //server owns this object but client can request a spawn
     public void SpawnPlayerServerRpc(ulong clientID, int tankID)
     {
-        GameObject newPlayer = Instantiate(NetworkPrefabs.PrefabList[tankID].Prefab);
+        GameObject newPlayer = Instantiate(NetworkTankPrefabs.PrefabList[tankID].Prefab);
         NetworkObject netObj = newPlayer.GetComponent<NetworkObject>();
         newPlayer.SetActive(true);
         netObj.SpawnAsPlayerObject(clientID, true);

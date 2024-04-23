@@ -944,7 +944,8 @@ MonoBehaviour:
   Pos1: {x: 0, y: 0, z: 10}
   Pos2: {x: 0, y: 0, z: -10}
   PlayerPos: {x: 0, y: 0, z: -30}
-  NetworkPrefabs: {fileID: 11400000, guid: a6173291b553f114e8597fccf64c8959, type: 2}
+  NetworkTankPrefabs: {fileID: 11400000, guid: a6173291b553f114e8597fccf64c8959, type: 2}
+  NetworkMapObjects: {fileID: 11400000, guid: d7389fbdb88f09e4fbd45bbb8120df6e, type: 2}
   PlayerPrefabs: {fileID: 11400000, guid: eeb9404dc71753e4e9d3e53e0393d539, type: 2}
 --- !u!114 &807510654
 MonoBehaviour:
