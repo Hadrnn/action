@@ -79,7 +79,9 @@ public class UnityNetworkShellExplosion : NetworkBehaviour
             if (!targetHealth)
                 continue;
 
-            if (!GameSingleton.GetInstance().friendlyFire && targetRigidbody.GetComponent<UnityNetworkTankMovement>().teamNumber == owner.team.teamNumber) continue;
+            if (!GameSingleton.GetInstance().friendlyFire && 
+                targetRigidbody.GetComponent<UnityNetworkTankMovement>().teamNumber == owner.team.teamNumber) 
+                continue;
 
 
             // Calculate the amount of damage the target should take based on it's distance from the shell.
@@ -92,9 +94,12 @@ public class UnityNetworkShellExplosion : NetworkBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        
+
         if (IsServer)
         {
+            if (other.GetComponent<UnityNetworkFlagCapture>() || 
+                other.GetComponent<UnityNetworkFlagBase>()) return;
+
             DieClientRpc();
             Explode();
         }
