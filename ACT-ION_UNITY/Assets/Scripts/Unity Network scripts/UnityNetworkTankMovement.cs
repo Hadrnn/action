@@ -16,7 +16,6 @@ public class UnityNetworkTankMovement : NetworkBehaviour
 
     public int teamNumber { get; set; }
 
-    protected int OwnerTankID;
 
     private string m_VerticalAxisName;          // The name of the input axis for moving forward and back.
     private string m_HorizontalAxisName;              // The name of the input axis for turning.
@@ -38,10 +37,6 @@ public class UnityNetworkTankMovement : NetworkBehaviour
         transform.position = SpawnPos;
     }
 
-    public int GetOwnerTankID()
-    {
-        return OwnerTankID;
-    }
     private void OnEnable()
     {
         // When the tank is turned on, make sure it's not kinematic.
