@@ -2,27 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using static InfoCollector.Team;
 
-public class NeuralTankShooting : MonoBehaviour
+public class NeuralTankShooting : TankShooting
 {
-    public Rigidbody m_Shell;                   // Prefab of the shell.
-    public Transform m_FireTransform;           // A child of the tank where the shells are spawned.
-    public AudioSource m_ShootingAudio;         // Reference to the audio source used to play the shooting audio. NB: different to the movement audio source.
-    public AudioClip m_ChargingClip;            // Audio that plays when each shot is charging up.
-    public AudioClip m_FireClip;                // Audio that plays when each shot is fired.
-    public float m_Velocity = 30f;
-    public float m_MinLifeTime = 1f;        // The force given to the shell if the fire button is not held.
-    public float m_MaxLifeTime = 2f;        // The force given to the shell if the fire button is held for the max charge time.
-    public float m_MaxChargeTime = 0.75f;       // How long the shell can charge for before it is fired at max force.
+    // How long the shell can charge for before it is fired at max force.
     public bool onReload = false;
 
-    public float cooldown = 1f;
-    private float ShootTime = 0f;
-
-    private float m_CurrentLifeTime;         // The force that will be given to the shell when the fire button is released.
-    private float m_ChargeSpeed;                // How fast the launch force increases, based on the max charge time.
-
-    // How fast the launch force increases, based on the max charge time.
 
     // Start is called before the first frame update
     void Start()
@@ -40,7 +26,7 @@ public class NeuralTankShooting : MonoBehaviour
         }
     }
 
-    public void Fire()
+    public virtual void Fire()
     {
         float CurrentTime = Time.time;
         if ((CurrentTime - ShootTime) < cooldown)
@@ -67,6 +53,8 @@ public class NeuralTankShooting : MonoBehaviour
 
         ShellExplosion explosion = shellInstance.GetComponent<ShellExplosion>();
         explosion.m_MaxLifeTime = m_CurrentLifeTime;
+        explosion.owner = tankHolder;
+
         m_CurrentLifeTime = m_MinLifeTime;
         ShootTime = Time.time;
     }
