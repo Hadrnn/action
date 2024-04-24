@@ -110,6 +110,7 @@ public class TankHealth : MonoBehaviour
         {
             Debug.Log("I have a flag while dying");
             flag.transform.SetParent(null);
+            flag.IsCaptured = false;
         }
 
         gameObject.SetActive(false);

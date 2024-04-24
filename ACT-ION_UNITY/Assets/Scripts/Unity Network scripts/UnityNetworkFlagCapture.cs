@@ -25,7 +25,7 @@ public class UnityNetworkFlagCapture : NetworkBehaviour
 
             if (currBase.teamNumber.Value == teamNumber.Value)
             {
-                Debug.Log("Flag found a base");
+                //Debug.Log("Flag found a base");
                 teamBase = currBase.transform;
                 break;
             }
@@ -48,7 +48,7 @@ public class UnityNetworkFlagCapture : NetworkBehaviour
 
         if (PossiblyBase && PossiblyBase.teamNumber.Value != teamNumber.Value)
         {
-            Debug.Log("Im on Enemy Base");
+            //Debug.Log("Im on Enemy Base");
             transform.SetParent(null);
             SetParentClientRpc(-1,-1);
 
@@ -67,7 +67,7 @@ public class UnityNetworkFlagCapture : NetworkBehaviour
 
         if (tank.teamNumber == teamNumber.Value && transform.parent == null)
         {
-            Debug.Log("Im returning to base");
+            //Debug.Log("Im returning to base");
 
             transform.position = teamBase.position;
             transform.rotation = Quaternion.Euler(-90, 0, 0);
@@ -113,7 +113,7 @@ public class UnityNetworkFlagCapture : NetworkBehaviour
         {
             if (tankHolder.tankID == tankID)
             {
-                Debug.Log("FOUND HIM");
+                //Debug.Log("FOUND HIM");
                 transform.SetParent(tankHolder.tank.transform);
                 transform.position = tankHolder.tank.transform.position;
                 transform.rotation = Quaternion.Euler(-90, 0, 0);

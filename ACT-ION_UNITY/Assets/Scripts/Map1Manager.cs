@@ -68,12 +68,18 @@ public class Map1Manager : NetworkBehaviour
 
     public PlayerPrefabsList PlayerPrefabs;
 
+    public GameObject FlagPrefab;
+    public GameObject FlagBasePrefab;
+    public GameObject CaptureBasePrefab;
+
+
+
     private string ServerAddress = "";
     private ushort ServerPort = 0;
 
     private const string ServerAddressMark = "address=";
     private const string ServerPortMark = "port=";
-    private const string PythonServerAddress = "25.56.145.143";
+    private const string PythonServerAddress = "25.12.195.48";
     // EGOR "25.12.195.48"
     // TIMUR "25.56.145.143"
 
@@ -87,7 +93,7 @@ public class Map1Manager : NetworkBehaviour
 
     private void Awake()
     {
-        Debug.Log(GameSingleton.GetInstance().startedWithMenu);
+        //Debug.Log(GameSingleton.GetInstance().startedWithMenu);
 
         GameSingleton.GetInstance().friendlyFire = FriendlyFire;
 
@@ -130,15 +136,34 @@ public class Map1Manager : NetworkBehaviour
 
         Time.fixedDeltaTime = tickTime;
 
-
-
         switch (Type)
         {
             case GameType.SinglePlayerBot:
                 switch (GameSingleton.GetInstance().currentGameMode)
                 {
                     case GameSingleton.GameMode.Domination:
+                        Instantiate(CaptureBasePrefab, Pos1, Quaternion.Euler(-90, 0, 0));
+                        Instantiate(PlayerPrefabs.PrefabList[GameSingleton.GetInstance().currentTank], SpawnManager.GetSpawnPos(Pos1, 30), Quaternion.Euler(new Vector3(0f, 0f, 0f)));
+                        Instantiate(PlayerPrefabs.PrefabList[GameSingleton.GetInstance().currentTank], SpawnManager.GetSpawnPos(Pos1, 30), Quaternion.Euler(new Vector3(0f, 0f, 0f)));
+
+                        break;
                     case GameSingleton.GameMode.CaptureTheFlag:
+                        FlagCapture flag = Instantiate(FlagPrefab, SpawnManager.GetSpawnPos(Pos1, 30), Quaternion.Euler(-90, 0, 0)).GetComponent<FlagCapture>();
+                        FlagBase flagBase = Instantiate(FlagBasePrefab, Pos1, Quaternion.Euler(-90, 0, 0)).GetComponent<FlagBase>();
+
+                        flagBase.teamNumber = 0;
+                        flag.teamNumber = 0;
+                        flag.teamBase = flagBase.transform;
+
+                        flag = Instantiate(FlagPrefab, SpawnManager.GetSpawnPos(Pos2, 30), Quaternion.Euler(-90, 0, 0)).GetComponent<FlagCapture>();
+                        flagBase = Instantiate(FlagBasePrefab, Pos2, Quaternion.Euler(-90, 0, 0)).GetComponent<FlagBase>();
+
+                        flagBase.teamNumber = 1;
+                        flag.teamNumber = 1;
+                        flag.teamBase = flagBase.transform;
+
+                        Instantiate(PlayerPrefabs.PrefabList[GameSingleton.GetInstance().currentTank], SpawnManager.GetSpawnPos(Pos1, 30), Quaternion.Euler(new Vector3(0f, 0f, 0f)));
+                        break;
                     case GameSingleton.GameMode.TeamDeathMatch:
                     case GameSingleton.GameMode.TeamBattle:
                         Instantiate(BotTank1, SpawnManager.GetSpawnPos(Pos1, 40), Quaternion.Euler(new Vector3(0f, 0f, 0f)));

@@ -130,21 +130,21 @@ public class SinglePlayMenuFunctional : MonoBehaviour
     {
         changed_game_mode_index = 3;
         Debug.Log(changed_game_mode_index);
-        GameSingleton.GetInstance().currentGameMode = GameSingleton.GameMode.DeathMatch;
+        GameSingleton.GetInstance().currentGameMode = GameSingleton.GameMode.TeamBattle;
 
     }
     public void ChoseCaptureTheFlag()
     {
         changed_game_mode_index = 4;
         Debug.Log(changed_game_mode_index);
-        GameSingleton.GetInstance().currentGameMode = GameSingleton.GameMode.DeathMatch;
+        GameSingleton.GetInstance().currentGameMode = GameSingleton.GameMode.CaptureTheFlag;
 
     }
     public void ChoseHoldingPoints()
     {
         changed_game_mode_index = 5;
         Debug.Log(changed_game_mode_index);
-        GameSingleton.GetInstance().currentGameMode = GameSingleton.GameMode.DeathMatch;
+        GameSingleton.GetInstance().currentGameMode = GameSingleton.GameMode.Domination;
     }
 
 }

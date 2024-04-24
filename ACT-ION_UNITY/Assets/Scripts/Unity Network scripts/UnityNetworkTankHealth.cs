@@ -139,7 +139,7 @@ public class UnityNetworkTankHealth : NetworkBehaviour
         {
             if (tankHolder.tankID == killerTankID)
             {
-                Debug.Log("FOUND HIM");
+                //Debug.Log("FOUND HIM");
                 shellOwner = tankHolder;
                 break;
             }
@@ -151,8 +151,6 @@ public class UnityNetworkTankHealth : NetworkBehaviour
             ++shellOwner.kills;
             ++shellOwner.team.teamKills;
         }
-
-        //DropFlagServerRpc();
 
         if (IsServer)
         {

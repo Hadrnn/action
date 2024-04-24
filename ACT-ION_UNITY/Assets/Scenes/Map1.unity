@@ -932,9 +932,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tickTime: 0.02
-  Type: 5
+  Type: 2
   ST: 1
-  Mode: 4
+  Mode: 2
   FriendlyFire: 1
   UnityNetworkManager: {fileID: 7640481245423487163, guid: fe0bbd41349293d47a7cc70593b09473, type: 3}
   UnityNetworkMenu: {fileID: 6535677236963878315, guid: 096de73100e08584e8187d4620d69267, type: 3}
@@ -947,6 +947,9 @@ MonoBehaviour:
   NetworkTankPrefabs: {fileID: 11400000, guid: a6173291b553f114e8597fccf64c8959, type: 2}
   NetworkMapObjects: {fileID: 11400000, guid: d7389fbdb88f09e4fbd45bbb8120df6e, type: 2}
   PlayerPrefabs: {fileID: 11400000, guid: eeb9404dc71753e4e9d3e53e0393d539, type: 2}
+  FlagPrefab: {fileID: 1551958281601312036, guid: a5372522e0743ad4da24deaebab64d43, type: 3}
+  FlagBasePrefab: {fileID: 7695521248889982431, guid: 78822b5c54ee1164aa85fd1eea0e3628, type: 3}
+  CaptureBasePrefab: {fileID: 6523149201768829824, guid: fc91ebdb66bbeed4ba3b0f36deef21f0, type: 3}
 --- !u!114 &807510654
 MonoBehaviour:
   m_ObjectHideFlags: 0
