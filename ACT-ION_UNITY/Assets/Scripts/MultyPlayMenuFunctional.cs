@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SinglePlayMenuFunctional : MonoBehaviour
+public class MultyPlayMenuFunctional : MonoBehaviour
 {
     private int map_index = 0;
     private int max_map_index = 0;
@@ -87,7 +87,7 @@ public class SinglePlayMenuFunctional : MonoBehaviour
         {
             gameObject.GetComponentInChildren<Transform>().Find("ChoseTankMenu").GetComponentInChildren<Transform>().Find("ARTPct").gameObject.SetActive(false);
         }
-        GameSingleton.GetInstance().currentTank = tank_index;   
+        GameSingleton.GetInstance().currentTank = tank_index;
     }
     public void UpTankIndex()
     {
@@ -136,5 +136,6 @@ public class SinglePlayMenuFunctional : MonoBehaviour
         changed_game_mode_index = 5;
         Debug.Log(changed_game_mode_index);
     }
+
 
 }
