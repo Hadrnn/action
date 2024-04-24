@@ -26,6 +26,7 @@ public class GameSingleton
     public int currentGameMode = GameMode.DeathMatch;
     public int playerTeam = -1;
     public bool friendlyFire = true;
+    public bool startedWithMenu = false;
     
     private GameSingleton() {
         //Debug.Log("SPAWNED SINGLETON");

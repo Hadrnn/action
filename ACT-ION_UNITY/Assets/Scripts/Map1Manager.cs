@@ -31,7 +31,7 @@ public enum GameMode
     TeamDeathMatch = 1,
     CaptureTheFlag = 2,
     TeamBattle = 3,
-    Domitanion = 4,
+    Domination = 4,
 }
 public class Map1Manager : NetworkBehaviour
 {
@@ -73,6 +73,9 @@ public class Map1Manager : NetworkBehaviour
 
     private const string ServerAddressMark = "address=";
     private const string ServerPortMark = "port=";
+    private const string PythonServerAddress = "25.56.145.143";
+    // EGOR "25.12.195.48"
+    // TIMUR "25.56.145.143"
 
     private int ticks = 0;
     private bool DidSetFriendEnemy = false;
@@ -84,8 +87,11 @@ public class Map1Manager : NetworkBehaviour
 
     private void Awake()
     {
+        Debug.Log(GameSingleton.GetInstance().startedWithMenu);
+
         GameSingleton.GetInstance().friendlyFire = FriendlyFire;
 
+        if (!GameSingleton.GetInstance().startedWithMenu)
         switch (Mode)
         {
             case GameMode.TeamDeathMatch:
@@ -100,7 +106,7 @@ public class Map1Manager : NetworkBehaviour
             case GameMode.TeamBattle:
                 GameSingleton.GetInstance().currentGameMode = GameSingleton.GameMode.TeamBattle;
                 break;
-            case GameMode.Domitanion:
+            case GameMode.Domination:
                 GameSingleton.GetInstance().currentGameMode = GameSingleton.GameMode.Domination;
                 break;
             default:
@@ -108,9 +114,9 @@ public class Map1Manager : NetworkBehaviour
                 break;
         }
 
-        if (Mode == GameMode.TeamDeathMatch ||
-           Mode == GameMode.CaptureTheFlag ||
-           Mode == GameMode.TeamBattle)
+        if (GameSingleton.GetInstance().currentGameMode == GameSingleton.GameMode.TeamDeathMatch ||
+            GameSingleton.GetInstance().currentGameMode == GameSingleton.GameMode.CaptureTheFlag ||
+            GameSingleton.GetInstance().currentGameMode == GameSingleton.GameMode.TeamBattle)
         {
             InfoCollector collector = GetComponent<InfoCollector>();
             collector.team1Spawn = Pos1;
@@ -129,10 +135,12 @@ public class Map1Manager : NetworkBehaviour
         switch (Type)
         {
             case GameType.SinglePlayerBot:
-                switch (Mode)
+                switch (GameSingleton.GetInstance().currentGameMode)
                 {
-                    case GameMode.TeamDeathMatch:
-                    case GameMode.TeamBattle:
+                    case GameSingleton.GameMode.Domination:
+                    case GameSingleton.GameMode.CaptureTheFlag:
+                    case GameSingleton.GameMode.TeamDeathMatch:
+                    case GameSingleton.GameMode.TeamBattle:
                         Instantiate(BotTank1, SpawnManager.GetSpawnPos(Pos1, 40), Quaternion.Euler(new Vector3(0f, 0f, 0f)));
                         Instantiate(BotTank1, SpawnManager.GetSpawnPos(Pos1, 40), Quaternion.Euler(new Vector3(0f, 0f, 0f)));
                         Instantiate(BotTank1, SpawnManager.GetSpawnPos(Pos1, 40), Quaternion.Euler(new Vector3(0f, 0f, 0f)));
@@ -140,7 +148,7 @@ public class Map1Manager : NetworkBehaviour
                         Instantiate(BotTank1, SpawnManager.GetSpawnPos(Pos1, 40), Quaternion.Euler(new Vector3(0f, 0f, 0f)));
                         Instantiate(PlayerPrefabs.PrefabList[GameSingleton.GetInstance().currentTank], SpawnManager.GetSpawnPos(Pos1, 30), Quaternion.Euler(new Vector3(0f, 0f, 0f)));
                         break;
-                    case GameMode.DeathMatch:
+                    case GameSingleton.GameMode.DeathMatch:
                         Instantiate(BotTank1, Pos1, Quaternion.Euler(new Vector3(0f, 0f, 0f)));
                         Instantiate(BotTank2, Pos2, Quaternion.Euler(new Vector3(0f, 0f, 0f)));
                         Instantiate(PlayerPrefabs.PrefabList[GameSingleton.GetInstance().currentTank], PlayerPos, Quaternion.Euler(new Vector3(0f, 0f, 0f)));
@@ -195,7 +203,7 @@ public class Map1Manager : NetworkBehaviour
 
                 NetworkManager.Singleton.StartServer();
 
-                if (Mode == GameMode.CaptureTheFlag)
+                if (GameSingleton.GetInstance().currentGameMode == GameSingleton.GameMode.CaptureTheFlag)
                 {
                     UnityNetworkFlagBase flagBase = Instantiate(NetworkMapObjects.PrefabList[FlagBaseIndex].Prefab,
                         Pos1, Quaternion.Euler(-90, 0, 0)).GetComponent<UnityNetworkFlagBase>();
@@ -222,9 +230,12 @@ public class Map1Manager : NetworkBehaviour
                     flagBase.GetComponent<NetworkObject>().Spawn();
 
                 }
-                else if (Mode == GameMode.Domitanion)
+                else if (GameSingleton.GetInstance().currentGameMode == GameSingleton.GameMode.Domination)
                 {
+                    UnityNetworkBaseCapture captureBase = Instantiate(NetworkMapObjects.PrefabList[DominationBaseIndex].Prefab,
+                        Vector3.zero, Quaternion.Euler(-90, 0, 0)).GetComponent<UnityNetworkBaseCapture>();
 
+                    captureBase.GetComponent<NetworkObject>().Spawn();
                 }
 
 
@@ -240,7 +251,7 @@ public class Map1Manager : NetworkBehaviour
                 ///
                 // Connect to server
                 Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                socket.Connect("25.12.195.48", 9999);
+                socket.Connect(PythonServerAddress, 9999);
                 // Send message
                 string message = "PlayerName=Player1 Map=Map1";
                 byte[] messageBytes = Encoding.UTF8.GetBytes(message);
@@ -276,8 +287,6 @@ public class Map1Manager : NetworkBehaviour
             }
             ++ticks;
         }
-        //if (NetworkManager.Singleton) GetComponent<InfoCollector>().SetFriendEnemyNetwork();
-        //else GetComponent<InfoCollector>().SetFriendEnemy();
     }
 
     private void HandleAnswer(string[] parameters)

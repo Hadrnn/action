@@ -13,6 +13,7 @@ public class MultyPlayMenuFunctional : MonoBehaviour
     private int changed_game_mode_index = 1;
     public void Play()
     {
+        GameSingleton.GetInstance().startedWithMenu = true;
         UnityEngine.SceneManagement.SceneManager.LoadScene(map_index);
     }
     public void UpMapIndex()
@@ -115,26 +116,39 @@ public class MultyPlayMenuFunctional : MonoBehaviour
     {
         changed_game_mode_index = 1;
         Debug.Log(changed_game_mode_index);
+
+        GameSingleton.GetInstance().currentGameMode = GameSingleton.GameMode.TeamDeathMatch;
     }
     public void ChoseFreeForeAll()
     {
         changed_game_mode_index = 2;
         Debug.Log(changed_game_mode_index);
+
+        GameSingleton.GetInstance().currentGameMode = GameSingleton.GameMode.DeathMatch;
     }
     public void ChoseTeamBattle()
     {
         changed_game_mode_index = 3;
         Debug.Log(changed_game_mode_index);
+
+        GameSingleton.GetInstance().currentGameMode = GameSingleton.GameMode.TeamBattle;
+
     }
     public void ChoseCaptureTheFlag()
     {
         changed_game_mode_index = 4;
         Debug.Log(changed_game_mode_index);
+
+        GameSingleton.GetInstance().currentGameMode = GameSingleton.GameMode.CaptureTheFlag;
+
     }
     public void ChoseHoldingPoints()
     {
         changed_game_mode_index = 5;
         Debug.Log(changed_game_mode_index);
+
+        GameSingleton.GetInstance().currentGameMode = GameSingleton.GameMode.Domination;
+
     }
 
 

@@ -8,7 +8,12 @@ public class UnityNetworkFlagCapture : NetworkBehaviour
     public NetworkVariable<int> teamNumber;
     public Transform teamBase;
 
-    private bool IsCaptured;
+    private NetworkVariable<bool> IsCaptured;
+
+    private void Awake()
+    {
+        IsCaptured = new NetworkVariable<bool>(false);
+    }
 
     private void Start()
     {
@@ -49,7 +54,7 @@ public class UnityNetworkFlagCapture : NetworkBehaviour
 
             transform.position = teamBase.position;
             transform.rotation = Quaternion.Euler(-90, 0, 0);
-            IsCaptured = false;
+            IsCaptured.Value = false;
             return;
         }
 
@@ -57,7 +62,7 @@ public class UnityNetworkFlagCapture : NetworkBehaviour
         UnityNetworkTankMovement tank = other.GetComponent<UnityNetworkTankMovement>();
 
 
-        if (!tank || IsCaptured) return;
+        if (!tank || IsCaptured.Value) return;
 
 
         if (tank.teamNumber == teamNumber.Value && transform.parent == null)
@@ -66,7 +71,7 @@ public class UnityNetworkFlagCapture : NetworkBehaviour
 
             transform.position = teamBase.position;
             transform.rotation = Quaternion.Euler(-90, 0, 0);
-            IsCaptured = false;
+            IsCaptured.Value = false;
             return;
         }
 
@@ -78,18 +83,28 @@ public class UnityNetworkFlagCapture : NetworkBehaviour
 
         transform.position = other.transform.position;
         transform.rotation = Quaternion.Euler(-90, 0, 0);
-        IsCaptured = true;
+        IsCaptured.Value = true;
 
     }
 
-    [ClientRpc]
-    private void SetParentClientRpc(int teamNumber, int tankID)
+    public void SetCaptured(bool toSet)
     {
-        if ((teamNumber == -1) && (tankID == -1))
+        IsCaptured.Value = toSet;
+    }
+
+    [ClientRpc]
+    public void SetParentClientRpc(int teamNumber, int tankID)
+    {
+        if (teamNumber == -1)
         {
             transform.SetParent(null);
-            transform.position = teamBase.position;
-            transform.rotation = Quaternion.Euler(-90, 0, 0);
+
+            if (tankID == -1)
+            {
+                transform.position = teamBase.position;
+                transform.rotation = Quaternion.Euler(-90, 0, 0);
+            }
+
             return;
         }
 

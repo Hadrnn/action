@@ -152,12 +152,20 @@ public class UnityNetworkTankHealth : NetworkBehaviour
             ++shellOwner.team.teamKills;
         }
 
-        UnityNetworkFlagCapture flag = GetComponentInChildren<UnityNetworkFlagCapture>();
-        if (flag)
+        //DropFlagServerRpc();
+
+        if (IsServer)
         {
-            Debug.Log("I have a flag while dying");
-            flag.transform.SetParent(null);
+            UnityNetworkFlagCapture flag = GetComponentInChildren<UnityNetworkFlagCapture>();
+            if (flag)
+            {
+                Debug.Log("I have a flag while dying");
+                flag.transform.SetParent(null);
+                flag.SetParentClientRpc(-1, -2);
+                flag.SetCaptured(false);
+            }
         }
+
 
         Vector3 Grave = new Vector3(transform.position.x,-10, transform.position.z);
         //transform.position = Grave;

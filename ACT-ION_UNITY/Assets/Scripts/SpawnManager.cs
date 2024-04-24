@@ -9,7 +9,7 @@ public class SpawnManager : NetworkBehaviour
     public List<float> deathTime = new();
     public float roundRestartDelay = 2f;
     public float RespawnTime = 2;
-    static public int defaultSpawnRadius = 30;
+    static public int defaultSpawnRadius = 5;
     public bool endOfRound { get; set; }
     public float roundEndTime { get; set; }
 
