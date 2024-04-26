@@ -8,6 +8,7 @@ using System.IO;
 using System;
 using System.Net.Sockets;
 using System.Text;
+using UnityEngine.UIElements;
 
 public enum GameType
 {
@@ -52,27 +53,18 @@ public class Map1Manager : NetworkBehaviour
     public GameObject BotTank1;
     public GameObject BotTank2;
 
-    /// <summary>
-    /// Spawn position of bot 1 or team 1 spawn
-    /// </summary>
-    public Vector3 Pos1 = new Vector3(0f, 0f, 10f);
-    /// <summary>
-    /// Spawn position of bot 2 or team 2 spawn
-    /// </summary>
-    public Vector3 Pos2 = new Vector3(0f, 0f, -30f);
-    public Vector3 PlayerPos = new Vector3(0f, 0f, -10f);
+    public Vector3[] Positions = { new Vector3(0f, 0f, 10f), new Vector3(0f, 0f, -30f), new Vector3(0f, 0f, 10f) };
 
     public NetworkPrefabsList NetworkTankPrefabs;
     public NetworkPrefabsList NetworkMapObjects;
 
 
     public PlayerPrefabsList PlayerPrefabs;
+    public PlayerPrefabsList BotPrefabs;
 
     public GameObject FlagPrefab;
     public GameObject FlagBasePrefab;
     public GameObject CaptureBasePrefab;
-
-
 
     private string ServerAddress = "";
     private ushort ServerPort = 0;
@@ -90,6 +82,12 @@ public class Map1Manager : NetworkBehaviour
     private const int FlagIndex = 0;
     private const int FlagBaseIndex = 1;
     private const int DominationBaseIndex = 2;
+
+    private const int amountOfTanks = 4;
+    private const int amountOfTeams = 2;
+
+    private const int defaultSpawnRadius = 30;
+
 
     private void Awake()
     {
@@ -125,8 +123,8 @@ public class Map1Manager : NetworkBehaviour
             GameSingleton.GetInstance().currentGameMode == GameSingleton.GameMode.TeamBattle)
         {
             InfoCollector collector = GetComponent<InfoCollector>();
-            collector.team1Spawn = Pos1;
-            collector.team2Spawn = Pos2;
+            collector.team1Spawn = Positions[0];
+            collector.team2Spawn = Positions[1];
         }
     }
 
@@ -142,41 +140,122 @@ public class Map1Manager : NetworkBehaviour
                 switch (GameSingleton.GetInstance().currentGameMode)
                 {
                     case GameSingleton.GameMode.Domination:
-                        Instantiate(CaptureBasePrefab, Pos1, Quaternion.Euler(-90, 0, 0));
-                        Instantiate(PlayerPrefabs.PrefabList[GameSingleton.GetInstance().currentTank], SpawnManager.GetSpawnPos(Pos1, 30), Quaternion.Euler(new Vector3(0f, 0f, 0f)));
-                        Instantiate(PlayerPrefabs.PrefabList[GameSingleton.GetInstance().currentTank], SpawnManager.GetSpawnPos(Pos1, 30), Quaternion.Euler(new Vector3(0f, 0f, 0f)));
+
+                        Instantiate(CaptureBasePrefab, Positions[2], Quaternion.Euler(-90, 0, 0));
+
+
+                        for (ushort teamNumber = 0; teamNumber < amountOfTeams; ++teamNumber)
+                        {
+                            for (ushort tankIndex = 0; tankIndex < amountOfTanks; ++tankIndex)
+                            {
+                                int tankAmount = GameSingleton.GetInstance().botAmounts[teamNumber, tankIndex];
+                                for (ushort i = 0; i < tankAmount; ++i)
+                                {
+                                    TankMovement tank = Instantiate(BotPrefabs.PrefabList[tankIndex],
+                                        SpawnManager.GetSpawnPos(Positions[teamNumber], defaultSpawnRadius), Quaternion.Euler(new Vector3(0f, 0f, 0f))).GetComponent<TankMovement>();
+                                    tank.teamNumber = teamNumber;
+                                }
+                            }
+                        }
+
+
+
+                        Instantiate(PlayerPrefabs.PrefabList[GameSingleton.GetInstance().currentTank], SpawnManager.GetSpawnPos(Positions[0], defaultSpawnRadius), Quaternion.Euler(new Vector3(0f, 0f, 0f)));
+                        Instantiate(PlayerPrefabs.PrefabList[GameSingleton.GetInstance().currentTank], SpawnManager.GetSpawnPos(Positions[0], defaultSpawnRadius), Quaternion.Euler(new Vector3(0f, 0f, 0f)));
 
                         break;
                     case GameSingleton.GameMode.CaptureTheFlag:
-                        FlagCapture flag = Instantiate(FlagPrefab, SpawnManager.GetSpawnPos(Pos1, 30), Quaternion.Euler(-90, 0, 0)).GetComponent<FlagCapture>();
-                        FlagBase flagBase = Instantiate(FlagBasePrefab, Pos1, Quaternion.Euler(-90, 0, 0)).GetComponent<FlagBase>();
 
-                        flagBase.teamNumber = 0;
-                        flag.teamNumber = 0;
-                        flag.teamBase = flagBase.transform;
+                        for (ushort teamNumber = 0; teamNumber < amountOfTeams; ++teamNumber)
+                        {
+                            FlagBase flagBase = Instantiate(FlagBasePrefab, Positions[teamNumber], Quaternion.Euler(-90, 0, 0)).GetComponent<FlagBase>();
+                            FlagCapture flag = Instantiate(FlagPrefab, SpawnManager.GetSpawnPos(Positions[teamNumber], defaultSpawnRadius), Quaternion.Euler(-90, 0, 0)).GetComponent<FlagCapture>();
 
-                        flag = Instantiate(FlagPrefab, SpawnManager.GetSpawnPos(Pos2, 30), Quaternion.Euler(-90, 0, 0)).GetComponent<FlagCapture>();
-                        flagBase = Instantiate(FlagBasePrefab, Pos2, Quaternion.Euler(-90, 0, 0)).GetComponent<FlagBase>();
+                            flagBase.teamNumber = teamNumber;
+                            flag.teamNumber = teamNumber;
+                            flag.teamBase = flagBase.transform;
+                        }
 
-                        flagBase.teamNumber = 1;
-                        flag.teamNumber = 1;
-                        flag.teamBase = flagBase.transform;
+                        // Spawning bots
+                        for (ushort teamNumber = 0; teamNumber < amountOfTeams; ++teamNumber)
+                        {
+                            for (ushort tankIndex = 0; tankIndex < amountOfTanks; ++tankIndex)
+                            {
+                                int tankAmount = GameSingleton.GetInstance().botAmounts[teamNumber, tankIndex];
+                                for (ushort i = 0; i < tankAmount; ++i)
+                                {
+                                    TankMovement tank = Instantiate(BotPrefabs.PrefabList[tankIndex],
+                                        SpawnManager.GetSpawnPos(Positions[teamNumber], defaultSpawnRadius), Quaternion.Euler(new Vector3(0f, 0f, 0f))).GetComponent<TankMovement>();
+                                    tank.teamNumber = teamNumber;
+                                }
+                            }
+                        }
 
-                        Instantiate(PlayerPrefabs.PrefabList[GameSingleton.GetInstance().currentTank], SpawnManager.GetSpawnPos(Pos1, 30), Quaternion.Euler(new Vector3(0f, 0f, 0f)));
+                        Instantiate(PlayerPrefabs.PrefabList[GameSingleton.GetInstance().currentTank], SpawnManager.GetSpawnPos(Positions[0], defaultSpawnRadius), Quaternion.Euler(new Vector3(0f, 0f, 0f)));
                         break;
                     case GameSingleton.GameMode.TeamDeathMatch:
+
+                        // No need to uncomment cuz it will fall into TeamBattle code 
+
+
+                        //for (ushort teamNumber = 0; teamNumber < amountOfTeams; ++teamNumber)
+                        //{
+                        //    for (ushort tankIndex = 0; tankIndex < amountOfTanks; ++tankIndex)
+                        //    {
+                        //        int tankAmount = GameSingleton.GetInstance().botAmounts[teamNumber, tankIndex];
+                        //        for (ushort i = 0; i < tankAmount; ++i)
+                        //        {
+                        //            TankMovement tank = Instantiate(BotPrefabs.PrefabList[tankIndex],
+                        //                SpawnManager.GetSpawnPos(Positions[teamNumber], defaultSpawnRadius), Quaternion.Euler(new Vector3(0f, 0f, 0f))).GetComponent<TankMovement>();
+                        //            tank.teamNumber = teamNumber;
+                        //        }
+                        //    }
+                        //}
+
+                        //Instantiate(PlayerPrefabs.PrefabList[GameSingleton.GetInstance().currentTank], SpawnManager.GetSpawnPos(Positions[0], defaultSpawnRadius), Quaternion.Euler(new Vector3(0f, 0f, 0f)));
+
+                        //break;
                     case GameSingleton.GameMode.TeamBattle:
-                        Instantiate(BotTank1, SpawnManager.GetSpawnPos(Pos1, 40), Quaternion.Euler(new Vector3(0f, 0f, 0f)));
-                        Instantiate(BotTank1, SpawnManager.GetSpawnPos(Pos1, 40), Quaternion.Euler(new Vector3(0f, 0f, 0f)));
-                        Instantiate(BotTank1, SpawnManager.GetSpawnPos(Pos1, 40), Quaternion.Euler(new Vector3(0f, 0f, 0f)));
-                        Instantiate(BotTank1, SpawnManager.GetSpawnPos(Pos1, 40), Quaternion.Euler(new Vector3(0f, 0f, 0f)));
-                        Instantiate(BotTank1, SpawnManager.GetSpawnPos(Pos1, 40), Quaternion.Euler(new Vector3(0f, 0f, 0f)));
-                        Instantiate(PlayerPrefabs.PrefabList[GameSingleton.GetInstance().currentTank], SpawnManager.GetSpawnPos(Pos1, 30), Quaternion.Euler(new Vector3(0f, 0f, 0f)));
+
+                        for (ushort teamNumber = 0; teamNumber < amountOfTeams; ++teamNumber)
+                        {
+                            for (ushort tankIndex = 0; tankIndex < amountOfTanks; ++tankIndex)
+                            {
+                                int tankAmount = GameSingleton.GetInstance().botAmounts[teamNumber, tankIndex];
+                                for (ushort i = 0; i < tankAmount; ++i)
+                                {
+                                    TankMovement tank = Instantiate(BotPrefabs.PrefabList[tankIndex],
+                                        SpawnManager.GetSpawnPos(Positions[teamNumber], defaultSpawnRadius), Quaternion.Euler(new Vector3(0f, 0f, 0f))).GetComponent<TankMovement>();
+                                    tank.teamNumber = teamNumber;
+                                }
+                            }
+                        }
+
+                        Instantiate(PlayerPrefabs.PrefabList[GameSingleton.GetInstance().currentTank], SpawnManager.GetSpawnPos(Positions[0], defaultSpawnRadius), Quaternion.Euler(new Vector3(0f, 0f, 0f)));
+
+                        //Instantiate(BotTank1, SpawnManager.GetSpawnPos(Positions[0], 40), Quaternion.Euler(new Vector3(0f, 0f, 0f)));
+                        //Instantiate(BotTank1, SpawnManager.GetSpawnPos(Positions[0], 40), Quaternion.Euler(new Vector3(0f, 0f, 0f)));
+                        //Instantiate(BotTank1, SpawnManager.GetSpawnPos(Positions[0], 40), Quaternion.Euler(new Vector3(0f, 0f, 0f)));
+                        //Instantiate(BotTank1, SpawnManager.GetSpawnPos(Positions[0], 40), Quaternion.Euler(new Vector3(0f, 0f, 0f)));
+                        //Instantiate(BotTank1, SpawnManager.GetSpawnPos(Positions[0], 40), Quaternion.Euler(new Vector3(0f, 0f, 0f)));
                         break;
                     case GameSingleton.GameMode.DeathMatch:
-                        Instantiate(BotTank1, Pos1, Quaternion.Euler(new Vector3(0f, 0f, 0f)));
-                        Instantiate(BotTank2, Pos2, Quaternion.Euler(new Vector3(0f, 0f, 0f)));
-                        Instantiate(PlayerPrefabs.PrefabList[GameSingleton.GetInstance().currentTank], PlayerPos, Quaternion.Euler(new Vector3(0f, 0f, 0f)));
+
+                        for (ushort teamNumber = 0; teamNumber < amountOfTeams; ++teamNumber)
+                        {
+                            for (ushort tankIndex = 0; tankIndex < amountOfTanks; ++tankIndex)
+                            {
+                                int tankAmount = GameSingleton.GetInstance().botAmounts[teamNumber, tankIndex];
+                                for (ushort i = 0; i < tankAmount; ++i)
+                                {
+                                    Instantiate(BotPrefabs.PrefabList[tankIndex], SpawnManager.GetSpawnPos(Positions[teamNumber], defaultSpawnRadius), Quaternion.Euler(new Vector3(0f, 0f, 0f))).GetComponent<TankMovement>();
+                                }
+                            }
+                        }
+
+                        //Instantiate(BotTank1, Positions[0], Quaternion.Euler(new Vector3(0f, 0f, 0f)));
+                        //Instantiate(BotTank2, Positions[1], Quaternion.Euler(new Vector3(0f, 0f, 0f)));
+                        Instantiate(PlayerPrefabs.PrefabList[GameSingleton.GetInstance().currentTank], Positions[2], Quaternion.Euler(new Vector3(0f, 0f, 0f)));
                         break;
                     default:
                         break;
@@ -200,12 +279,12 @@ public class Map1Manager : NetworkBehaviour
                 switch (ST)
                 {
                     case SpawnType.Determined:
-                        Instantiate(BotTank1, Pos1, Quaternion.Euler(new Vector3(0f, 0f, 0f)));
-                        Instantiate(BotTank2, Pos2, Quaternion.Euler(new Vector3(0f, 0f, 0f)));
+                        Instantiate(BotTank1, Positions[0], Quaternion.Euler(new Vector3(0f, 0f, 0f)));
+                        Instantiate(BotTank2, Positions[1], Quaternion.Euler(new Vector3(0f, 0f, 0f)));
                         break;
                     case SpawnType.Randomized:
-                        Instantiate(BotTank1, SpawnManager.GetSpawnPos(Pos1, 30), Quaternion.Euler(new Vector3(0f, 0f, 0f)));
-                        Instantiate(BotTank2, SpawnManager.GetSpawnPos(Pos2, 30), Quaternion.Euler(new Vector3(0f, 0f, 0f)));
+                        Instantiate(BotTank1, SpawnManager.GetSpawnPos(Positions[0], defaultSpawnRadius), Quaternion.Euler(new Vector3(0f, 0f, 0f)));
+                        Instantiate(BotTank2, SpawnManager.GetSpawnPos(Positions[1], defaultSpawnRadius), Quaternion.Euler(new Vector3(0f, 0f, 0f)));
                         break;
                     default:
                         break;
@@ -231,9 +310,9 @@ public class Map1Manager : NetworkBehaviour
                 if (GameSingleton.GetInstance().currentGameMode == GameSingleton.GameMode.CaptureTheFlag)
                 {
                     UnityNetworkFlagBase flagBase = Instantiate(NetworkMapObjects.PrefabList[FlagBaseIndex].Prefab,
-                        Pos1, Quaternion.Euler(-90, 0, 0)).GetComponent<UnityNetworkFlagBase>();
+                        Positions[0], Quaternion.Euler(-90, 0, 0)).GetComponent<UnityNetworkFlagBase>();
                     UnityNetworkFlagCapture flag = Instantiate(NetworkMapObjects.PrefabList[FlagIndex].Prefab,
-                        Pos1, Quaternion.Euler(-90, 0, 0)).GetComponent<UnityNetworkFlagCapture>();
+                        Positions[0], Quaternion.Euler(-90, 0, 0)).GetComponent<UnityNetworkFlagCapture>();
 
                     flagBase.teamNumber = new NetworkVariable<int>(0);
                     flag.teamNumber = new NetworkVariable<int>(0);
@@ -244,9 +323,9 @@ public class Map1Manager : NetworkBehaviour
 
 
                     flagBase = Instantiate(NetworkMapObjects.PrefabList[FlagBaseIndex].Prefab,
-                        Pos2, Quaternion.Euler(-90, 0, 0)).GetComponent<UnityNetworkFlagBase>();
+                        Positions[1], Quaternion.Euler(-90, 0, 0)).GetComponent<UnityNetworkFlagBase>();
                     flag = Instantiate(NetworkMapObjects.PrefabList[FlagIndex].Prefab,
-                        Pos2, Quaternion.Euler(-90, 0, 0)).GetComponent<UnityNetworkFlagCapture>();
+                        Positions[1], Quaternion.Euler(-90, 0, 0)).GetComponent<UnityNetworkFlagCapture>();
 
                     flagBase.teamNumber = new NetworkVariable<int>(1);
                     flag.teamNumber = new NetworkVariable<int>(1);

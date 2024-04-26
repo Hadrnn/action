@@ -15,14 +15,15 @@ public class SpawnManager : NetworkBehaviour
 
 
     private InfoCollector collector;
-    private static List<Vector3> pos = new(); 
+    private static List<Vector3> pos = new();
+    private const int roundEndTimeNotSet = -1;
 
     // Start is called before the first frame update
     void Start()
     {
         collector = GetComponent<InfoCollector>();
         endOfRound = false;
-        roundEndTime = -1;
+        roundEndTime = roundEndTimeNotSet;
 
         pos.Add(new Vector3(0, 0, 34));
         pos.Add(new Vector3(-50, 0, 0));
@@ -36,13 +37,14 @@ public class SpawnManager : NetworkBehaviour
     {
         Vector3 spawnAreaPos = new Vector3(0, 0, 0);
 
+        // Checking if it is the end of round is in InfoCollector script
 
         if (GameSingleton.GetInstance().currentGameMode == GameSingleton.GameMode.TeamBattle)
         {
             float currTime = Time.time;
             if (!endOfRound) return;
 
-            if (roundEndTime == -1)
+            if (roundEndTime == roundEndTimeNotSet)
             {
                 roundEndTime = currTime;
                 Debug.Log("Set round end time");
@@ -54,6 +56,7 @@ public class SpawnManager : NetworkBehaviour
                 return;
             }
 
+            // Restartung round
             Debug.Log("Round ended, respawning");
             foreach( InfoCollector.Team team in collector.teams)
             {
@@ -68,7 +71,7 @@ public class SpawnManager : NetworkBehaviour
                 team.alivePlayers = team.tanks.Count;
             }
 
-            roundEndTime = -1;
+            roundEndTime = roundEndTimeNotSet;
             endOfRound = false;
 
             return;

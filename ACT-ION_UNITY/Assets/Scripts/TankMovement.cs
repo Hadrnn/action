@@ -3,6 +3,8 @@ using static UnityEngine.GraphicsBuffer;
 
 public class TankMovement : MonoBehaviour
 {
+    public const int teamNotSet = -1;
+
     public float m_Speed = 12f;                 // How fast the tank moves forward and back.
     public float m_TurnSpeed = 300f;            // How fast the tank turns in degrees per second.
     public AudioSource m_MovementAudio;         // Reference to the audio source used to play engine sounds. NB: different to the shooting audio source.
@@ -22,9 +24,9 @@ public class TankMovement : MonoBehaviour
     protected BoxCollider m_Collider;
 
 
-
     private void Awake()
     {
+        teamNumber = teamNotSet;
         m_Rigidbody = GetComponent<Rigidbody>();
         m_Collider = GetComponent<BoxCollider>();
     }

@@ -48,7 +48,7 @@ public class UnityNetworkBaseCapture : NetworkBehaviour
         isCaptured = new NetworkVariable<bool>(false);
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         if (!IsServer) return;
 
@@ -88,51 +88,37 @@ public class UnityNetworkBaseCapture : NetworkBehaviour
 
         if (!IsServer) return;
 
-        if (occupantTeam.Value == empty && contesterTeam.Value == empty) return;
+        if (occupantTeam.Value == empty && contesterTeam.Value == empty) goto END;
 
         if (occupantCount.Value != 0 && contesterCount.Value != 0)
         {
             //Debug.Log("Contest");
             //Debug.Log(occupantCount);
             //Debug.Log(contesterCount);  
-            return;
+            goto END;
         }
 
         if (occupantTeam != contesterTeam && occupantCount.Value == 0 && contesterCount.Value != 0)
         {
-            currentPoints.Value -= pointsDelta * contesterCount.Value * Time.fixedDeltaTime;
+            currentPoints.Value -= pointsDelta * contesterCount.Value * Time.deltaTime;
             //Debug.Log("Uncapturing a point, team " + contesterTeam.ToString() + " with " + contesterCount.ToString() + " contesters");
 
             if (currentPoints.Value < 0)
             {
                 //Debug.Log("Team lost a point, point neutral");
                 isCaptured.Value = false;
-                occupantTeam = contesterTeam;
-                occupantCount = contesterCount;
+                occupantTeam.Value = contesterTeam.Value;
+                occupantCount.Value = contesterCount.Value;
                 contesterTeam.Value = empty;
                 contesterCount.Value = 0;
 
-
-                //// GONE TO CLIENT RPC
-                //teamLight.color = Color.white;
-                //
-                //Color sliderColor;
-                //if (occupantTeam.Value == GameSingleton.GetInstance().playerTeam) sliderColor = Color.blue;
-                //else sliderColor = Color.red;
-                //
-                //sliderColor.a = 0.5f;
-                //
-                //CaptureImage.color = sliderColor;
-
                 SetSliderColorClientRpc(occupantTeam.Value);
-
-
 
                 //Debug.Log("Occupant" + occupantTeam.ToString());
                 //Debug.Log("Contester" + contesterTeam.ToString());
 
             }
-            return;
+            goto END;
         }
 
         if (occupantCount.Value != 0 && contesterCount.Value == 0)
@@ -146,10 +132,6 @@ public class UnityNetworkBaseCapture : NetworkBehaviour
                 //Debug.Log("Point captured");
                 isCaptured.Value = true;
 
-                //if (occupantTeam.Value == GameSingleton.GetInstance().playerTeam)
-                //    teamLight.color = Color.blue;
-                //else teamLight.color = Color.red;
-
                 SetTeamLightClientRpc(occupantTeam.Value);
             }
         }
@@ -160,38 +142,21 @@ public class UnityNetworkBaseCapture : NetworkBehaviour
             {
                 //Debug.Log("Gaining point");
                 currentPoints.Value += pointsDelta * staticIncrease * Time.fixedDeltaTime;
-                return;
+                goto END;
             }
             if (!isCaptured.Value && currentPoints.Value > 0)
             {
                 currentPoints.Value -= pointsDelta * staticDecrease * Time.fixedDeltaTime;
-                return;
+                goto END;
             }
         }
+
+    END:
+        contesterCount.Value = 0;
+        occupantCount.Value = 0;
+        return;
     }
 
-    private void OnTriggerExit(Collider other)
-    {
-        if (!IsServer) return;
-
-        InfoCollector.Team.TankHolder holder = other.GetComponent<TankShooting>().tankHolder;
-
-        //Debug.Log("On exit");
-        //Debug.Log(holder.team.teamNumber);
-
-        if (holder.team.teamNumber == occupantTeam.Value)
-        {
-            --occupantCount.Value;
-            //Debug.Log("Removed an occupant");
-            return;
-        };
-
-        if (holder.team.teamNumber == contesterTeam.Value)
-        {
-            //Debug.Log("Removed a contester");
-            --contesterCount.Value;
-        };
-    }
 
     [ClientRpc]
     private void SetSliderColorClientRpc(int occupantTeam_)

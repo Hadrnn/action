@@ -98,7 +98,9 @@ public class UnityNetworkShellExplosion : NetworkBehaviour
         if (IsServer)
         {
             if (other.GetComponent<UnityNetworkFlagCapture>() || 
-                other.GetComponent<UnityNetworkFlagBase>()) return;
+                other.GetComponent<UnityNetworkFlagBase>() ||
+                other.GetComponent<UnityNetworkBaseCapture>()) 
+                return;
 
             DieClientRpc();
             Explode();

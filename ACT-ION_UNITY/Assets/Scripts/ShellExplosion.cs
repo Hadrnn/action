@@ -74,7 +74,9 @@ public class ShellExplosion : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponent<FlagCapture>() || other.GetComponent<FlagBase>()) return;
+        if (other.GetComponent<FlagCapture>() ||
+            other.GetComponent<FlagBase>() ||
+            other.GetComponent<BaseCapture>()) return;
 
         Explode();
     }

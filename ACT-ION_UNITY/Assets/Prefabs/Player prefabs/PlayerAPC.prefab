@@ -430,6 +430,7 @@ MonoBehaviour:
   m_PitchRange: 0.2
   m_FriendEnemy: {fileID: 4917690393463307730}
   forvard_multiplyer: 1
+  teamNumber: -1
 --- !u!114 &6169148169335266044
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -21,12 +21,21 @@ public class GameSingleton
         public const int Domination = 4;
     }
 
+    public class GameType
+    {
+        public const int Empty = -1;
+        public const int Single = 0;
+        public const int Network = 1;
+    }
+
     static GameSingleton instance;
     public int currentTank = 0;
     public int currentGameMode = GameMode.DeathMatch;
+    public int currentGameType = GameType.Empty;
     public int playerTeam = -1;
     public bool friendlyFire = true;
     public bool startedWithMenu = false;
+    public int[,] botAmounts = new int[2, 4];
     
     private GameSingleton() {
         //Debug.Log("SPAWNED SINGLETON");

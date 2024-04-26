@@ -67,6 +67,8 @@ public class InfoCollector : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!teamsSet) throw new Exception("Did not set teams");
+
         if (GameSingleton.GetInstance().currentGameMode == GameSingleton.GameMode.TeamBattle)
         {
             if (GetComponent<SpawnManager>().endOfRound) return;
@@ -109,6 +111,24 @@ public class InfoCollector : NetworkBehaviour
             case GameSingleton.GameMode.CaptureTheFlag:
             case GameSingleton.GameMode.TeamBattle:
                 if (!teamsSet) SetTeams();
+
+                if(tankHolder.tank.GetComponent<TankMovement>().teamNumber != TankMovement.teamNotSet)
+                {
+                    int teamNumber = tankHolder.tank.GetComponent<TankMovement>().teamNumber;
+
+                    //Debug.Log("Spawning a tank with a pre-set team:" + teamNumber.ToString());
+
+                    if (teamNumber != 0 && teamNumber != 1) throw new Exception("Invalid team number pre-set");
+
+                    teams[teamNumber].tanks.Add(tankHolder);
+                    tankHolder.team = teams[teamNumber];
+
+                    if (NetworkManager.Singleton) tankHolder.tank.GetComponent<UnityNetworkTankMovement>().teamNumber = teamNumber;
+                    else tankHolder.tank.GetComponent<TankMovement>().teamNumber = teamNumber;
+
+                    ++tankHolder.team.alivePlayers;
+                    return tankHolder;
+                }
 
                 if (teams[0].tanks.Count < teams[1].tanks.Count)
                 {
