@@ -167,7 +167,8 @@ public class BotTankMovement : BotMovement
             movement = transform.forward * m_Speed * Time.deltaTime * forvard_multiplyer;
         }
 
-        Collider[] collisionArray = Physics.OverlapBox(m_Rigidbody.position + movement, m_Collider.size / 2, m_Rigidbody.rotation, ~0, QueryTriggerInteraction.Ignore);
+        //m_Rigidbody.MovePosition(m_Rigidbody.position + movement);
+        Collider[] collisionArray = Physics.OverlapBox(m_Rigidbody.position + movement, m_Collider.size, m_Rigidbody.rotation, ~0, QueryTriggerInteraction.Ignore);
 
         if (collisionArray.Length == 1)
         {
