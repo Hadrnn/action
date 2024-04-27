@@ -5,7 +5,7 @@ using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class InfoCollector : MonoBehaviour
+public class InfoCollector : NetworkBehaviour
 {
     public List<GameObject> shells = new();
     public List<Team> teams = new();
@@ -18,7 +18,7 @@ public class InfoCollector : MonoBehaviour
 
     private bool teamsSet = false;
     private static int NewTeamNumber = 0;
-    private int NewOwnerID = 0;
+    private static int NewOwnerID = 0;
 
     public class Team
     {
@@ -29,12 +29,14 @@ public class InfoCollector : MonoBehaviour
                 tank = _tank;
                 kills = 0;
                 deaths = 0;
+                tankID = GetOwnerTankID();
             }
 
             public GameObject tank;
             public int kills;
             public int deaths;
             public Team team;
+            public int tankID;
         }
         public Team(int _teamNumber)
         {
@@ -65,6 +67,8 @@ public class InfoCollector : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!teamsSet) throw new Exception("Did not set teams");
+
         if (GameSingleton.GetInstance().currentGameMode == GameSingleton.GameMode.TeamBattle)
         {
             if (GetComponent<SpawnManager>().endOfRound) return;
@@ -108,6 +112,24 @@ public class InfoCollector : MonoBehaviour
             case GameSingleton.GameMode.TeamBattle:
                 if (!teamsSet) SetTeams();
 
+                if(tankHolder.tank.GetComponent<TankMovement>().teamNumber != TankMovement.teamNotSet)
+                {
+                    int teamNumber = tankHolder.tank.GetComponent<TankMovement>().teamNumber;
+
+                    //Debug.Log("Spawning a tank with a pre-set team:" + teamNumber.ToString());
+
+                    if (teamNumber != 0 && teamNumber != 1) throw new Exception("Invalid team number pre-set");
+
+                    teams[teamNumber].tanks.Add(tankHolder);
+                    tankHolder.team = teams[teamNumber];
+
+                    if (NetworkManager.Singleton) tankHolder.tank.GetComponent<UnityNetworkTankMovement>().teamNumber = teamNumber;
+                    else tankHolder.tank.GetComponent<TankMovement>().teamNumber = teamNumber;
+
+                    ++tankHolder.team.alivePlayers;
+                    return tankHolder;
+                }
+
                 if (teams[0].tanks.Count < teams[1].tanks.Count)
                 {
                     teams[0].tanks.Add(tankHolder);
@@ -137,13 +159,28 @@ public class InfoCollector : MonoBehaviour
     {
         GameObject[] bases = GameObject.FindGameObjectsWithTag("Base");
 
-        foreach (GameObject CTFBase in bases)
+        if (NetworkManager.Singleton)
         {
-            FlagBase currBase = CTFBase.GetComponent<FlagBase>();
+                foreach (GameObject CTFBase in bases)
+                {
+                    UnityNetworkFlagBase currBase = CTFBase.GetComponent<UnityNetworkFlagBase>();
 
-            if (currBase.teamNumber == GameSingleton.GetInstance().playerTeam) 
-                currBase.teamLight.color = Color.blue;
-            else currBase.teamLight.color = Color.red;
+                    if (currBase.teamNumber.Value == GameSingleton.GetInstance().playerTeam)
+                        currBase.teamLight.color = Color.blue;
+                    else currBase.teamLight.color = Color.red;
+                }
+        }
+        else
+        {
+
+            foreach (GameObject CTFBase in bases)
+            {
+                FlagBase currBase = CTFBase.GetComponent<FlagBase>();
+
+                if (currBase.teamNumber == GameSingleton.GetInstance().playerTeam)
+                    currBase.teamLight.color = Color.blue;
+                else currBase.teamLight.color = Color.red;
+            }
         }
     }
 
@@ -178,7 +215,7 @@ public class InfoCollector : MonoBehaviour
         }
     }
 
-    public int GetOwnerTankID()
+    public static int GetOwnerTankID()
     {
         return NewOwnerID++;
     }
