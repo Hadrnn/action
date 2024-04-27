@@ -60,18 +60,25 @@ public class ClientBot : MonoBehaviour
             AL_bot = 1;
             AL_bot_pos = collector.teams[1].tanks[0].tank.transform.position;
             NN_bot_pos = collector.teams[0].tanks[0].tank.transform.position;
+            possiblyNeural = collector.teams[0].tanks[0].tank.GetComponent<NeuralTankMovement>();
         }
         /////////////////
         
 
         /////////////////////
         /// CAN SHOOT 
-        Vector3 direction = (NN_bot_pos - AL_bot_pos).normalized;
-        float distance = Vector3.Distance(AL_bot_pos, NN_bot_pos);
+        Transform fire_transform = possiblyNeural.GetComponentInChildren<NeuralTurretTurning>().transform.Find("TurretModel").Find("FireTransform");
+
+        if (!fire_transform){
+            Debug.Log("Couldnt find fire transform of neural Bot");
+        }
+
+        Vector3 direction = -(fire_transform.position - AL_bot_pos).normalized;
+        float distance = Vector3.Distance(fire_transform.position, AL_bot_pos);
         Collider ALBotCollider = collector.teams[AL_bot].tanks[0].tank.GetComponent<Collider>();
         RaycastHit hit;
         int can_shoot = 0;
-        if (Physics.Raycast(AL_bot_pos, direction, out hit, distance))
+        if (Physics.Raycast(fire_transform.position, direction, out hit, distance*2))
         {
             if (hit.collider == ALBotCollider)
             {
@@ -154,9 +161,9 @@ public class ClientBot : MonoBehaviour
 
 
         message =
-            NN_bot_pos.x.ToString() + " " + NN_bot_pos.z.ToString() + " " + AL_bot_pos.x.ToString() + " " + AL_bot_pos.z.ToString() + " " + can_shoot.ToString() + " " + collector.gameResult;
+            NN_bot_pos.x.ToString() + " " + NN_bot_pos.z.ToString() + " " + AL_bot_pos.x.ToString() + " " + AL_bot_pos.z.ToString() + " " + can_shoot.ToString() + " " + collector.gameResult + " ";
 
-        message += ClosestBulletPos.x.ToString() + " " + ClosestBulletPos.x.ToString() + " ";
+        message += ClosestBulletPos.x.ToString() + " " + ClosestBulletPos.z.ToString() + " ";
 
         for (int i = 0; i< 4; ++i)
         {

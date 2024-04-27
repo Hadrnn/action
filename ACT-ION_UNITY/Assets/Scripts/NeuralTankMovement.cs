@@ -14,6 +14,7 @@ public class NeuralTankMovement : TankMovement
 
     private void OnEnable()
     {
+        if (!collector) collector = GameObject.Find("InfoCollector").GetComponent<InfoCollector>();
         collector.gameResult = "Playing";
         // When the tank is turned on, make sure it's not kinematic.
         m_Rigidbody.isKinematic = false;

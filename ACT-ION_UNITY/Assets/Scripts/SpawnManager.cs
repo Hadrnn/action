@@ -17,6 +17,13 @@ public class SpawnManager : NetworkBehaviour
     private InfoCollector collector;
     private static List<Vector3> pos = new(); 
 
+    void Awake(){
+        pos.Add(new Vector3(0, 0, 34));
+        pos.Add(new Vector3(-50, 0, 0));
+        pos.Add(new Vector3(37, 0, 10));
+        pos.Add(new Vector3(0, 0, -55));
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -24,10 +31,6 @@ public class SpawnManager : NetworkBehaviour
         endOfRound = false;
         roundEndTime = -1;
 
-        pos.Add(new Vector3(0, 0, 34));
-        pos.Add(new Vector3(-50, 0, 0));
-        pos.Add(new Vector3(37, 0, 10));
-        pos.Add(new Vector3(0, 0, -55));
 
     }
 
@@ -127,18 +130,18 @@ public class SpawnManager : NetworkBehaviour
         Collider[] collisionArray;
 
 
+        // do
+        // {
+        //     spawnPos = pos[UnityEngine.Random.Range(0, 3)];
+        //     collisionArray = Physics.OverlapBox(spawnPos, Vector3.one * spawnClearArea, Quaternion.Euler(Vector3.zero), ~0, QueryTriggerInteraction.Ignore);
+        // }
         do
         {
-            spawnPos = pos[UnityEngine.Random.Range(0, 3)];
-            collisionArray = Physics.OverlapBox(spawnPos, Vector3.one * spawnClearArea, Quaternion.Euler(Vector3.zero), ~0, QueryTriggerInteraction.Ignore);
+           spawnPos = new Vector3(spawnOrigin.x + UnityEngine.Random.Range(-spawnRadius, spawnRadius), 0,
+                                  spawnOrigin.z + UnityEngine.Random.Range(-spawnRadius, spawnRadius));
+           collisionArray = Physics.OverlapBox(spawnPos, Vector3.one * spawnClearArea, Quaternion.Euler(Vector3.zero), ~0, QueryTriggerInteraction.Ignore);
+           //Debug.Log("Trying to get a spawnpoint");
         }
-        //do
-        //{
-        //    spawnPos = new Vector3(spawnOrigin.x + UnityEngine.Random.Range(-spawnRadius, spawnRadius), 0,
-        //                           spawnOrigin.z + UnityEngine.Random.Range(-spawnRadius, spawnRadius));
-        //    collisionArray = Physics.OverlapBox(spawnPos, Vector3.one * spawnClearArea, Quaternion.Euler(Vector3.zero), ~0, QueryTriggerInteraction.Ignore);
-        //    //Debug.Log("Trying to get a spawnpoint");
-        //}
         while (collisionArray.Length != 0);
 
         return spawnPos;

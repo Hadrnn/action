@@ -374,15 +374,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7a382a4d5a8b0141b6600ae59f74dfd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Speed: 16
-  m_TurnSpeed: 240
+  m_Speed: 160
+  m_TurnSpeed: 2400
   m_MovementAudio: {fileID: 2428661251615838560}
   m_EngineIdling: {fileID: 8300000, guid: 5573b5c3a7aced740b2d275ccd645e7d, type: 3}
   m_EngineDriving: {fileID: 8300000, guid: 2764b5e5b387a3440977ffceb658813a, type: 3}
   m_PitchRange: 0.2
   m_FriendEnemy: {fileID: 5100160365226678908}
   forvard_multiplyer: 1
-  discret: 25
+  discret: 250
   counter: 0
   AgressiveDistance: 0
   target_radius: 20
@@ -404,11 +404,11 @@ MonoBehaviour:
   m_ShootingAudio: {fileID: 6079601123456779928}
   m_ChargingClip: {fileID: 8300000, guid: 26eb6f8197d8401449286b42e7ff33f1, type: 3}
   m_FireClip: {fileID: 8300000, guid: 715c8cf8e36b2b143a6aacba41b63972, type: 3}
-  m_Velocity: 50
-  m_MinLifeTime: 1
-  m_MaxLifeTime: 2
+  m_Velocity: 500
+  m_MinLifeTime: 0.1
+  m_MaxLifeTime: 0.2
   m_MaxChargeTime: 0.75
-  cooldown: 1.5
+  cooldown: 150
   onReload: 0
 --- !u!114 &840718881434148107
 MonoBehaviour:

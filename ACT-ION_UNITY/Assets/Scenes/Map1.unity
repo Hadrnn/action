@@ -876,7 +876,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 807510647}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f299466af01abe449ae690ec917a0a4f, type: 3}
   m_Name: 
@@ -931,8 +931,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb7bca360113ebf419b90d59848193e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tickTime: 0.02
-  Type: 3
+  tickTime: 0.002
+  Type: 6
   ST: 1
   Mode: 0
   FriendlyFire: 1
@@ -940,7 +940,7 @@ MonoBehaviour:
   UnityNetworkMenu: {fileID: 6535677236963878315, guid: 096de73100e08584e8187d4620d69267, type: 3}
   UnityNetworkEventSystem: {fileID: 2523935134142243851, guid: c3ab7bca9ac4c2c42868cdb4c39dc152, type: 3}
   BotTank1: {fileID: 4921215065507373529, guid: 636be22d66f319f429293860c45c0f23, type: 3}
-  BotTank2: {fileID: 4921215065507373529, guid: 636be22d66f319f429293860c45c0f23, type: 3}
+  BotTank2: {fileID: 1687308555619543456, guid: d40e9a4a9570c104b8a83f86bd6605e0, type: 3}
   Pos1: {x: 0, y: 0, z: 10}
   Pos2: {x: 0, y: 0, z: -10}
   PlayerPos: {x: 0, y: 0, z: -30}
@@ -961,7 +961,7 @@ MonoBehaviour:
   dead: []
   deathTime: []
   roundRestartDelay: 2
-  RespawnTime: 2
+  RespawnTime: 0.02
 --- !u!1 &836498040
 GameObject:
   m_ObjectHideFlags: 0
@@ -1015,7 +1015,7 @@ Camera:
   far clip plane: 100
   field of view: 90
   orthographic: 1
-  orthographic size: 30
+  orthographic size: 70
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
@@ -1080,71 +1080,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.02000936, y: 0.03752521, z: 0.024314819}
   m_Center: {x: -0.00000468338, y: -0.0005558337, z: 0.00097076385}
---- !u!1001 &1146718621
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 1661361813523471116, guid: b6d27e08a6b97d9429bdbaafe9e8c24c, type: 3}
-      propertyPath: m_Name
-      value: PlayerTank
-      objectReference: {fileID: 0}
-    - target: {fileID: 1757732706662017459, guid: b6d27e08a6b97d9429bdbaafe9e8c24c, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1757732706662017459, guid: b6d27e08a6b97d9429bdbaafe9e8c24c, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1757732706662017459, guid: b6d27e08a6b97d9429bdbaafe9e8c24c, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -55.7
-      objectReference: {fileID: 0}
-    - target: {fileID: 1757732706662017459, guid: b6d27e08a6b97d9429bdbaafe9e8c24c, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1757732706662017459, guid: b6d27e08a6b97d9429bdbaafe9e8c24c, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1757732706662017459, guid: b6d27e08a6b97d9429bdbaafe9e8c24c, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1757732706662017459, guid: b6d27e08a6b97d9429bdbaafe9e8c24c, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1757732706662017459, guid: b6d27e08a6b97d9429bdbaafe9e8c24c, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1757732706662017459, guid: b6d27e08a6b97d9429bdbaafe9e8c24c, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1757732706662017459, guid: b6d27e08a6b97d9429bdbaafe9e8c24c, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5747023849185452386, guid: b6d27e08a6b97d9429bdbaafe9e8c24c, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5747023849185452386, guid: b6d27e08a6b97d9429bdbaafe9e8c24c, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: b6d27e08a6b97d9429bdbaafe9e8c24c, type: 3}
 --- !u!1 &1376544620 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 9066369690498349909, guid: 8436dfd1b340cb345bc9e083e2108e89, type: 3}
@@ -1543,4 +1478,3 @@ SceneRoots:
   - {fileID: 807510649}
   - {fileID: 358990801}
   - {fileID: 607299623}
-  - {fileID: 1146718621}

@@ -43,7 +43,7 @@ public abstract class BotMovement : TankMovement
 
                 if (current.IsFinish())
                 {
-                    Debug.Log(i);
+                    // Debug.Log(i);
                     break;
                 }
                 if (current.CanMoveUp())

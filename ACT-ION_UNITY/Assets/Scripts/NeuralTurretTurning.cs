@@ -21,8 +21,8 @@ public class NeuralTurretTurning : MonoBehaviour
 
         collector = GameObject.Find("InfoCollector").GetComponent<InfoCollector>();
 
-        FireTransform = GetComponentInChildren<Transform>().Find("FireTransform");
-
+        FireTransform = GetComponentInChildren<Transform>().Find("TurretModel").Find("FireTransform");
+        if (!FireTransform) Debug.LogWarning("Hui");
         BotTransform = gameObject.GetComponentInParent<TankMovement>().gameObject.transform;
 
         Vector3 prew_target_pos = TankMovement.FindClosestEnemy(BotTransform.GetComponent<TankMovement>().teamNumber, BotTransform, collector).position;
