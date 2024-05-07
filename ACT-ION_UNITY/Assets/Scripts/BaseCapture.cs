@@ -42,9 +42,9 @@ public class BaseCapture : MonoBehaviour
         CaptureImage.color = captureColor;
 
         isCaptured = false;
-    }   
+    }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         TankShooting tank = other.GetComponent<TankShooting>();
         if (!tank) return;
@@ -77,27 +77,47 @@ public class BaseCapture : MonoBehaviour
 
     private void FixedUpdate()
     {
-        //Debug.Log(currentPoints);
+        Debug.Log("Stats");
+        Debug.Log(occupantCount);
+        Debug.Log(contesterCount);
+        Debug.Log(currentPoints);
         CaptureSlider.value = currentPoints;
 
-        if (occupantTeam == -1 && contesterTeam == -1) return;
+        if (occupantTeam == -1 && contesterTeam == -1) goto END;
 
         if (occupantCount != 0 && contesterCount != 0)
         {
-            //Debug.Log("Contest");
-            //Debug.Log(occupantCount);
-            //Debug.Log(contesterCount);  
-            return;
+            Debug.Log("Contest");
+            Debug.Log(occupantCount);
+            Debug.Log(contesterCount);
+            goto END;
+        }
+
+        if (occupantCount != 0 && contesterCount == 0)
+        {
+            if (currentPoints < pointsToCapture)
+            {
+                currentPoints += pointsDelta * occupantCount * Time.deltaTime;
+            }
+            else
+            {
+                Debug.Log("Point captured");
+                isCaptured = true;
+
+                if (occupantTeam == GameSingleton.GetInstance().playerTeam)
+                    teamLight.color = Color.blue;
+                else teamLight.color = Color.red;
+            }
         }
 
         if (occupantTeam != contesterTeam && occupantCount == 0 && contesterCount != 0)
         {
             currentPoints -= pointsDelta * contesterCount * Time.fixedDeltaTime;
-            //Debug.Log("Uncapturing a point, team " + contesterTeam.ToString() + " with " + contesterCount.ToString() + " contesters");
+            Debug.Log("Uncapturing a point, team " + contesterTeam.ToString() + " with " + contesterCount.ToString() + " contesters");
 
             if (currentPoints < 0)
             {
-                //Debug.Log("Team lost a point, point neutral");
+                Debug.Log("Team lost a point, point neutral");
                 isCaptured = false;
                 occupantTeam = contesterTeam;
                 occupantCount = contesterCount;
@@ -118,60 +138,32 @@ public class BaseCapture : MonoBehaviour
                 //Debug.Log("Contester" + contesterTeam.ToString());
 
             }
-            return;
+            goto END;
         }
 
-        if (occupantCount != 0 && contesterCount == 0)
-        {
-            if (currentPoints < pointsToCapture)
-            {
-                currentPoints += pointsDelta * occupantCount * Time.fixedDeltaTime;
-            }
-            else
-            {
-                //Debug.Log("Point captured");
-                isCaptured = true;
 
-                if (occupantTeam == GameSingleton.GetInstance().playerTeam)
-                    teamLight.color = Color.blue;
-                else teamLight.color = Color.red;
-            }
-        }
 
         if (occupantCount == 0 && contesterCount == 0)
         {
             if (isCaptured && currentPoints < pointsToCapture)
             {
-                //Debug.Log("Gaining point");
-                currentPoints += pointsDelta * staticIncrease * Time.fixedDeltaTime;
-                return;
+                Debug.Log("Gaining point");
+                currentPoints += pointsDelta * staticIncrease * Time.deltaTime;
+                goto END;
             }
-            if(!isCaptured && currentPoints > 0)
+            if (!isCaptured && currentPoints > 0)
             {
-                currentPoints -= pointsDelta * staticDecrease * Time.fixedDeltaTime;
-                return;
+                currentPoints -= pointsDelta * staticDecrease * Time.deltaTime;
+
+                goto END;
             }
         }
-    }
 
-    private void OnTriggerExit(Collider other)
-    {
-        InfoCollector.Team.TankHolder holder = other.GetComponent<TankShooting>().tankHolder;
 
-        //Debug.Log("On exit");
-        //Debug.Log(holder.team.teamNumber);
+    END:
+        contesterCount = 0;
+        occupantCount = 0;
+        return;
 
-        if (holder.team.teamNumber == occupantTeam)
-        {
-            --occupantCount;
-            //Debug.Log("Removed an occupant");
-            return;
-        };
-
-        if (holder.team.teamNumber == contesterTeam)
-        {
-            //Debug.Log("Removed a contester");
-            --contesterCount;
-        };
     }
 }

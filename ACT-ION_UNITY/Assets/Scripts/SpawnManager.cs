@@ -9,13 +9,14 @@ public class SpawnManager : NetworkBehaviour
     public List<float> deathTime = new();
     public float roundRestartDelay = 2f;
     public float RespawnTime = 2;
-    static public int defaultSpawnRadius = 30;
+    static public int defaultSpawnRadius = 5;
     public bool endOfRound { get; set; }
     public float roundEndTime { get; set; }
 
 
     private InfoCollector collector;
-    private static List<Vector3> pos = new(); 
+    private static List<Vector3> pos = new();
+    private const int roundEndTimeNotSet = -1;
 
     void Awake(){
         pos.Add(new Vector3(0, 0, 34));
@@ -29,7 +30,7 @@ public class SpawnManager : NetworkBehaviour
     {
         collector = GetComponent<InfoCollector>();
         endOfRound = false;
-        roundEndTime = -1;
+        roundEndTime = roundEndTimeNotSet;
 
 
     }
@@ -39,13 +40,14 @@ public class SpawnManager : NetworkBehaviour
     {
         Vector3 spawnAreaPos = new Vector3(0, 0, 0);
 
+        // Checking if it is the end of round is in InfoCollector script
 
         if (GameSingleton.GetInstance().currentGameMode == GameSingleton.GameMode.TeamBattle)
         {
             float currTime = Time.time;
             if (!endOfRound) return;
 
-            if (roundEndTime == -1)
+            if (roundEndTime == roundEndTimeNotSet)
             {
                 roundEndTime = currTime;
                 Debug.Log("Set round end time");
@@ -57,6 +59,7 @@ public class SpawnManager : NetworkBehaviour
                 return;
             }
 
+            // Restartung round
             Debug.Log("Round ended, respawning");
             foreach( InfoCollector.Team team in collector.teams)
             {
@@ -71,7 +74,7 @@ public class SpawnManager : NetworkBehaviour
                 team.alivePlayers = team.tanks.Count;
             }
 
-            roundEndTime = -1;
+            roundEndTime = roundEndTimeNotSet;
             endOfRound = false;
 
             return;
@@ -97,7 +100,8 @@ public class SpawnManager : NetworkBehaviour
                     //dead[i].transform.position = GetSpawnPos(spawnAreaPos, 30);
                     //RespawnClientRpc(dead[i], spawnPos);
                     //dead[i].transform.position = GetSpawnPos(spawnAreaPos, 30);
-                    dead[i].GetComponent<UnityNetworkTankHealth>().MoveOnRespawn(GetSpawnPos(spawnAreaPos, defaultSpawnRadius));
+                    InfoCollector.Team.TankHolder tank = dead[i].GetComponent<UnityNetworkTankShooting>().tankHolder;
+                    dead[i].GetComponent<UnityNetworkTankHealth>().MoveOnRespawn(GetSpawnPos(tank.team.teamSpawn, defaultSpawnRadius));
                     dead[i].SetActive(true);
 
                     //dead[i].transform.position = GetSpawnPos(spawnAreaPos, 30);
@@ -130,17 +134,17 @@ public class SpawnManager : NetworkBehaviour
         Collider[] collisionArray;
 
 
-        // do
-        // {
-        //     spawnPos = pos[UnityEngine.Random.Range(0, 3)];
-        //     collisionArray = Physics.OverlapBox(spawnPos, Vector3.one * spawnClearArea, Quaternion.Euler(Vector3.zero), ~0, QueryTriggerInteraction.Ignore);
-        // }
+        //do
+        //{
+        //    spawnPos = pos[UnityEngine.Random.Range(0, 3)];
+        //    collisionArray = Physics.OverlapBox(spawnPos, Vector3.one * spawnClearArea, Quaternion.Euler(Vector3.zero), ~0, QueryTriggerInteraction.Ignore);
+        //}
         do
         {
-           spawnPos = new Vector3(spawnOrigin.x + UnityEngine.Random.Range(-spawnRadius, spawnRadius), 0,
-                                  spawnOrigin.z + UnityEngine.Random.Range(-spawnRadius, spawnRadius));
-           collisionArray = Physics.OverlapBox(spawnPos, Vector3.one * spawnClearArea, Quaternion.Euler(Vector3.zero), ~0, QueryTriggerInteraction.Ignore);
-           //Debug.Log("Trying to get a spawnpoint");
+            spawnPos = new Vector3(spawnOrigin.x + UnityEngine.Random.Range(-spawnRadius, spawnRadius), 0,
+                                   spawnOrigin.z + UnityEngine.Random.Range(-spawnRadius, spawnRadius));
+            collisionArray = Physics.OverlapBox(spawnPos, Vector3.one * spawnClearArea, Quaternion.Euler(Vector3.zero), ~0, QueryTriggerInteraction.Ignore);
+            //Debug.Log("Trying to get a spawnpoint");
         }
         while (collisionArray.Length != 0);
 

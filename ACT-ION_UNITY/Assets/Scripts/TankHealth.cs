@@ -87,7 +87,10 @@ public class TankHealth : MonoBehaviour
         // Play the tank explosion sound effect.
         m_ExplosionAudio.Play();
 
-        SpawnManager manager = GameObject.Find("InfoCollector").GetComponent<SpawnManager>();
+        InfoCollector collector = TankMovement.collector;
+        SpawnManager manager = collector.GetComponent<SpawnManager>();
+
+
         manager.dead.Add(gameObject);
         manager.deathTime.Add(Time.time);
 
@@ -107,6 +110,7 @@ public class TankHealth : MonoBehaviour
         {
             Debug.Log("I have a flag while dying");
             flag.transform.SetParent(null);
+            flag.IsCaptured = false;
         }
 
         gameObject.SetActive(false);
