@@ -66,10 +66,6 @@ public class UnityNetworkTankMovement : NetworkBehaviour
             m_VerticalAxisName = "Vertical";
             m_HorizontalAxisName = "Horizontal";
 
-            GameObject cameraRig = GameObject.Find("CameraRig");
-            CameraFollower follower = cameraRig.GetComponent<CameraFollower>();
-            follower.m_Target = transform;
-
             GameSingleton.GetInstance().playerTeam = teamNumber;
         }
 

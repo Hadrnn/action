@@ -4,7 +4,7 @@ public class ArtShellExplosion : ShellExplosion
 {
     public Vector3 forward;
     public float start_angle;
-    public PlayerArtShooting tank;
+    public ArtShooting tank;
     public float velocity = 40f;
     public float g = 20f;
 
@@ -15,11 +15,9 @@ public class ArtShellExplosion : ShellExplosion
     {
         startTime = Time.time;
         m_Rigidbody = GetComponent<Rigidbody>();
-        forward *= Mathf.Cos(Mathf.Deg2Rad*start_angle);
+        forward *= Mathf.Cos(Mathf.Deg2Rad * start_angle);
         forward.y = Mathf.Sin(Mathf.Deg2Rad * start_angle);
         up_speed = velocity * Mathf.Sin(Mathf.Deg2Rad * start_angle);
-/*        Debug.Log(start_angle);
-        Debug.Log(up_speed);*/
     }
 
 
@@ -76,11 +74,11 @@ public class ArtShellExplosion : ShellExplosion
     {
         if (other.GetComponent<FlagCapture>() || other.GetComponent<FlagBase>()) return;
 
-        if (other.gameObject.GetComponent<PlayerArtShooting>() != null)
+        if (other.gameObject.GetComponent<ArtShooting>() != null)
         {
-            if (other.gameObject.GetComponent<PlayerArtShooting>() == tank)
+            if (other.gameObject.GetComponent<ArtShooting>() == tank)
             {
-/*                Debug.Log("Im in myself");*/
+
                 return;
             }
         }
@@ -90,7 +88,7 @@ public class ArtShellExplosion : ShellExplosion
 
     private void FixedUpdate()
     {
-        if (m_Rigidbody.position.y < 0)
+        if (m_Rigidbody.position.y < 0.5)
         {
             Explode();
         }
@@ -105,7 +103,6 @@ public class ArtShellExplosion : ShellExplosion
         Vector3 forward_another_axis = new Vector3(transform.forward.y, 0, Mathf.Sqrt(transform.forward.x * transform.forward.x + transform.forward.z * transform.forward.z));
         Vector3 Axis = new Vector3(0, 1, 0);
         float turn = -Vector3.SignedAngle(forward_another_axis, speed_forward_another_axis, Axis);
-        Debug.Log(turn);
         Quaternion turnRotation = Quaternion.Euler(0f, turn, 0f);
         m_Rigidbody.MoveRotation(m_Rigidbody.rotation * turnRotation);
     }

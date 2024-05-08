@@ -258,7 +258,7 @@ AudioSource:
   m_GameObject: {fileID: 1645581666106465390}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -5103262543881543006, guid: b1a3ec1933cd9c84d9eadafac03b653d, type: 2}
   m_audioClip: {fileID: 8300000, guid: 5573b5c3a7aced740b2d275ccd645e7d, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
@@ -354,7 +354,7 @@ AudioSource:
   m_GameObject: {fileID: 1645581666106465390}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 4928773671206382786, guid: b1a3ec1933cd9c84d9eadafac03b653d, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
@@ -461,7 +461,6 @@ MonoBehaviour:
   m_PitchRange: 0.2
   m_FriendEnemy: {fileID: 286023483231326178}
   forvard_multiplyer: 1
-  teamNumber: -1
 --- !u!114 &1403342378434826868
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -479,7 +478,7 @@ MonoBehaviour:
   m_FillImage: {fileID: 7167179627101538627}
   m_FullHealthColor: {r: 0, g: 1, b: 0, a: 1}
   m_ZeroHealthColor: {r: 1, g: 0, b: 0, a: 1}
-  m_ExplosionPrefab: {fileID: 151086, guid: c2aa6d63fe7d07343a5535570b33fd6f, type: 3}
+  m_ExplosionPrefab: {fileID: 6604062321471460919, guid: 4b28e54dedd6bdc45845674243bd7f66, type: 3}
 --- !u!114 &7477491518911211560
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -492,7 +491,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a87e0e4197c991c4395bcc9d8b976135, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Shell: {fileID: 1449904046447919125, guid: 76ddd5bec04788542a8f95e9310be8ff, type: 3}
+  m_Shell: {fileID: 5370133015469282507, guid: 1624bb48f0407764889f4622f03dd992, type: 3}
   m_FireTransform: {fileID: 96195372528506961}
   m_ShootingAudio: {fileID: 8773423578830403160}
   m_ChargingClip: {fileID: 8300000, guid: 26eb6f8197d8401449286b42e7ff33f1, type: 3}

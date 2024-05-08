@@ -12,12 +12,12 @@ public class UnityNetworkTankHealth : NetworkBehaviour
     public Color m_FullHealthColor = Color.green;       // The color the health bar will be when on full health.
     public Color m_ZeroHealthColor = Color.red;         // The color the health bar will be when on no health.
     public GameObject m_ExplosionPrefab;                // A prefab that will be instantiated in Awake, then used whenever the tank dies.
-
+    public bool m_Dead { get; private set; }
 
     private AudioSource m_ExplosionAudio;               // The audio source to play when the tank explodes.
     private ParticleSystem m_ExplosionParticles;        // The particle system the will play when the tank is destroyed.
     private NetworkVariable<float> m_CurrentHealth;                      // How much health the tank currently has.
-    private bool m_Dead;                                // Has the tank been reduced beyond zero health yet?
+                              // Has the tank been reduced beyond zero health yet?
 
     private void Awake()
     {
@@ -36,17 +36,19 @@ public class UnityNetworkTankHealth : NetworkBehaviour
 
     private void OnEnable()
     {
+        if (IsOwner)
+        {
+            GameObject cameraRig = GameObject.Find("CameraRig");
+            CameraFollower follower = cameraRig.GetComponent<CameraFollower>();
+            follower.m_Target = transform;
+        }
+
         // When the tank is enabled, reset the tank's health and whether or not it's dead.
         m_Dead = false;
         m_Slider.maxValue = m_StartingHealth;
         if(IsServer) m_CurrentHealth.Value = m_StartingHealth;
 
         SetHealthUI(m_StartingHealth);
-    }
-
-    private void Update()
-    {
-        //SetHealthUI();
     }
 
     public void TakeDamage(float amount, InfoCollector.Team.TankHolder shellOwner)
@@ -164,6 +166,13 @@ public class UnityNetworkTankHealth : NetworkBehaviour
             }
         }
 
+        if (IsOwner)
+        {
+            GameObject cameraRig = GameObject.Find("CameraRig");
+            CameraFollower follower = cameraRig.GetComponent<CameraFollower>();
+            follower.m_Target = null;
+        }
+
 
         Vector3 Grave = new Vector3(transform.position.x,-10, transform.position.z);
         //transform.position = Grave;
@@ -171,6 +180,7 @@ public class UnityNetworkTankHealth : NetworkBehaviour
         // Turn the tank off.
 
 
-        gameObject.SetActive(false);
+        // Tank is turned off in spawn manager;
+        //gameObject.SetActive(false);
     }
 }

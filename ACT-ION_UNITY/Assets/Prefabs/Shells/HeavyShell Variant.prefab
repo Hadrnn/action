@@ -76,6 +76,10 @@ PrefabInstance:
       propertyPath: m_ExplosionRadius
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 8851495209012912191, guid: 90181d6edaa9d9145b04dea24b474f54, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 697faf2bc9a343744a35001ed96ab03b, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

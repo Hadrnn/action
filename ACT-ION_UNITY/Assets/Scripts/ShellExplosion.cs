@@ -5,6 +5,7 @@ public class ShellExplosion : MonoBehaviour
     public LayerMask m_TankMask;                        // Used to filter what the explosion affects, this should be set to "Players".
     public ParticleSystem m_ExplosionParticles;         // Reference to the particles that will play on explosion.
     public AudioSource m_ExplosionAudio;                // Reference to the audio that will play on explosion.
+    public ParticleSystem DustTrail;
     public float m_MaxDamage = 100f;                    // The amount of damage done if the explosion is centred on a tank.
     public float m_ExplosionForce = 1000f;              // The amount of force added to a tank at the centre of the explosion.
     public float m_MaxLifeTime = 1f;                    // The time in seconds before the shell is removed.
@@ -56,6 +57,8 @@ public class ShellExplosion : MonoBehaviour
         }
         // Unparent the particles from the shell.
         m_ExplosionParticles.transform.parent = null;
+        DustTrail.transform.parent = null;
+
 
         // Play the particle system.
         m_ExplosionParticles.Play();
@@ -65,6 +68,7 @@ public class ShellExplosion : MonoBehaviour
 
         // Once the particles have finished, destroy the gameobject they are on.
         Destroy(m_ExplosionParticles.gameObject, m_ExplosionParticles.main.duration);
+        Destroy(DustTrail.gameObject, DustTrail.main.duration);
         // Remove shell object from InfoCollector
         InfoCollector collector = GameObject.Find("InfoCollector").GetComponent<InfoCollector>();
         collector.shells.Remove(gameObject);
