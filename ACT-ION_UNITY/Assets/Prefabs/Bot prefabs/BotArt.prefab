@@ -671,12 +671,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00c501359bafa154cac347dad21b5cdb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Speed: 12
+  m_Speed: 16
   m_TurnSpeed: 300
   m_MovementAudio: {fileID: 7648519407102326833}
   m_EngineIdling: {fileID: 8300000, guid: 5573b5c3a7aced740b2d275ccd645e7d, type: 3}
   m_EngineDriving: {fileID: 8300000, guid: 2764b5e5b387a3440977ffceb658813a, type: 3}
-  m_PitchRange: 0.2
   m_FriendEnemy: {fileID: 1415256056465996289}
   forvard_multiplyer: 1
   discret: 25

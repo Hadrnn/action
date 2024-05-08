@@ -5,7 +5,7 @@ using UnityEngine;
 public class MenuFunctional : MonoBehaviour
 {
     protected int map_index = 1;
-    protected int max_map_index = 1;
+    protected int max_map_index = 2;
     protected int min_map_index = 1;
     protected int tank_index = 0;
     protected int max_tank_index = 3;
@@ -40,13 +40,20 @@ public class MenuFunctional : MonoBehaviour
     {
         if (map_index == 1)
         {
-            gameObject.GetComponentInChildren<Transform>().Find("ChoseMapMenu").GetComponentInChildren<Transform>().Find("MapPct").gameObject.SetActive(true);
+            gameObject.GetComponentInChildren<Transform>().Find("ChoseMapMenu").GetComponentInChildren<Transform>().Find("SandMapPct").gameObject.SetActive(true);
         }
         else
         {
-            gameObject.GetComponentInChildren<Transform>().Find("ChoseMapMenu").GetComponentInChildren<Transform>().Find("MapPct").gameObject.SetActive(false);
+            gameObject.GetComponentInChildren<Transform>().Find("ChoseMapMenu").GetComponentInChildren<Transform>().Find("SandMapPct").gameObject.SetActive(false);
         }
-
+        if (map_index == 2)
+        {
+            gameObject.GetComponentInChildren<Transform>().Find("ChoseMapMenu").GetComponentInChildren<Transform>().Find("ForestMapPct").gameObject.SetActive(true);
+        }
+        else
+        {
+            gameObject.GetComponentInChildren<Transform>().Find("ChoseMapMenu").GetComponentInChildren<Transform>().Find("ForestMapPct").gameObject.SetActive(false);
+        }
 
 
 

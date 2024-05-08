@@ -422,12 +422,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7527ade95d328b24c9fbabbd483ef53c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Speed: 16
+  m_Speed: 19
   m_TurnSpeed: 100
   m_MovementAudio: {fileID: 5943577898177900143}
   m_EngineIdling: {fileID: 8300000, guid: 5573b5c3a7aced740b2d275ccd645e7d, type: 3}
   m_EngineDriving: {fileID: 8300000, guid: 2764b5e5b387a3440977ffceb658813a, type: 3}
-  m_PitchRange: 0.2
   m_FriendEnemy: {fileID: 4917690393463307730}
   forvard_multiplyer: 1
 --- !u!114 &6169148169335266044
@@ -447,11 +446,16 @@ MonoBehaviour:
   m_ShootingAudio: {fileID: 1752312545562266788}
   m_ChargingClip: {fileID: 8300000, guid: 26eb6f8197d8401449286b42e7ff33f1, type: 3}
   m_FireClip: {fileID: 8300000, guid: 715c8cf8e36b2b143a6aacba41b63972, type: 3}
-  m_Velocity: 30
-  m_MinLifeTime: 1
-  m_MaxLifeTime: 2
+  m_Velocity: 35
+  m_MinLifeTime: 3
+  m_MaxLifeTime: 4
   m_MaxChargeTime: 0.75
   cooldown: 1
+  birst_delay_time: 0
+  on_birst_delay: 0
+  max_magazine_size: 3
+  current_magazine_size: 3
+  onReload: 0
 --- !u!1001 &898585059537706973
 PrefabInstance:
   m_ObjectHideFlags: 0
