@@ -39,4 +39,9 @@ public class InGameMenuFunctional : MonoBehaviour
     {
         UnityEngine.SceneManagement.SceneManager.LoadScene(0);
     }
+
+    public void ChangeVolume()
+    {
+        //masterMixer.SetFloat("musicVol", Mathf.Log10(masterLevel) * 20);
+    }
 }
