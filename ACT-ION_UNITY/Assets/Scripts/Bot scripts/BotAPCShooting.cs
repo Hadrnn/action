@@ -61,10 +61,9 @@ public class BotAPCShooting : BotShooting
         m_ShootingAudio.Play();
 
         ShellExplosion explosion = shellInstance.GetComponent<ShellExplosion>();
-        explosion.m_MaxLifeTime = m_CurrentLifeTime;
+        explosion.m_MaxLifeTime = ShellLifeTime;
         explosion.owner = tankHolder;
 
-        m_CurrentLifeTime = m_MinLifeTime;
         ShootTime = Time.time;
 
         Body.counter = Body.discret;

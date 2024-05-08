@@ -10,17 +10,6 @@ public class BotArtShooting : BotShooting, ArtShooting
     public float g;
     public float shell_speed;
 
-    //private float m_ChargeSpeed;                // How fast the launch force increases, based on the max charge time.
-    //private bool m_Fired;                       // Whether or not the shell has been launched with this button press.
-
-    private void OnEnable()
-    {
-        // When the tank is turned on, reset the launch force and the UI
-        m_CurrentLifeTime = m_MinLifeTime;
-
-        //m_AimSlider.value = m_MinLifeTime;
-    }
-
 
     private void Update()
     {
@@ -62,11 +51,10 @@ public class BotArtShooting : BotShooting, ArtShooting
         explosion.owner = tankHolder;
 
         explosion.start_angle = start_angle;
-        explosion.m_MaxLifeTime = m_CurrentLifeTime;
+        explosion.m_MaxLifeTime = ShellLifeTime;
         explosion.tank = this;
         explosion.g = g;
         explosion.velocity = shell_speed;
-        m_CurrentLifeTime = m_MinLifeTime;
         ShootTime = Time.time;
     }
 }

@@ -14,7 +14,6 @@ public class BotShooting : TankShooting
     // Start is called before the first frame update
     void Start()
     {
-        m_CurrentLifeTime = m_MinLifeTime;
         Body = GetComponent<BotMovement>();
     }
 
@@ -54,10 +53,9 @@ public class BotShooting : TankShooting
         m_ShootingAudio.Play();
 
         ShellExplosion explosion = shellInstance.GetComponent<ShellExplosion>();
-        explosion.m_MaxLifeTime = m_CurrentLifeTime;
+        explosion.m_MaxLifeTime = ShellLifeTime;
         explosion.owner = tankHolder;
 
-        m_CurrentLifeTime = m_MinLifeTime;
         ShootTime = Time.time;
 
         Body.counter = Body.discret;

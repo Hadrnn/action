@@ -11,7 +11,7 @@ public class UnityNetworkTankShooting : NetworkBehaviour
     public AudioClip m_ChargingClip;            // Audio that plays when each shot is charging up.
     public AudioClip m_FireClip;                // Audio that plays when each shot is fired.
     public float m_Velocity = 30f;
-    public float m_MinLifeTime = 1f;        // The force given to the shell if the fire button is not held.
+    public float ShellLifeTime = 1f;        // The force given to the shell if the fire button is not held.
     public float m_MaxLifeTime = 2f;        // The force given to the shell if the fire button is held for the max charge time.
     public float m_MaxChargeTime = 0.75f;       // How long the shell can charge for before it is fired at max force.
 
@@ -28,7 +28,7 @@ public class UnityNetworkTankShooting : NetworkBehaviour
 
     private void OnEnable()
     {
-        m_CurrentLifeTime = m_MinLifeTime;
+        m_CurrentLifeTime = ShellLifeTime;
     }
 
 
@@ -40,7 +40,7 @@ public class UnityNetworkTankShooting : NetworkBehaviour
         m_FireButton = "Fire";
 
         // The rate that the launch force charges up is the range of possible forces by the max charge time.
-        m_ChargeSpeed = (m_MaxLifeTime - m_MinLifeTime) / m_MaxChargeTime;
+        m_ChargeSpeed = (m_MaxLifeTime - ShellLifeTime) / m_MaxChargeTime;
     }
 
 
@@ -61,7 +61,7 @@ public class UnityNetworkTankShooting : NetworkBehaviour
         {
             // ... reset the fired flag and reset the launch force.
             m_Fired = false;
-            m_CurrentLifeTime = m_MinLifeTime;
+            m_CurrentLifeTime = ShellLifeTime;
 
             // Change the clip to the charging clip and start it playing.
             m_ShootingAudio.clip = m_ChargingClip;
@@ -121,7 +121,7 @@ public class UnityNetworkTankShooting : NetworkBehaviour
         // Set the shell's velocity to the launch force in the fire position's forward direction.
 
 
-        m_CurrentLifeTime = m_MinLifeTime;
+        m_CurrentLifeTime = ShellLifeTime;
         shellInstance.velocity = m_Velocity * m_FireTransform.forward;
     }
 

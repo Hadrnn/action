@@ -9,6 +9,8 @@ public class InfoCollector : NetworkBehaviour
     public List<GameObject> shells = new();
     public List<Team> teams = new();
     public List<GameObject> mapObjects = new();
+    public List<GameObject> objectives = new();
+
     public string botMovement;
     public string gameResult = "Playing";
 
@@ -56,6 +58,7 @@ public class InfoCollector : NetworkBehaviour
 
         public int teamNumber;
         public List<TankHolder> tanks = new();
+
         public int alivePlayers { get; set; }
         public int teamKills { get; set; }
         public int roundsWon { get; set; }
@@ -232,7 +235,7 @@ public class InfoCollector : NetworkBehaviour
 
     private void SetTeams()
     {
-        Debug.Log("Set Teams");
+        //Debug.Log("Set Teams");
         //for (ushort i = 0; i < 2; ++i)
         //{
         //    teams.Add(new Team(i));

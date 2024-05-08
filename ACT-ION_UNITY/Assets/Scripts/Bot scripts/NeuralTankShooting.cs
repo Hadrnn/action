@@ -9,13 +9,6 @@ public class NeuralTankShooting : TankShooting
     // How long the shell can charge for before it is fired at max force.
     public bool onReload = false;
 
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        m_CurrentLifeTime = m_MinLifeTime;
-    }
-
     // Update is called once per frame
     void Update()
     {
@@ -52,10 +45,8 @@ public class NeuralTankShooting : TankShooting
         m_ShootingAudio.Play();
 
         ShellExplosion explosion = shellInstance.GetComponent<ShellExplosion>();
-        explosion.m_MaxLifeTime = m_CurrentLifeTime;
+        explosion.m_MaxLifeTime = ShellLifeTime;
         explosion.owner = tankHolder;
-
-        m_CurrentLifeTime = m_MinLifeTime;
         ShootTime = Time.time;
     }
 }
