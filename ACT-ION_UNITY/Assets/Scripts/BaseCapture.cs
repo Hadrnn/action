@@ -77,19 +77,19 @@ public class BaseCapture : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Debug.Log("Stats");
-        Debug.Log(occupantCount);
-        Debug.Log(contesterCount);
-        Debug.Log(currentPoints);
+        //Debug.Log("Stats");
+        //Debug.Log(occupantCount);
+        //Debug.Log(contesterCount);
+        //Debug.Log(currentPoints);
         CaptureSlider.value = currentPoints;
 
         if (occupantTeam == -1 && contesterTeam == -1) goto END;
 
         if (occupantCount != 0 && contesterCount != 0)
         {
-            Debug.Log("Contest");
-            Debug.Log(occupantCount);
-            Debug.Log(contesterCount);
+            //Debug.Log("Contest");
+            //Debug.Log(occupantCount);
+            //Debug.Log(contesterCount);
             goto END;
         }
 
@@ -101,7 +101,7 @@ public class BaseCapture : MonoBehaviour
             }
             else
             {
-                Debug.Log("Point captured");
+                //Debug.Log("Point captured");
                 isCaptured = true;
 
                 if (occupantTeam == GameSingleton.GetInstance().playerTeam)
@@ -113,11 +113,11 @@ public class BaseCapture : MonoBehaviour
         if (occupantTeam != contesterTeam && occupantCount == 0 && contesterCount != 0)
         {
             currentPoints -= pointsDelta * contesterCount * Time.fixedDeltaTime;
-            Debug.Log("Uncapturing a point, team " + contesterTeam.ToString() + " with " + contesterCount.ToString() + " contesters");
+            //Debug.Log("Uncapturing a point, team " + contesterTeam.ToString() + " with " + contesterCount.ToString() + " contesters");
 
             if (currentPoints < 0)
             {
-                Debug.Log("Team lost a point, point neutral");
+                //Debug.Log("Team lost a point, point neutral");
                 isCaptured = false;
                 occupantTeam = contesterTeam;
                 occupantCount = contesterCount;
@@ -147,7 +147,7 @@ public class BaseCapture : MonoBehaviour
         {
             if (isCaptured && currentPoints < pointsToCapture)
             {
-                Debug.Log("Gaining point");
+                //Debug.Log("Gaining point");
                 currentPoints += pointsDelta * staticIncrease * Time.deltaTime;
                 goto END;
             }

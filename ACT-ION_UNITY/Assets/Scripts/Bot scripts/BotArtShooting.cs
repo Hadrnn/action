@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using Unity.Netcode;
 using Unity.VisualScripting;
 
-public class BotArtShooting : BotShooting
+public class BotArtShooting : BotShooting, ArtShooting
 {
     public BotArtTurretTurning turret;
     public float start_angle;
@@ -56,7 +56,7 @@ public class BotArtShooting : BotShooting
         m_ShootingAudio.clip = m_FireClip;
         m_ShootingAudio.Play();
 
-        BotArtShellExplosion explosion = shellInstance.GetComponent<BotArtShellExplosion>();
+        ArtShellExplosion explosion = shellInstance.GetComponent<ArtShellExplosion>();
 /*        Debug.Log(explosion.forward);*/
         explosion.forward = turret.transform.forward;
         explosion.owner = tankHolder;

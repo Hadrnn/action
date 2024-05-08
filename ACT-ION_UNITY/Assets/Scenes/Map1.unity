@@ -934,7 +934,7 @@ MonoBehaviour:
   tickTime: 0.02
   Type: 2
   ST: 1
-  Mode: 4
+  Mode: 0
   FriendlyFire: 1
   UnityNetworkManager: {fileID: 7640481245423487163, guid: fe0bbd41349293d47a7cc70593b09473, type: 3}
   UnityNetworkMenu: {fileID: 6535677236963878315, guid: 096de73100e08584e8187d4620d69267, type: 3}
@@ -968,6 +968,7 @@ MonoBehaviour:
   deathTime: []
   roundRestartDelay: 2
   RespawnTime: 2
+  NetworkDeathDelay: 0.2
 --- !u!1 &836498040
 GameObject:
   m_ObjectHideFlags: 0

@@ -62,8 +62,10 @@ public class UnityNetworkFlagCapture : NetworkBehaviour
         UnityNetworkTankMovement tank = other.GetComponent<UnityNetworkTankMovement>();
 
 
-        if (!tank || IsCaptured.Value) return;
-
+        if (!tank || IsCaptured.Value)
+            return;
+        if (tank.GetComponent<UnityNetworkTankHealth>().m_Dead)
+            return;
 
         if (tank.teamNumber == teamNumber.Value && transform.parent == null)
         {

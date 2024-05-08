@@ -721,7 +721,6 @@ public abstract class BotMovement : TankMovement
 
     private void OnDisable()
     {
-        // When the tank is turned off, set it to kinematic so it stops moving.
         m_Rigidbody.isKinematic = true;
     }
 
@@ -736,7 +735,7 @@ public abstract class BotMovement : TankMovement
         // Add tank object to InfoCollector
         if (!collector) collector = GameObject.Find("InfoCollector").GetComponent<InfoCollector>();
         //else Debug.Log("Collector already set");
-            
+
         GetComponent<TankShooting>().tankHolder = collector.AddTank(gameObject);
 
         // Store the original pitch of the audio source.

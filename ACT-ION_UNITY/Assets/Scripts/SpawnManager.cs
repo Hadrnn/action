@@ -9,7 +9,8 @@ public class SpawnManager : NetworkBehaviour
     public List<float> deathTime = new();
     public float roundRestartDelay = 2f;
     public float RespawnTime = 2;
-    static public int defaultSpawnRadius = 5;
+    public float NetworkDeathDelay = 0.2f;
+    static public int defaultSpawnRadius = 20;
     public bool endOfRound { get; set; }
     public float roundEndTime { get; set; }
 
@@ -47,17 +48,16 @@ public class SpawnManager : NetworkBehaviour
             if (roundEndTime == roundEndTimeNotSet)
             {
                 roundEndTime = currTime;
-                Debug.Log("Set round end time");
+//                Debug.Log("Set round end time");
             }
 
             if (currTime < roundRestartDelay + roundEndTime)
             {
-                Debug.Log("On delay");
+//              Debug.Log("On delay");
                 return;
             }
 
-            // Restartung round
-            Debug.Log("Round ended, respawning");
+//            Debug.Log("Round ended, respawning");
             foreach( InfoCollector.Team team in collector.teams)
             {
                 foreach(InfoCollector.Team.TankHolder tankHolder in team.tanks)
@@ -88,6 +88,11 @@ public class SpawnManager : NetworkBehaviour
 
             for (ushort i = 0; i < dead.Count; ++i)
             {
+                if (Time.time > deathTime[i] + NetworkDeathDelay)
+                {
+                    dead[i].SetActive(false);
+                    continue;
+                }
 
                 if (Time.time > deathTime[i] + RespawnTime)
                 {

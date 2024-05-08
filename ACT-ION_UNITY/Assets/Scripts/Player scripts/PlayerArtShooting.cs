@@ -4,7 +4,7 @@ using Unity.Netcode;
 using Unity.VisualScripting;
 using static InfoCollector.Team;
 
-public class PlayerArtShooting : TankShooting
+public class PlayerArtShooting : TankShooting, ArtShooting
 {
     public PlayerTurretTurning turret;
     public float start_angle;

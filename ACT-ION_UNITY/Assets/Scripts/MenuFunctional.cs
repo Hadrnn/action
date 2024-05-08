@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class MenuFunctional : MonoBehaviour
 {
-    protected int map_index = 0;
-    protected int max_map_index = 0;
-    protected int min_map_index = 0;
+    protected int map_index = 1;
+    protected int max_map_index = 1;
+    protected int min_map_index = 1;
     protected int tank_index = 0;
     protected int max_tank_index = 3;
     protected int min_tank_index = 0;
@@ -38,7 +38,7 @@ public class MenuFunctional : MonoBehaviour
 
     public void Update()
     {
-        if (map_index == 0)
+        if (map_index == 1)
         {
             gameObject.GetComponentInChildren<Transform>().Find("ChoseMapMenu").GetComponentInChildren<Transform>().Find("MapPct").gameObject.SetActive(true);
         }
