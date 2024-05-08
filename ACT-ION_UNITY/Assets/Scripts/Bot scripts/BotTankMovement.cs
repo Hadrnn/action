@@ -12,23 +12,117 @@ public class BotTankMovement : BotMovement
     public int Astar_deep;
     protected override void Decision()
     {
-        Transform Enemy = FindClosestEnemy(teamNumber, transform, collector);
-        if (Enemy.Equals(transform)) {
-            return;
-        }   
-
-        Vector3 EnemyPosition = Enemy.position;
-        Vector3 MyPosition = transform.position;
-        Vector3 DeltaPosition = MyPosition - EnemyPosition;
-        float Length = DeltaPosition.magnitude;
-        if (!Gun.onReload)
+        if ((GameSingleton.GetInstance().currentGameMode != GameSingleton.GameMode.Domination) & (GameSingleton.GetInstance().currentGameMode != GameSingleton.GameMode.CaptureTheFlag))
         {
+            Transform Enemy = FindClosestEnemy(teamNumber, transform, collector);
+            if (Enemy.Equals(transform))
+            {
+                return;
+            }
+
+            Vector3 EnemyPosition = Enemy.position;
+            Vector3 MyPosition = transform.position;
+            Vector3 DeltaPosition = MyPosition - EnemyPosition;
+            float Length = DeltaPosition.magnitude;
+            if (!Gun.onReload)
+            {
+                GameState Start = new GameState(0, discret, target_radius);
+
+                Start.position = transform.position;
+                Start.forward = transform.forward;
+                Start.forward_multiplyer = forvard_multiplyer;
+                Start.TargetPosition = EnemyPosition;
+                Vector3 dist = Start.TargetPosition - Start.position;
+                Start.distance_to_finish = dist.magnitude;
+                Start.distance_to_start = 0;
+                Start.ourRigidbody = GetComponent<Rigidbody>();
+                Start.hitbox = GetComponent<BoxCollider>();
+                Vector3 decision = AStar(Start, Astar_deep);
+                if (decision.x == 0 & decision.z == 0)
+                {
+                    List<Vector2> numbers = new List<Vector2> { new Vector2(1, 0), new Vector2(-1, 0), new Vector2(0, 1), new Vector2(0, -1), new Vector2(1, 1), new Vector2(-1, -1), new Vector2(1, -1), new Vector2(-1, 1) };
+                    System.Random rd = new System.Random();
+                    int randomIndex = rd.Next(0, 8);
+                    Vector2 randomNumber = numbers[randomIndex];
+                    decision.x = randomNumber.x;
+                    decision.z = randomNumber.y;
+                }
+                m_HorizontalInputValue = decision.x;
+                m_VerticalInputValue = decision.z;
+            }
+            else
+            {
+                float current_distanse_to_my_cover;
+                float distanse_from_enemy_to_cover;
+                float min_summ = 10000;
+                int cover_index = -1;
+
+                for (int i = 0; i < collector.mapObjects.Count; i++)
+                {
+
+                    current_distanse_to_my_cover = (collector.mapObjects[i].transform.position - MyPosition).magnitude;
+                    distanse_from_enemy_to_cover = (collector.mapObjects[i].transform.position - EnemyPosition).magnitude;
+                    if (current_distanse_to_my_cover < min_summ & distanse_from_enemy_to_cover < 45)
+                    {
+                        min_summ = current_distanse_to_my_cover;
+                        cover_index = i;
+                    }
+                }
+                if (cover_index < 0)
+                {
+                    return;
+                }
+                Vector3 cover_position = collector.mapObjects[cover_index].transform.position;
+
+                Vector3 connect_line = cover_position - EnemyPosition;
+
+                Vector3 additional_element = new Vector3(20, 0, 20);
+
+                connect_line = connect_line.normalized;
+
+                float mult_x = connect_line.x * additional_element.x;
+                float mult_z = connect_line.z * additional_element.z;
+                Vector3 mult = new Vector3(mult_x, 0, mult_z);
+
+                Vector3 TargetPosition = cover_position + mult;
+
+                GameState Start = new GameState(0, discret, target_radius);
+                Start.position = transform.position;
+                Start.forward = transform.forward;
+                Start.forward_multiplyer = forvard_multiplyer;
+                Start.TargetPosition = TargetPosition;
+                Vector3 dist = Start.TargetPosition - Start.position;
+                Start.distance_to_finish = dist.magnitude;
+                Start.distance_to_start = 0;
+                Start.ourRigidbody = GetComponent<Rigidbody>();
+                Start.hitbox = GetComponent<BoxCollider>();
+                Vector3 decision = AStar(Start, Astar_deep);
+                if (decision.x == 0 & decision.z == 0)
+                {
+                    List<Vector2> numbers = new List<Vector2> { new Vector2(1, 0), new Vector2(-1, 0), new Vector2(0, 1), new Vector2(0, -1), new Vector2(1, 1), new Vector2(-1, -1), new Vector2(1, -1), new Vector2(-1, 1) };
+                    System.Random rd = new System.Random();
+                    int randomIndex = rd.Next(0, 8);
+                    Vector2 randomNumber = numbers[randomIndex];
+                    decision.x = randomNumber.x;
+                    decision.z = randomNumber.y;
+                }
+                m_HorizontalInputValue = decision.x;
+                m_VerticalInputValue = decision.z;
+
+            }
+        }
+        else if (GameSingleton.GetInstance().currentGameMode == GameSingleton.GameMode.Domination)
+        {
+            Transform Base = collector.objectives[0].transform;
+ 
+            Vector3 BasePosition = Base.position;
+
             GameState Start = new GameState(0, discret, target_radius);
-            
+
             Start.position = transform.position;
             Start.forward = transform.forward;
             Start.forward_multiplyer = forvard_multiplyer;
-            Start.TargetPosition = EnemyPosition;
+            Start.TargetPosition = BasePosition;
             Vector3 dist = Start.TargetPosition - Start.position;
             Start.distance_to_finish = dist.magnitude;
             Start.distance_to_start = 0;
@@ -47,43 +141,98 @@ public class BotTankMovement : BotMovement
             m_HorizontalInputValue = decision.x;
             m_VerticalInputValue = decision.z;
         }
-        else
+        else if (GameSingleton.GetInstance().currentGameMode == GameSingleton.GameMode.CaptureTheFlag)
         {
-            float current_distanse_to_my_cover;
-            float distanse_from_enemy_to_cover;
-            float min_summ = 10000;
-            int cover_index = -1;
+            Transform EnemyFlag = null;
+            Transform MyFlag = null;
+            Transform EnemyBase = null;
+            Transform MyBase = null;
 
-            for (int i = 0; i < collector.mapObjects.Count; i++)
+            for (int i = 0; i < collector.objectives.Count; i++)
             {
-
-                current_distanse_to_my_cover = (collector.mapObjects[i].transform.position - MyPosition).magnitude;
-                distanse_from_enemy_to_cover = (collector.mapObjects[i].transform.position - EnemyPosition).magnitude;
-                if (current_distanse_to_my_cover < min_summ & distanse_from_enemy_to_cover < 45)
+                if (collector.objectives[i].GetComponent<FlagBase>() != null)
                 {
-                    min_summ = current_distanse_to_my_cover;
-                    cover_index = i;
+                    if (collector.objectives[i].GetComponent<FlagBase>().teamNumber == teamNumber)
+                    {
+                        MyBase = collector.objectives[i].GetComponent<FlagBase>().transform;
+                    }
+                    else
+                    {
+                        EnemyBase = collector.objectives[i].GetComponent<FlagBase>().transform;
+                    }
+                }
+                if (collector.objectives[i].GetComponent<FlagCapture>() != null)
+                {
+                    if (collector.objectives[i].GetComponent<FlagCapture>().teamNumber == teamNumber)
+                    {
+                        MyFlag = collector.objectives[i].GetComponent<FlagCapture>().transform;
+                    }
+                    else
+                    {
+                        EnemyFlag = collector.objectives[i].GetComponent<FlagCapture>().transform;
+                    }
                 }
             }
-            if (cover_index < 0)
+
+            int radius = 0;
+            Vector3 TargetPosition = Vector3.zero;
+
+            float dist_from_me_to_en_flag = (EnemyFlag.position - transform.position).magnitude;
+            float dist_from_me_to_my_flag = (MyFlag.position - transform.position).magnitude;
+            float dist_from_me_to_my_base = (MyBase.position - transform.position).magnitude;
+            float dist_from_my_flag_to_my_base = (MyBase.position - MyFlag.position).magnitude;
+            float dist_from_en_flag_to_en_base = (EnemyFlag.position - EnemyBase.position).magnitude;
+/*            Debug.Log(dist_from_me_to_en_flag);
+            Debug.Log(dist_from_me_to_my_flag);
+            Debug.Log(dist_from_me_to_my_base);
+            Debug.Log(dist_from_my_flag_to_my_base);
+            Debug.Log(dist_from_en_flag_to_en_base);*/
+
+            if ((dist_from_en_flag_to_en_base <= 3) & (dist_from_my_flag_to_my_base <= 3))
             {
+                radius = 5;
+                TargetPosition = EnemyFlag.position;
+            }
+            else if ((dist_from_me_to_en_flag <= 3) & (dist_from_my_flag_to_my_base <= 3))
+            {
+                radius = 5;
+                TargetPosition = MyBase.position;
+            }
+            else if ((dist_from_me_to_en_flag <= 3) & (dist_from_my_flag_to_my_base > 3))
+            {
+                if (dist_from_me_to_my_base > dist_from_me_to_my_flag)
+                {
+                    radius = 5;
+                    TargetPosition = MyFlag.position;
+                }
+                else
+                {
+                    radius = 5;
+                    TargetPosition = MyBase.position;
+                }
+            }
+            else if ((dist_from_me_to_en_flag > 3) & (dist_from_my_flag_to_my_base > 3))
+            {
+                if (dist_from_me_to_en_flag > dist_from_me_to_my_flag)
+                {
+                    radius = 5;
+                    TargetPosition = EnemyFlag.position;
+                }
+                else
+                {
+                    radius = 5;
+                    TargetPosition = MyFlag.position;
+                }
+            }
+            else
+            {
+                m_HorizontalInputValue = 0;
+                m_HorizontalInputValue = 0;
+                Debug.LogWarning("Непродуманный сценарий");
                 return;
             }
-            Vector3 cover_position = collector.mapObjects[cover_index].transform.position;
 
-            Vector3 connect_line = cover_position - EnemyPosition;
-
-            Vector3 additional_element = new Vector3(20, 0, 20);
-
-            connect_line = connect_line.normalized;
-
-            float mult_x = connect_line.x * additional_element.x;
-            float mult_z = connect_line.z * additional_element.z;
-            Vector3 mult = new Vector3(mult_x, 0, mult_z);
-
-            Vector3 TargetPosition = cover_position + mult;
-
-            GameState Start = new GameState(0, discret, target_radius);
+            GameState Start = new GameState(0, discret, radius);
             Start.position = transform.position;
             Start.forward = transform.forward;
             Start.forward_multiplyer = forvard_multiplyer;
@@ -94,7 +243,8 @@ public class BotTankMovement : BotMovement
             Start.ourRigidbody = GetComponent<Rigidbody>();
             Start.hitbox = GetComponent<BoxCollider>();
             Vector3 decision = AStar(Start, Astar_deep);
-            if (decision.x == 0 & decision.z == 0)
+            Debug.Log(decision);
+            if (decision.x == 0 && decision.z == 0)
             {
                 List<Vector2> numbers = new List<Vector2> { new Vector2(1, 0), new Vector2(-1, 0), new Vector2(0, 1), new Vector2(0, -1), new Vector2(1, 1), new Vector2(-1, -1), new Vector2(1, -1), new Vector2(-1, 1) };
                 System.Random rd = new System.Random();
@@ -105,7 +255,6 @@ public class BotTankMovement : BotMovement
             }
             m_HorizontalInputValue = decision.x;
             m_VerticalInputValue = decision.z;
-            
         }
     }
     protected override void Move()
@@ -168,7 +317,7 @@ public class BotTankMovement : BotMovement
         }
 
         //m_Rigidbody.MovePosition(m_Rigidbody.position + movement);
-        Collider[] collisionArray = Physics.OverlapBox(m_Rigidbody.position + movement, m_Collider.size, m_Rigidbody.rotation, ~0, QueryTriggerInteraction.Ignore);
+        Collider[] collisionArray = Physics.OverlapBox(m_Rigidbody.position + movement, m_Collider.size / 2, m_Rigidbody.rotation, ~0, QueryTriggerInteraction.Ignore);
 
         if (collisionArray.Length == 1)
         {
