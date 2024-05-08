@@ -108,7 +108,7 @@ public class TankHealth : MonoBehaviour
         FlagCapture flag = GetComponentInChildren<FlagCapture>();
         if (flag)
         {
-            Debug.Log("I have a flag while dying");
+            //Debug.Log("I have a flag while dying");
             flag.transform.SetParent(null);
             flag.IsCaptured = false;
         }

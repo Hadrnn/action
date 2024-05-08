@@ -125,7 +125,7 @@ public class UnityNetworkTankMovement : NetworkBehaviour
     private void FixedUpdate()
     {
         // Adjust the rigidbodies position and orientation in FixedUpdate.
-        // if (!IsOwner) return;
+        if (!IsOwner) return;
         Move();
     }
 

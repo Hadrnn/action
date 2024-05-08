@@ -119,14 +119,14 @@ public class InfoCollector : NetworkBehaviour
             case GameSingleton.GameMode.Domination:
             case GameSingleton.GameMode.CaptureTheFlag:
             case GameSingleton.GameMode.TeamBattle:
-                Debug.Log("About to set teams");
+
                 if (!teamsSet) SetTeams();
 
                 if(tankHolder.tank.GetComponent<TankMovement>().teamNumber != TankMovement.teamNotSet)
                 {
                     int teamNumber = tankHolder.tank.GetComponent<TankMovement>().teamNumber;
 
-                    Debug.Log("Spawning a tank with a pre-set team:" + teamNumber.ToString());
+                    //Debug.Log("Spawning a tank with a pre-set team:" + teamNumber.ToString());
 
                     if (teamNumber != 0 && teamNumber != 1) throw new Exception("Invalid team number pre-set");
 

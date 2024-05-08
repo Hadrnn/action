@@ -42,7 +42,7 @@ public class BotTurretTurning : MonoBehaviour
 
         Vector3 BotPos = BotTransform.position;
         Vector3 TargetPos = Target.position;
-        if ((TargetPos - prew_target_poses.Peek()).magnitude > 1.2)
+        if ((TargetPos - prew_target_poses.Peek()).magnitude > 0.6)
         {
             float l = TargetPos.x - BotPos.x;
             float h = TargetPos.z - BotPos.z;

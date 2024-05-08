@@ -10,6 +10,7 @@ public class PlayerARTGunTurning : MonoBehaviour
     public float g = 40;
     public float shel_speed = 10;
 
+    private string change_mode_button = "Mode";
     private Vector3 mousePos;
     private Plane plane = new Plane(Vector3.up, 0);
     private Vector3 prew_angles = new Vector3(0, 45f, 0);
@@ -25,6 +26,16 @@ public class PlayerARTGunTurning : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        /*        if (Input.GetButtonDown(change_mode_button))
+                {
+                    direct = !direct;
+                }*/
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            direct = !direct;
+        }
+        
         Vector3 angles = new Vector3(0,0,0);
         float distance;
         Ray ray = m_Camera.ScreenPointToRay(Input.mousePosition);

@@ -10,6 +10,11 @@ public class PlayerAPCShooting : TankShooting
     private string m_FireButton;                // The input axis that is used for launching shells.
     private float m_ChargeSpeed;                // How fast the launch force increases, based on the max charge time.
     private bool m_Fired;                       // Whether or not the shell has been launched with this button press.
+    public float birst_delay_time = 0.2f;
+    public bool on_birst_delay = false;
+    public int max_magazine_size = 3;
+    public int current_magazine_size = 3;
+    public bool onReload = false;
 
 
     private void OnEnable()
@@ -32,8 +37,24 @@ public class PlayerAPCShooting : TankShooting
 
     private void Update()
     {
-        // The slider should have a default value of the minimum launch force.
-        //m_AimSlider.value = m_MinLifeTime;
+        float CurrentTime = Time.time;
+
+        if (on_birst_delay)
+        {
+            if ((CurrentTime - ShootTime) > birst_delay_time)
+            {
+                on_birst_delay = false;
+            }
+        }
+
+        if (onReload)
+        {
+            if ((CurrentTime - ShootTime) > cooldown)
+            {
+                onReload = false;
+                current_magazine_size = max_magazine_size;
+            }
+        }
 
         // If the max force has been exceeded and the shell hasn't yet been launched...
         if (m_CurrentLifeTime >= m_MaxLifeTime && !m_Fired)
@@ -74,12 +95,19 @@ public class PlayerAPCShooting : TankShooting
     {
 
         float CurrentTime = Time.time;
-        if ((CurrentTime - ShootTime) < cooldown)
+        if (onReload | on_birst_delay)
         {
             return;
         }
-        // Set the fired flag so only Fire is only called once.
-        m_Fired = true;
+        current_magazine_size -= 1;
+        if (current_magazine_size > 0)
+        {
+            on_birst_delay = true;
+        }
+        else
+        {
+            onReload = true;
+        }
 
         // Create an instance of the shell and store a reference to it's rigidbody.
         Rigidbody shellInstance =

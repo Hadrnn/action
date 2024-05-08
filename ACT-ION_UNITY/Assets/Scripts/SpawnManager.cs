@@ -91,8 +91,9 @@ public class SpawnManager : NetworkBehaviour
 
             for (ushort i = 0; i < dead.Count; ++i)
             {
-                if (Time.time > deathTime[i] + NetworkDeathDelay)
+                if (dead[i].activeSelf && (Time.time > deathTime[i] + NetworkDeathDelay))
                 {
+                    Debug.Log("Setting inactive");
                     dead[i].SetActive(false);
                     continue;
                 }
@@ -123,7 +124,8 @@ public class SpawnManager : NetworkBehaviour
 
                 if (Time.time > deathTime[i] + RespawnTime)
                 {
-                    dead[i].transform.position = GetSpawnPos(spawnAreaPos, defaultSpawnRadius);
+                    InfoCollector.Team.TankHolder tank = dead[i].GetComponent<TankShooting>().tankHolder;
+                    dead[i].transform.position = GetSpawnPos(tank.team.teamSpawn, defaultSpawnRadius);
                     dead[i].SetActive(true);
                     dead.RemoveAt(i);
                     deathTime.RemoveAt(i);

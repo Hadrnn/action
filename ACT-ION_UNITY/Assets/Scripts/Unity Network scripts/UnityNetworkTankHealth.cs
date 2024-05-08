@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using Unity.Netcode;
-using Unity.VisualScripting;
+
 
 public class UnityNetworkTankHealth : NetworkBehaviour
 {
@@ -38,6 +38,7 @@ public class UnityNetworkTankHealth : NetworkBehaviour
     {
         if (IsOwner)
         {
+            Debug.Log("Setting camera");
             GameObject cameraRig = GameObject.Find("CameraRig");
             CameraFollower follower = cameraRig.GetComponent<CameraFollower>();
             follower.m_Target = transform;
@@ -164,6 +165,7 @@ public class UnityNetworkTankHealth : NetworkBehaviour
                 flag.SetParentClientRpc(-1, -2);
                 flag.SetCaptured(false);
             }
+            return;
         }
 
         if (IsOwner)
@@ -175,10 +177,8 @@ public class UnityNetworkTankHealth : NetworkBehaviour
 
 
         Vector3 Grave = new Vector3(transform.position.x,-10, transform.position.z);
-        //transform.position = Grave;
-        GetComponent<Rigidbody>().MovePosition(Grave);
-        // Turn the tank off.
 
+        transform.position = Grave;
 
         // Tank is turned off in spawn manager;
         //gameObject.SetActive(false);

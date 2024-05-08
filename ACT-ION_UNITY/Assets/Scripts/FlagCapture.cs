@@ -22,7 +22,7 @@ public class FlagCapture : MonoBehaviour
 
             if (currBase.teamNumber == teamNumber)
             {
-                Debug.Log("Flag found a base");
+                //Debug.Log("Flag found a base");
                 teamBase = currBase.transform;
                 break;
             }
