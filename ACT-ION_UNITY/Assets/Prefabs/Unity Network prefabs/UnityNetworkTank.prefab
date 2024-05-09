@@ -337,13 +337,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11880fec2d019064bbbe9396c43138d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Shell: {fileID: 4414234764820895244, guid: 2ef950796bd50134c9465bf2f6efb758, type: 3}
+  m_Shell: {fileID: 4508702101147457852, guid: fd30f7811a7a36e4dad5d790a1be609c, type: 3}
   m_FireTransform: {fileID: 4116546582225410177}
   m_ShootingAudio: {fileID: 265276408099858613}
   m_ChargingClip: {fileID: 8300000, guid: 26eb6f8197d8401449286b42e7ff33f1, type: 3}
   m_FireClip: {fileID: 8300000, guid: 715c8cf8e36b2b143a6aacba41b63972, type: 3}
   m_Velocity: 40
-  m_MinLifeTime: 1
+  ShellLifeTime: 1
   m_MaxLifeTime: 2
   m_MaxChargeTime: 0.75
   cooldown: 1

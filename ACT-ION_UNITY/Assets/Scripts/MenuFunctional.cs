@@ -1,9 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MenuFunctional : MonoBehaviour
 {
+    public Transform ChooseMapMenu;
+    public Transform ChooseTankMenu;
+
     protected int map_index = 1;
     protected int max_map_index = 2;
     protected int min_map_index = 1;
@@ -40,19 +41,19 @@ public class MenuFunctional : MonoBehaviour
     {
         if (map_index == 1)
         {
-            gameObject.GetComponentInChildren<Transform>().Find("ChoseMapMenu").GetComponentInChildren<Transform>().Find("SandMapPct").gameObject.SetActive(true);
+            ChooseMapMenu.Find("SandMapPct").gameObject.SetActive(true);
         }
         else
         {
-            gameObject.GetComponentInChildren<Transform>().Find("ChoseMapMenu").GetComponentInChildren<Transform>().Find("SandMapPct").gameObject.SetActive(false);
+            ChooseMapMenu.Find("SandMapPct").gameObject.SetActive(false);
         }
         if (map_index == 2)
         {
-            gameObject.GetComponentInChildren<Transform>().Find("ChoseMapMenu").GetComponentInChildren<Transform>().Find("ForestMapPct").gameObject.SetActive(true);
+            ChooseMapMenu.Find("ForestMapPct").gameObject.SetActive(true);
         }
         else
         {
-            gameObject.GetComponentInChildren<Transform>().Find("ChoseMapMenu").GetComponentInChildren<Transform>().Find("ForestMapPct").gameObject.SetActive(false);
+            ChooseMapMenu.Find("ForestMapPct").gameObject.SetActive(false);
         }
 
 
@@ -62,35 +63,35 @@ public class MenuFunctional : MonoBehaviour
 
         if (tank_index == GameSingleton.Tanks.Tank)
         {
-            gameObject.GetComponentInChildren<Transform>().Find("ChoseTankMenu").GetComponentInChildren<Transform>().Find("TankPct").gameObject.SetActive(true);
+            ChooseTankMenu.Find("TankPct").gameObject.SetActive(true);
         }
         else
         {
-            gameObject.GetComponentInChildren<Transform>().Find("ChoseTankMenu").GetComponentInChildren<Transform>().Find("TankPct").gameObject.SetActive(false);
+            ChooseTankMenu.Find("TankPct").gameObject.SetActive(false);
         }
         if (tank_index == GameSingleton.Tanks.APC)
         {
-            gameObject.GetComponentInChildren<Transform>().Find("ChoseTankMenu").GetComponentInChildren<Transform>().Find("APCPct").gameObject.SetActive(true);
+            ChooseTankMenu.Find("APCPct").gameObject.SetActive(true);
         }
         else
         {
-            gameObject.GetComponentInChildren<Transform>().Find("ChoseTankMenu").GetComponentInChildren<Transform>().Find("APCPct").gameObject.SetActive(false);
+            ChooseTankMenu.Find("APCPct").gameObject.SetActive(false);
         }
         if (tank_index == GameSingleton.Tanks.HeavyTank)
         {
-            gameObject.GetComponentInChildren<Transform>().Find("ChoseTankMenu").GetComponentInChildren<Transform>().Find("HeavyPct").gameObject.SetActive(true);
+            ChooseTankMenu.Find("HeavyPct").gameObject.SetActive(true);
         }
         else
         {
-            gameObject.GetComponentInChildren<Transform>().Find("ChoseTankMenu").GetComponentInChildren<Transform>().Find("HeavyPct").gameObject.SetActive(false);
+            ChooseTankMenu.Find("HeavyPct").gameObject.SetActive(false);
         }
         if (tank_index == GameSingleton.Tanks.Artillery)
         {
-            gameObject.GetComponentInChildren<Transform>().Find("ChoseTankMenu").GetComponentInChildren<Transform>().Find("ARTPct").gameObject.SetActive(true);
+            ChooseTankMenu.Find("ARTPct").gameObject.SetActive(true);
         }
         else
         {
-            gameObject.GetComponentInChildren<Transform>().Find("ChoseTankMenu").GetComponentInChildren<Transform>().Find("ARTPct").gameObject.SetActive(false);
+            ChooseTankMenu.Find("ARTPct").gameObject.SetActive(false);
         }
         GameSingleton.GetInstance().currentTank = tank_index;
     }

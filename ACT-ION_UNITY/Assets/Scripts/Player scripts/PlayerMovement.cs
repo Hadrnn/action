@@ -65,6 +65,8 @@ public abstract class PlayerMovement : TankMovement
     private void FixedUpdate()
     {
         // Adjust the rigidbodies position and orientation in FixedUpdate.
+        if (GameSingleton.GetInstance().paused) return;
+
         Move();
     }
 

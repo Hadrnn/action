@@ -317,7 +317,7 @@ public class Map1Manager : NetworkBehaviour
                 //transport.ConnectionData.Port = ServerPort;
 
                 Instantiate(UnityNetworkMenu);
-                Instantiate(UnityNetworkEventSystem);
+                //Instantiate(UnityNetworkEventSystem);
                 break;
             case GameType.Empty:
                 break;
@@ -344,7 +344,7 @@ public class Map1Manager : NetworkBehaviour
 
                 string[] parameters = System.Environment.GetCommandLineArgs();
                 HandleAnswer(parameters);
-                Instantiate(UnityNetworkEventSystem);
+                //Instantiate(UnityNetworkEventSystem);
 
                 GameObject ServerManager = Instantiate(UnityNetworkManager);
                 UnityTransport ServerTransport = ServerManager.GetComponent<UnityTransport>();
@@ -392,7 +392,7 @@ public class Map1Manager : NetworkBehaviour
                 break;
             case GameType.UnityClient:
 
-                Instantiate(UnityNetworkEventSystem);
+                //Instantiate(UnityNetworkEventSystem);
                 GameObject ClientManager = Instantiate(UnityNetworkManager);
                 UnityTransport ClientTransport = ClientManager.GetComponent<UnityTransport>();
 

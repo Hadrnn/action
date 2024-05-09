@@ -36,7 +36,7 @@ public class VolumeChanger : MonoBehaviour
     public void SetSfxVolume()
     {
         sfxLvl = sfxVolumeSlider.value;
-        masterMixer.SetFloat("SFX", Mathf.Log10(sfxLvl) * 20 - 10);
+        masterMixer.SetFloat("SFX", Mathf.Log10(sfxLvl) * 20);
     }
 
     public void SetEngineVolume()

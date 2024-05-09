@@ -16,6 +16,8 @@ public class PlayerTankShooting : TankShooting
 
     private void Update()
     {
+        if (GameSingleton.GetInstance().paused) return;
+
         if (Input.GetButton(m_FireButton))
         {
             Fire();

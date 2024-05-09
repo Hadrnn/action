@@ -6,19 +6,18 @@ public class InGameMenuFunctional : MonoBehaviour
 {
     private bool tab_active = false;
     private bool esc_active = false;
+
+    private void OnDisable()
+    {
+        GameSingleton.GetInstance().paused = false;
+    }
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Tab))
         {
             tab_active = !tab_active;
-            if (tab_active)
-            {
-                gameObject.GetComponentInChildren<Transform>().Find("TabMenu").gameObject.SetActive(true);
-            }
-            else
-            {
-                gameObject.GetComponentInChildren<Transform>().Find("TabMenu").gameObject.SetActive(false);
-            }
+
+            gameObject.GetComponentInChildren<Transform>().Find("TabMenu").gameObject.SetActive(tab_active);
         }
 
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -26,11 +25,19 @@ public class InGameMenuFunctional : MonoBehaviour
             esc_active = !esc_active;
             if (esc_active)
             {
+                GameSingleton.GetInstance().paused = true;
+
                 gameObject.GetComponentInChildren<Transform>().Find("EscapeMenu").gameObject.SetActive(true);
+                gameObject.GetComponentInChildren<Transform>().Find("EscapeMenu").Find("BackToMenu").gameObject.SetActive(true);
+                gameObject.GetComponentInChildren<Transform>().Find("EscapeMenu").Find("SoundSettings").gameObject.SetActive(true);
             }
             else
             {
+                GameSingleton.GetInstance().paused = false;
+
                 gameObject.GetComponentInChildren<Transform>().Find("EscapeMenu").gameObject.SetActive(false);
+                gameObject.GetComponentInChildren<Transform>().Find("EscapeMenu").Find("SettingsMenu").gameObject.SetActive(false);
+
             }
         }
     }
@@ -38,10 +45,5 @@ public class InGameMenuFunctional : MonoBehaviour
     public void BackToStartMenu()
     {
         UnityEngine.SceneManagement.SceneManager.LoadScene(0);
-    }
-
-    public void ChangeVolume()
-    {
-        //masterMixer.SetFloat("musicVol", Mathf.Log10(masterLevel) * 20);
     }
 }

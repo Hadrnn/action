@@ -36,6 +36,7 @@ public class GameSingleton
     public bool friendlyFire = true;
     public bool startedWithMenu = false;
     public int[,] botAmounts = new int[2, 4];
+    public bool paused = false;
     
     private GameSingleton() {
         //Debug.Log("SPAWNED SINGLETON");
@@ -50,6 +51,4 @@ public class GameSingleton
         //Debug.Log("GOT TO SINGLETON");
         return instance;
     }
-
-
 }
