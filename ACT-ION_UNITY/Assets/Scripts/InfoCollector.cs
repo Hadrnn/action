@@ -23,11 +23,12 @@ public class InfoCollector : NetworkBehaviour
 
     public class Team
     {
-        public class TankHolder
+        public class TankHolder : IComparable<TankHolder>
         {
-            public TankHolder(GameObject _tank)
+            public TankHolder(GameObject _tank, string _name)
             {
                 tank = _tank;
+                name = _name;
                 kills = 0;
                 deaths = 0;
                 tankID = GetOwnerTankID();
@@ -38,12 +39,18 @@ public class InfoCollector : NetworkBehaviour
             public int deaths;
             public Team team;
             public int tankID;
+            public string name;
+
+            public int CompareTo(TankHolder other)
+            {
+                return kills.CompareTo(other.kills);
+            }
         }
         public Team(int _teamNumber)
         {
             teamNumber = _teamNumber;
             teamKills = 0;
-            roundsWon = 0;
+            teamStat = 0;
             alivePlayers = 0;
             teamSpawn = new Vector3(0,0,0);
         }
@@ -52,7 +59,7 @@ public class InfoCollector : NetworkBehaviour
         {
             teamNumber = _teamNumber;
             teamKills = 0;
-            roundsWon = 0;
+            teamStat = 0;
             teamSpawn = Spawn;
         }
 
@@ -61,18 +68,19 @@ public class InfoCollector : NetworkBehaviour
 
         public int alivePlayers { get; set; }
         public int teamKills { get; set; }
-        public int roundsWon { get; set; }
+        public int teamStat { get; set; }
         public Vector3 teamSpawn { get; set; }
-
     }
 
     private void Start()
     {
         NewTeamNumber = 0;
     }
-    // Update is called once per frame
+
     void Update()
     {
+
+
         if (GameSingleton.GetInstance().currentGameMode != GameSingleton.GameMode.DeathMatch
             && !teamsSet)
         {
@@ -81,28 +89,34 @@ public class InfoCollector : NetworkBehaviour
             return;
         }
 
+        //teams[0].tanks.Sort(delegate (Team.TankHolder first, Team.TankHolder second) { return first.kills.CompareTo(second.kills); });
+        for (int i = 0; i < teams.Count; ++i)
+        {
+            teams[i].tanks.Sort();
+        }
+
         if (GameSingleton.GetInstance().currentGameMode == GameSingleton.GameMode.TeamBattle)
         {
             if (GetComponent<SpawnManager>().endOfRound) return;
 
             if (teams[0].alivePlayers == 0)
             {
-                ++teams[1].roundsWon;
+                ++teams[1].teamStat;
                 Debug.Log("Team 1 won");
                 GetComponent<SpawnManager>().endOfRound = true;
             }
             else if (teams[1].alivePlayers == 0)
             {
                 Debug.Log("Team 0 won");
-                ++teams[0].roundsWon;
+                ++teams[0].teamStat;
                 GetComponent<SpawnManager>().endOfRound = true;
             }
         }
     }
 
-    public Team.TankHolder AddTank(GameObject tankToAdd)
+    public Team.TankHolder AddTank(GameObject tankToAdd, string name = "NO NAME")
     {
-        Team.TankHolder tankHolder = new Team.TankHolder(tankToAdd);
+        Team.TankHolder tankHolder = new Team.TankHolder(tankToAdd, name);
 
         switch (GameSingleton.GetInstance().currentGameMode)
         {

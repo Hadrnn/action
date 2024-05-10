@@ -4,7 +4,11 @@ using UnityEngine;
 
 public class SinglePlayMenuFunctional : MenuFunctional
 {
+    private void Awake()
+    {
+        GameSingleton.GetInstance().botAmounts = new int[2, 4];
 
+    }
     public void Play()
     {
         GameSingleton.GetInstance().startedWithMenu = true;

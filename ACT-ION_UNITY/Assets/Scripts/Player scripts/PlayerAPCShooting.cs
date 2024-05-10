@@ -7,12 +7,13 @@ using static InfoCollector.Team;
 public class PlayerAPCShooting : TankShooting
 {
 
-    private string m_FireButton;                // The input axis that is used for launching shells.
     public float birst_delay_time = 0.2f;
-    public bool on_birst_delay = false;
     public int max_magazine_size = 3;
-    public int current_magazine_size = 3;
-    public bool onReload = false;
+
+    private int current_magazine_size = 3;
+    private bool onReload = false;
+    private bool on_birst_delay = false;
+    private string m_FireButton;                // The input axis that is used for launching shells.
 
 
     private void Start()
@@ -23,6 +24,8 @@ public class PlayerAPCShooting : TankShooting
 
     private void Update()
     {
+        if (GameSingleton.GetInstance().paused) return;
+
         float CurrentTime = Time.time;
 
         if (on_birst_delay)
@@ -53,7 +56,6 @@ public class PlayerAPCShooting : TankShooting
     private void Fire()
     {
 
-        float CurrentTime = Time.time;
         if (onReload | on_birst_delay)
         {
             return;

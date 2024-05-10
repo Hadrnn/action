@@ -1,31 +1,63 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
+using System.Collections;
+using System.Collections.Generic;
 using Unity.Netcode;
-using Unity.VisualScripting;
+using UnityEngine;
 
-public class UnityNetworkTankShooting : UnityNetworkShooting
+public class UnityNetworkAPCShooting : UnityNetworkShooting
 {
+    public float birst_delay_time = 0.2f;
+    public int max_magazine_size = 3;
+
+    private int current_magazine_size = 3;
+    private bool onReload = false;
+    private bool on_birst_delay = false;
+
 
     private void Update()
     {
 
         if (!IsOwner) return;
 
-
-
         if (Input.GetButtonDown(m_FireButton))
         {
             Fire();
+        }
+
+        float CurrentTime = Time.time;
+
+        if (on_birst_delay)
+        {
+            if ((CurrentTime - ShootTime) > birst_delay_time)
+            {
+                on_birst_delay = false;
+            }
+        }
+
+        if (onReload)
+        {
+            if ((CurrentTime - ShootTime) > cooldown)
+            {
+                onReload = false;
+                current_magazine_size = max_magazine_size;
+            }
         }
     }
 
 
     private void Fire()
     {
-        float CurrentTime = Time.time;
-        if ((CurrentTime - ShootTime) < cooldown)
+        if (onReload | on_birst_delay)
         {
             return;
+        }
+        current_magazine_size -= 1;
+        if (current_magazine_size > 0)
+        {
+            on_birst_delay = true;
+        }
+        else
+        {
+            onReload = true;
         }
 
         FireServerRpc();
@@ -58,5 +90,4 @@ public class UnityNetworkTankShooting : UnityNetworkShooting
         m_CurrentLifeTime = ShellLifeTime;
         shellInstance.velocity = m_Velocity * m_FireTransform.forward;
     }
-
 }
