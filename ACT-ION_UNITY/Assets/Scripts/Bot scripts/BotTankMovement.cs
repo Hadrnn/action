@@ -3,6 +3,10 @@ using System;
 using Vector3 = UnityEngine.Vector3;
 using Quaternion = UnityEngine.Quaternion;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using TMPro;
+using UnityEngine.UIElements;
+using static UnityEngine.EventSystems.EventTrigger;
 
 
 
@@ -10,8 +14,15 @@ public class BotTankMovement : BotMovement
 {
     public int target_radius;
     public int Astar_deep;
+    public bool was_change_radius_on_last_3_iterration = false;
+    public int radius_of_search;
+    public int iterration_counter = 0;
+    public int max_value_iterration_counter = 3;
+
     protected override void Decision()
     {
+        Vector3 MyPosition = transform.position;
+
         if ((GameSingleton.GetInstance().currentGameMode != GameSingleton.GameMode.Domination) & (GameSingleton.GetInstance().currentGameMode != GameSingleton.GameMode.CaptureTheFlag))
         {
             Transform Enemy = FindClosestEnemy(teamNumber, transform, collector);
@@ -19,24 +30,49 @@ public class BotTankMovement : BotMovement
             {
                 return;
             }
-
             Vector3 EnemyPosition = Enemy.position;
-            Vector3 MyPosition = transform.position;
-            Vector3 DeltaPosition = MyPosition - EnemyPosition;
-            float Length = DeltaPosition.magnitude;
-            if (!Gun.onReload)
-            {
-                GameState Start = new GameState(0, discret, target_radius);
+            
+            Vector3 TargetPosition;
+ 
+            TargetPosition = EnemyPosition;
 
-                Start.position = transform.position;
-                Start.forward = transform.forward;
-                Start.forward_multiplyer = forvard_multiplyer;
-                Start.TargetPosition = EnemyPosition;
-                Vector3 dist = Start.TargetPosition - Start.position;
-                Start.distance_to_finish = dist.magnitude;
-                Start.distance_to_start = 0;
-                Start.ourRigidbody = GetComponent<Rigidbody>();
-                Start.hitbox = GetComponent<BoxCollider>();
+
+            if (!Gun.onReload) 
+            {
+                float length = (TargetPosition - MyPosition).magnitude;
+
+                if (!was_change_radius_on_last_3_iterration)
+                {
+                    if (length > 10 && length < 90)
+                    {
+                        radius_of_search = (int)(length * 0.75f);
+                    }
+                    else if (length > 90)
+                    {
+                        radius_of_search = (int)(length - 20f);
+                    }
+                    else
+                    {
+                        radius_of_search = 4;
+                    }
+                    iterration_counter = 0;
+                }
+                else
+                {
+                    if (iterration_counter == max_value_iterration_counter)
+                    {
+                        was_change_radius_on_last_3_iterration = false;
+                    }
+                    else
+                    {
+                        iterration_counter++;
+                    }
+                }
+
+                GameState Start = new GameState(GetComponent<Rigidbody>(), Enemy.GetComponent<Rigidbody>(), GetComponent<BoxCollider>(), transform.position,
+                    transform.forward, forvard_multiplyer, m_TurnSpeed, m_Speed, radius_of_search, TargetPosition, new Vector3(0, 0, 0), 
+                    (TargetPosition - transform.position).magnitude, 0,  0, discret);
+
                 Vector3 decision = AStar(Start, Astar_deep);
                 if (decision.x == 0 & decision.z == 0)
                 {
@@ -61,7 +97,7 @@ public class BotTankMovement : BotMovement
                 {
 
                     current_distanse_to_my_cover = (collector.mapObjects[i].transform.position - MyPosition).magnitude;
-                    distanse_from_enemy_to_cover = (collector.mapObjects[i].transform.position - EnemyPosition).magnitude;
+                    distanse_from_enemy_to_cover = (collector.mapObjects[i].transform.position - TargetPosition).magnitude;
                     if (current_distanse_to_my_cover < min_summ & distanse_from_enemy_to_cover < 45)
                     {
                         min_summ = current_distanse_to_my_cover;
@@ -74,7 +110,7 @@ public class BotTankMovement : BotMovement
                 }
                 Vector3 cover_position = collector.mapObjects[cover_index].transform.position;
 
-                Vector3 connect_line = cover_position - EnemyPosition;
+                Vector3 connect_line = cover_position - TargetPosition;
 
                 Vector3 additional_element = new Vector3(20, 0, 20);
 
@@ -84,18 +120,42 @@ public class BotTankMovement : BotMovement
                 float mult_z = connect_line.z * additional_element.z;
                 Vector3 mult = new Vector3(mult_x, 0, mult_z);
 
-                Vector3 TargetPosition = cover_position + mult;
+                Vector3 RecalculateTargetPosition = cover_position + mult;
 
-                GameState Start = new GameState(0, discret, target_radius);
-                Start.position = transform.position;
-                Start.forward = transform.forward;
-                Start.forward_multiplyer = forvard_multiplyer;
-                Start.TargetPosition = TargetPosition;
-                Vector3 dist = Start.TargetPosition - Start.position;
-                Start.distance_to_finish = dist.magnitude;
-                Start.distance_to_start = 0;
-                Start.ourRigidbody = GetComponent<Rigidbody>();
-                Start.hitbox = GetComponent<BoxCollider>();
+                float length = (RecalculateTargetPosition - MyPosition).magnitude;
+
+
+                if (!was_change_radius_on_last_3_iterration)
+                {
+                    if (length > 10 && length < 90)
+                    {
+                        radius_of_search = (int)(length * 0.75f);
+                    }
+                    else if (length > 90)
+                    {
+                        radius_of_search = (int)(length - 20f);
+                    }
+                    else
+                    {
+                        radius_of_search = 4;
+                    }
+                    iterration_counter = 0;
+                }
+                else
+                {
+                    if (iterration_counter == max_value_iterration_counter)
+                    {
+                        was_change_radius_on_last_3_iterration = false;
+                    }
+                    else
+                    {
+                        iterration_counter++;
+                    }
+                }
+
+                GameState Start = new GameState(GetComponent<Rigidbody>(), Enemy.GetComponent<Rigidbody>(), GetComponent<BoxCollider>(), transform.position,
+                    transform.forward, forvard_multiplyer, m_TurnSpeed, m_Speed, radius_of_search, RecalculateTargetPosition, new Vector3(0, 0, 0),
+                    (RecalculateTargetPosition - transform.position).magnitude, 0, 0, discret);
                 Vector3 decision = AStar(Start, Astar_deep);
                 if (decision.x == 0 & decision.z == 0)
                 {
@@ -114,20 +174,44 @@ public class BotTankMovement : BotMovement
         else if (GameSingleton.GetInstance().currentGameMode == GameSingleton.GameMode.Domination)
         {
             Transform Base = collector.objectives[0].transform;
- 
+
             Vector3 BasePosition = Base.position;
 
-            GameState Start = new GameState(0, discret, target_radius);
+            float length = (transform.position - BasePosition).magnitude;
 
-            Start.position = transform.position;
-            Start.forward = transform.forward;
-            Start.forward_multiplyer = forvard_multiplyer;
-            Start.TargetPosition = BasePosition;
-            Vector3 dist = Start.TargetPosition - Start.position;
-            Start.distance_to_finish = dist.magnitude;
-            Start.distance_to_start = 0;
-            Start.ourRigidbody = GetComponent<Rigidbody>();
-            Start.hitbox = GetComponent<BoxCollider>();
+            if (!was_change_radius_on_last_3_iterration)
+            {
+                if (length > 10 && length < 90)
+                {
+                    radius_of_search = (int)(length * 0.75f);
+                }
+                else if (length > 90)
+                {
+                    radius_of_search = (int)(length - 20f);
+                }
+                else
+                {
+                    radius_of_search = 4;
+                }
+                iterration_counter = 0;
+            }
+            else
+            {
+                if (iterration_counter == max_value_iterration_counter)
+                {
+                    was_change_radius_on_last_3_iterration = false;
+                }
+                else
+                {
+                    iterration_counter++;
+                }
+            }
+
+
+            GameState Start = new GameState(GetComponent<Rigidbody>(), GetComponent<Rigidbody>(), GetComponent<BoxCollider>(), transform.position,
+                transform.forward, forvard_multiplyer, m_TurnSpeed, m_Speed, radius_of_search, BasePosition, new Vector3(0, 0, 0),
+                (BasePosition - transform.position).magnitude, 0, 0, discret);
+
             Vector3 decision = AStar(Start, Astar_deep);
             if (decision.x == 0 & decision.z == 0)
             {
@@ -174,7 +258,6 @@ public class BotTankMovement : BotMovement
                 }
             }
 
-            int radius = 0;
             Vector3 TargetPosition = Vector3.zero;
 
             float dist_from_me_to_en_flag = (EnemyFlag.position - transform.position).magnitude;
@@ -182,32 +265,23 @@ public class BotTankMovement : BotMovement
             float dist_from_me_to_my_base = (MyBase.position - transform.position).magnitude;
             float dist_from_my_flag_to_my_base = (MyBase.position - MyFlag.position).magnitude;
             float dist_from_en_flag_to_en_base = (EnemyFlag.position - EnemyBase.position).magnitude;
-/*            Debug.Log(dist_from_me_to_en_flag);
-            Debug.Log(dist_from_me_to_my_flag);
-            Debug.Log(dist_from_me_to_my_base);
-            Debug.Log(dist_from_my_flag_to_my_base);
-            Debug.Log(dist_from_en_flag_to_en_base);*/
 
             if ((dist_from_en_flag_to_en_base <= 3) & (dist_from_my_flag_to_my_base <= 3))
             {
-                radius = 5;
                 TargetPosition = EnemyFlag.position;
             }
             else if ((dist_from_me_to_en_flag <= 3) & (dist_from_my_flag_to_my_base <= 3))
             {
-                radius = 5;
                 TargetPosition = MyBase.position;
             }
             else if ((dist_from_me_to_en_flag <= 3) & (dist_from_my_flag_to_my_base > 3))
             {
                 if (dist_from_me_to_my_base > dist_from_me_to_my_flag)
                 {
-                    radius = 5;
                     TargetPosition = MyFlag.position;
                 }
                 else
                 {
-                    radius = 5;
                     TargetPosition = MyBase.position;
                 }
             }
@@ -215,12 +289,10 @@ public class BotTankMovement : BotMovement
             {
                 if (dist_from_me_to_en_flag > dist_from_me_to_my_flag)
                 {
-                    radius = 5;
                     TargetPosition = EnemyFlag.position;
                 }
                 else
                 {
-                    radius = 5;
                     TargetPosition = MyFlag.position;
                 }
             }
@@ -232,18 +304,41 @@ public class BotTankMovement : BotMovement
                 return;
             }
 
-            GameState Start = new GameState(0, discret, radius);
-            Start.position = transform.position;
-            Start.forward = transform.forward;
-            Start.forward_multiplyer = forvard_multiplyer;
-            Start.TargetPosition = TargetPosition;
-            Vector3 dist = Start.TargetPosition - Start.position;
-            Start.distance_to_finish = dist.magnitude;
-            Start.distance_to_start = 0;
-            Start.ourRigidbody = GetComponent<Rigidbody>();
-            Start.hitbox = GetComponent<BoxCollider>();
+            float length = (TargetPosition - MyPosition).magnitude;
+
+            if (!was_change_radius_on_last_3_iterration)
+            {
+                if (length > 10 && length < 90)
+                {
+                    radius_of_search = (int)(length * 0.75f);
+                }
+                else if (length > 90)
+                {
+                    radius_of_search = (int)(length - 20f);
+                }
+                else
+                {
+                    radius_of_search = 4;
+                }
+                iterration_counter = 0;
+            }
+            else
+            {
+                if (iterration_counter == max_value_iterration_counter)
+                {
+                    was_change_radius_on_last_3_iterration = false;
+                }
+                else
+                {
+                    iterration_counter++;
+                }
+            }
+
+            GameState Start = new GameState(GetComponent<Rigidbody>(), GetComponent<Rigidbody>(), GetComponent<BoxCollider>(), transform.position,
+                   transform.forward, forvard_multiplyer, m_TurnSpeed, m_Speed, radius_of_search, TargetPosition, new Vector3(0, 0, 0),
+                   (TargetPosition - transform.position).magnitude, 0, 0, discret);
+
             Vector3 decision = AStar(Start, Astar_deep);
-            Debug.Log(decision);
             if (decision.x == 0 && decision.z == 0)
             {
                 List<Vector2> numbers = new List<Vector2> { new Vector2(1, 0), new Vector2(-1, 0), new Vector2(0, 1), new Vector2(0, -1), new Vector2(1, 1), new Vector2(-1, -1), new Vector2(1, -1), new Vector2(-1, 1) };

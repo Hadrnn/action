@@ -97,7 +97,7 @@ public class BotAPCTurretTurning : MonoBehaviour
 
         transform.LookAt(TargetPos, Vector3.up);
         transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
-        if ((BotPos - TargetPos).magnitude < 40)
+        if ((BotPos - TargetPos).magnitude < 20)
         {
             Vector3 GunPos = FireTransform.position;
             float distance = Vector3.Distance(GunPos, TargetPos);

@@ -43,7 +43,7 @@ public abstract class BotMovement : TankMovement
 
                 if (current.IsFinish())
                 {
-                    //Debug.Log(i);
+                    Debug.LogWarning(i);
                     break;
                 }
                 if (current.CanMoveUp())
@@ -120,7 +120,7 @@ public abstract class BotMovement : TankMovement
                 }
                 if (que.empty)
                 {
-/*                    Debug.LogWarning("Que is empty");*/
+                    Debug.LogWarning("Que is empty");
                     broken_out = true;
                     break;
                 }
@@ -135,93 +135,13 @@ public abstract class BotMovement : TankMovement
         }
         else
         {
-            /*            que.Pop();
-                        if (start.CanMoveUp())
-                        {
-                            GameState newState = start.MoveUp();
-                            if (!visited.ContainsKey(GameStateToString(newState)))
-                            {
-                                visited[GameStateToString(newState)] = newState;
-                                que.Push(newState);
-                            }
-                        }
-                        if (start.CanMoveDown())
-                        {
-                            GameState newState = start.MoveDown();
-                            if (!visited.ContainsKey(GameStateToString(newState)))
-                            {
-                                visited[GameStateToString(newState)] = newState;
-                                que.Push(newState);
-                            }
-                        }
-                        if (start.CanMoveRight())
-                        {
-                            GameState newState = start.MoveRight();
-                            if (!visited.ContainsKey(GameStateToString(newState)))
-                            {
-                                visited[GameStateToString(newState)] = newState;
-                                que.Push(newState);
-                            }
-                        }
-                        if (start.CanMoveLeft())
-                        {
-                            GameState newState = start.MoveLeft();
-                            if (!visited.ContainsKey(GameStateToString(newState)))
-                            {
-                                visited[GameStateToString(newState)] = newState;
-                                que.Push(newState);
-                            }
-                        }
-                        if (current.CanMoveRightUp())
-                        {
-                            GameState newState = start.MoveRightUp();
-                            if (!visited.ContainsKey(GameStateToString(newState)))
-                            {
-                                visited[GameStateToString(newState)] = newState;
-                                que.Push(newState);
-                            }
-                        }
-                        if (start.CanMoveLeftUp())
-                        {
-                            GameState newState = start.MoveLeftUp();
-                            if (!visited.ContainsKey(GameStateToString(newState)))
-                            {
-                                visited[GameStateToString(newState)] = newState;
-                                que.Push(newState);
-                            }
-                        }
-                        if (start.CanMoveRightDown())
-                        {
-                            GameState newState = start.MoveRightDown();
-                            if (!visited.ContainsKey(GameStateToString(newState)))
-                            {
-                                visited[GameStateToString(newState)] = newState;
-                                que.Push(newState);
-                            }
-                        }
-                        if (start.CanMoveLeftDown())
-                        {
-                            GameState newState = start.MoveLeftDown();
-                            if (!visited.ContainsKey(GameStateToString(newState)))
-                            {
-                                visited[GameStateToString(newState)] = newState;
-                                que.Push(newState);
-                            }
-                        }
-                        if (!que.empty)
-                        {
-                            current = que.last;
-                        }
-                        else
-                        {
-                            current = start;
-                        }*/
             current = start;
+            Debug.LogWarning("Я тута епта");
         }
         que = new PriorityQueue<GameState>();
         que.Push(start);
         if (broken_out)
-        {
+        {   
             if (start.CanMoveUp())
             {
                 GameState newState = start.MoveUp();
@@ -395,27 +315,42 @@ public abstract class BotMovement : TankMovement
     public class GameState : IComparable
     {
         public Rigidbody ourRigidbody;
+        public Rigidbody targetRigidbody;
         public BoxCollider hitbox;
 
-        public Vector3 position = Vector3.zero;
-        public Vector3 forward = Vector3.zero;
+        public Vector3 position;
+        public Vector3 forward;
         public int forward_multiplyer;
-
-        public float m_TurnSpeed = 300f;
-        public float m_Speed = 12;
+        public float m_TurnSpeed;
+        public float m_Speed;
         public int target_radius;
-        public Vector3 TargetPosition = Vector3.zero;
+        public Vector3 TargetPosition;
         public GameState prew_state = null;
-        public Vector3 move = Vector3.zero;
+        public Vector3 move;
         public float distance_to_finish;
         public float distance_to_start;
         public int iterration_number;
         public int discret;
-        public GameState(int iterration_number_in, int discret_in, int target_radius_in)
+        public GameState(Rigidbody ourRigidbody, Rigidbody targetRigidbody,
+            BoxCollider hitbox, Vector3 position, Vector3 forward, int forward_multiplyer, float m_TurnSpeed, float m_Speed, int target_radius,
+            Vector3 TargetPosition, Vector3 move, float distance_to_finish, float distance_to_start, int iterration_number, int discret)
         {
-            iterration_number = iterration_number_in;
-            discret = discret_in;
-            target_radius = target_radius_in;
+            this.ourRigidbody = ourRigidbody;
+            this.targetRigidbody = targetRigidbody;
+            this.hitbox = hitbox;
+            this.position = position;
+            this.forward = forward;
+            this.forward_multiplyer = forward_multiplyer;
+            this.m_TurnSpeed = m_TurnSpeed;
+            this.m_Speed = m_Speed;
+            this.target_radius = target_radius;
+            this.TargetPosition = TargetPosition;
+            this.move = move;
+            this.distance_to_finish = distance_to_finish;
+            this.distance_to_start = distance_to_start;
+            this.iterration_number = iterration_number;
+            this.discret = discret;
+            this.target_radius = target_radius;
         }
 
         public List<Vector3> shells_positions_recalculate(List<Vector3> shells_positions, List<Vector3> shells_forwards, List<float> shells_speeds)
@@ -446,19 +381,12 @@ public abstract class BotMovement : TankMovement
                 }
             }
             
+            GameState next = new GameState(this.ourRigidbody, this.targetRigidbody, this.hitbox, this.position, this.forward, this.forward_multiplyer, 
+                this.m_TurnSpeed, this.m_Speed, this.target_radius, this.TargetPosition, this.move, this.distance_to_finish, this.distance_to_start, 
+                this.iterration_number + 1, this.discret);
+            next.prew_state = this;
 
-
-            GameState next = new GameState(iterration_number + 1, discret, target_radius);
-            next.position = this.position;
-            next.forward = this.forward;
-            next.forward_multiplyer = this.forward_multiplyer;
-            next.m_Speed = this.m_Speed;
-            next.m_TurnSpeed = this.m_TurnSpeed;
-            next.TargetPosition = this.TargetPosition;
-            next.hitbox = this.hitbox;
-            next.ourRigidbody = this.ourRigidbody;
-
-            for (int i = 0; i < discret; i++)
+            for (int i = 0; i < discret * 2; i++)
             {
                 double forward_angle = (System.Math.Acos((next.forward.x * next.forward_multiplyer * 1 + next.forward.z * 0 * next.forward_multiplyer) /
                ((System.Math.Sqrt(next.forward.x * next.forward.x + next.forward.z * next.forward.z))))) * 57.3;
@@ -513,15 +441,32 @@ public abstract class BotMovement : TankMovement
                 Quaternion newRotation = Quaternion.Euler(new_forward_angle);
                 Vector3 colliderSize = hitbox.size;
 
-                Collider[] collisionArray = Physics.OverlapBox(new_position, colliderSize / 2, newRotation, ~0, QueryTriggerInteraction.Ignore);
+                if (i < discret)
+                {
+                    Collider[] collisionArray = Physics.OverlapBox(new_position, colliderSize / 2, newRotation, ~0, QueryTriggerInteraction.Ignore);
 
-                if (collisionArray.Length == 1 && collisionArray[0].GetComponent<Rigidbody>() == ourRigidbody)
-                {
-                    continue;
-                }
-                else if (collisionArray.Length != 0)
-                {
-                    return false;
+                    if (collisionArray.Length == 1 && collisionArray[0].GetComponent<Rigidbody>() == ourRigidbody)
+                    {
+                        continue;
+                    }
+                    if (collisionArray.Length == 1 && collisionArray[0].GetComponent<Rigidbody>() == targetRigidbody)
+                    {
+                        continue;
+                    }
+                    if (collisionArray.Length == 2 && (collisionArray[0].GetComponent<Rigidbody>() == ourRigidbody
+                        && collisionArray[1].GetComponent<Rigidbody>() == targetRigidbody))
+                    {
+                        continue;
+                    }
+                    if (collisionArray.Length == 2 && (collisionArray[0].GetComponent<Rigidbody>() == targetRigidbody
+                        && collisionArray[1].GetComponent<Rigidbody>() == ourRigidbody))
+                    {
+                        continue;
+                    }
+                    else if (collisionArray.Length != 0)
+                    {
+                        return false;
+                    }
                 }
 
                 shells_positions = shells_positions_recalculate(shells_positions, shells_forwards, shells_speeds);
@@ -580,15 +525,10 @@ public abstract class BotMovement : TankMovement
 
         public GameState MakeMove(double control_angle, Vector3 control)
         {
-            GameState next = new GameState(iterration_number + 1, discret, target_radius);
-            next.position = this.position;
-            next.forward = this.forward;
-            next.forward_multiplyer = this.forward_multiplyer;
-            next.m_Speed = this.m_Speed;
-            next.m_TurnSpeed = this.m_TurnSpeed;
-            next.TargetPosition = this.TargetPosition;
-            next.ourRigidbody = ourRigidbody;
-            next.hitbox = this.hitbox;
+            GameState next = new GameState(this.ourRigidbody, this.targetRigidbody, this.hitbox, this.position, this.forward, this.forward_multiplyer,
+                this.m_TurnSpeed, this.m_Speed, this.target_radius, this.TargetPosition, this.move, this.distance_to_finish, this.distance_to_start,
+                this.iterration_number + 1, this.discret);
+            next.prew_state = this;
 
             for (int i = 0; i < discret; i++)
             {
@@ -698,7 +638,8 @@ public abstract class BotMovement : TankMovement
         public bool IsFinish()
         {
             Vector3 Length = position - TargetPosition;
-            return (Length.magnitude < target_radius);
+            return Length.magnitude < target_radius;
+/*            return (Math.Abs(position.x - TargetPosition.x) < target_radius && Math.Abs(position.z - TargetPosition.z) < target_radius);*/
         }
         public int CompareTo(object obj)
         {
@@ -706,8 +647,6 @@ public abstract class BotMovement : TankMovement
             return (distance_to_finish + distance_to_start).CompareTo((other.distance_to_finish + other.distance_to_start));
         }
     }
-
-
 
     private void OnEnable()
     {
@@ -746,7 +685,7 @@ public abstract class BotMovement : TankMovement
 
     private void FixedUpdate()
     {
-        if (counter < discret)
+        if (counter < discret/1.5)
         {
             counter++;
         }

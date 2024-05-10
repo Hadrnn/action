@@ -678,11 +678,15 @@ MonoBehaviour:
   m_EngineDriving: {fileID: 8300000, guid: 2764b5e5b387a3440977ffceb658813a, type: 3}
   m_FriendEnemy: {fileID: 1415256056465996289}
   forvard_multiplyer: 1
-  discret: 25
+  discret: 15
   counter: 0
   AgressiveDistance: 0
-  target_radius: 20
-  Astar_deep: 60
+  target_radius: 5
+  Astar_deep: 40
+  was_change_radius_on_last_3_iterration: 0
+  radius_of_search: 0
+  iterration_counter: 0
+  max_value_iterration_counter: 3
 --- !u!114 &2204018395025748782
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -701,8 +705,7 @@ MonoBehaviour:
   m_ChargingClip: {fileID: 8300000, guid: 26eb6f8197d8401449286b42e7ff33f1, type: 3}
   m_FireClip: {fileID: 8300000, guid: 715c8cf8e36b2b143a6aacba41b63972, type: 3}
   m_Velocity: 30
-  m_MinLifeTime: 1
-  m_MaxLifeTime: 2
+  ShellLifeTime: 1
   m_MaxChargeTime: 0.75
   cooldown: 1
   onReload: 0
