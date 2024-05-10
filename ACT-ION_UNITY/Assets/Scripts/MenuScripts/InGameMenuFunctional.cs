@@ -13,12 +13,10 @@ public class InGameMenuFunctional : MonoBehaviour
     }
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Tab))
-        {
-            tab_active = !tab_active;
+        tab_active = Input.GetKey(KeyCode.Tab);
 
-            gameObject.GetComponentInChildren<Transform>().Find("TabMenu").gameObject.SetActive(tab_active);
-        }
+        gameObject.GetComponentInChildren<Transform>().Find("TabMenu").gameObject.SetActive(tab_active);
+
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
