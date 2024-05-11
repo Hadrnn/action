@@ -11,7 +11,6 @@ public class MenuFunctional : MonoBehaviour
     protected int tank_index = 0;
     protected int max_tank_index = 3;
     protected int min_tank_index = 0;
-    protected int changed_game_mode_index = 1;
 
     public void UpMapIndex()
     {
@@ -121,39 +120,22 @@ public class MenuFunctional : MonoBehaviour
 
     public void ChoseTeamDeathMatch()
     {
-        changed_game_mode_index = 1;
-        Debug.Log(changed_game_mode_index);
-
         GameSingleton.GetInstance().currentGameMode = GameSingleton.GameMode.TeamDeathMatch;
     }
     public void ChoseFreeForeAll()
     {
-        changed_game_mode_index = 2;
-        Debug.Log(changed_game_mode_index);
-
         GameSingleton.GetInstance().currentGameMode = GameSingleton.GameMode.DeathMatch;
     }
     public void ChoseTeamBattle()
     {
-        changed_game_mode_index = 3;
-        Debug.Log(changed_game_mode_index);
-
         GameSingleton.GetInstance().currentGameMode = GameSingleton.GameMode.TeamBattle;
-
     }
     public void ChoseCaptureTheFlag()
     {
-        changed_game_mode_index = 4;
-        Debug.Log(changed_game_mode_index);
-
         GameSingleton.GetInstance().currentGameMode = GameSingleton.GameMode.CaptureTheFlag;
-
     }
     public void ChoseHoldingPoints()
     {
-        changed_game_mode_index = 5;
-        Debug.Log(changed_game_mode_index);
-
         GameSingleton.GetInstance().currentGameMode = GameSingleton.GameMode.Domination;
     }
 }

@@ -19,7 +19,7 @@ public class InfoCollector : NetworkBehaviour
 
     private bool teamsSet = false;
     private static int NewTeamNumber = 0;
-    private static int NewOwnerID = 0;
+    private static ulong NewOwnerID = 0;
 
     public class Team
     {
@@ -31,14 +31,22 @@ public class InfoCollector : NetworkBehaviour
                 name = _name;
                 kills = 0;
                 deaths = 0;
-                tankID = GetOwnerTankID();
+                if (NetworkManager.Singleton)
+                {
+                    tankID = _tank.GetComponent<UnityNetworkTankHealth>().OwnerClientId;
+                }
+                else
+                {
+                    tankID = GetOwnerTankID();
+                }
+                Debug.Log(tankID);
             }
 
             public GameObject tank;
             public int kills;
             public int deaths;
             public Team team;
-            public int tankID;
+            public ulong tankID;
             public string name;
 
             public int CompareTo(TankHolder other)
@@ -53,6 +61,15 @@ public class InfoCollector : NetworkBehaviour
             teamStat = 0;
             alivePlayers = 0;
             teamSpawn = new Vector3(0,0,0);
+        }
+
+        public Team(int _teamNumber, int _teamKills, int _teamStat, int _alivePlayers)
+        {
+            teamNumber = _teamNumber;
+            teamKills = _teamKills;
+            teamStat = _teamStat;
+            alivePlayers = _alivePlayers;
+            teamSpawn = new Vector3(0, 0, 0);
         }
 
         public Team(int _teamNumber, Vector3 Spawn)
@@ -126,7 +143,8 @@ public class InfoCollector : NetworkBehaviour
                 tankHolder.team = teams[NewTeamNumber];
                 ++tankHolder.team.alivePlayers;
 
-                if (NetworkManager.Singleton) tankHolder.tank.GetComponent<UnityNetworkTankMovement>().teamNumber = NewTeamNumber;
+                if (NetworkManager.Singleton) 
+                    tankHolder.tank.GetComponent<UnityNetworkTankShooting>().tankHolder.team.teamNumber = NewTeamNumber;
                 else tankHolder.tank.GetComponent<TankMovement>().teamNumber = NewTeamNumber;
                 
                 ++NewTeamNumber;
@@ -150,7 +168,9 @@ public class InfoCollector : NetworkBehaviour
                     teams[teamNumber].tanks.Add(tankHolder);
                     tankHolder.team = teams[teamNumber];
 
-                    if (NetworkManager.Singleton) tankHolder.tank.GetComponent<UnityNetworkTankMovement>().teamNumber = teamNumber;
+
+                    if (NetworkManager.Singleton)
+                        tankHolder.tank.GetComponent<UnityNetworkTankShooting>().tankHolder.team.teamNumber = NewTeamNumber;
                     else tankHolder.tank.GetComponent<TankMovement>().teamNumber = teamNumber;
 
                     ++tankHolder.team.alivePlayers;
@@ -162,7 +182,8 @@ public class InfoCollector : NetworkBehaviour
                     teams[0].tanks.Add(tankHolder);
                     tankHolder.team = teams[0];
 
-                    if (NetworkManager.Singleton) tankHolder.tank.GetComponent<UnityNetworkTankMovement>().teamNumber = 0;
+                    if (NetworkManager.Singleton)
+                        tankHolder.tank.GetComponent<UnityNetworkTankShooting>().tankHolder.team.teamNumber = 0;
                     else tankHolder.tank.GetComponent<TankMovement>().teamNumber = 0;
                 }
                 else
@@ -170,7 +191,8 @@ public class InfoCollector : NetworkBehaviour
                     teams[1].tanks.Add(tankHolder);
                     tankHolder.team = teams[1];
 
-                    if (NetworkManager.Singleton) tankHolder.tank.GetComponent<UnityNetworkTankMovement>().teamNumber = 1;
+                    if (NetworkManager.Singleton)
+                        tankHolder.tank.GetComponent<UnityNetworkTankShooting>().tankHolder.team.teamNumber = 1;
                     else tankHolder.tank.GetComponent<TankMovement>().teamNumber = 1;
                 }
                 break;
@@ -242,7 +264,7 @@ public class InfoCollector : NetworkBehaviour
         }
     }
 
-    public static int GetOwnerTankID()
+    private static ulong GetOwnerTankID()
     {
         return NewOwnerID++;
     }

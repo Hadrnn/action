@@ -10,6 +10,11 @@ public class BotChoosingBar : MonoBehaviour
     public int tankAmount = 0;
     public TextMeshProUGUI text;
 
+    private void OnEnable()
+    {
+        tankAmount = GameSingleton.GetInstance().botAmounts[team, tankIndex];
+        text.text = tankAmount.ToString();
+    }
     public void UpTankAmount()
     {
         ++tankAmount;

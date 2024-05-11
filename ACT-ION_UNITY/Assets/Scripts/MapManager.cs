@@ -34,7 +34,7 @@ public enum GameMode
     TeamBattle = 3,
     Domination = 4,
 }
-public class Map1Manager : NetworkBehaviour
+public class MapManager : NetworkBehaviour
 {
     /// <summary>
     /// Regular: 0.02f
@@ -77,7 +77,7 @@ public class Map1Manager : NetworkBehaviour
 
     private int ticks = 0;
     private bool DidSetFriendEnemy = false;
-    private const int FriendEnemySetTick = 2;
+    private const int FriendEnemySetTick = 4;
 
     private const int FlagIndex = 0;
     private const int FlagBaseIndex = 1;
@@ -88,6 +88,55 @@ public class Map1Manager : NetworkBehaviour
 
     private const int defaultSpawnRadius = 10;
 
+    private struct TeamForNet : INetworkSerializable
+    {
+        public int teamNumber;
+        public int teamStat;
+        public int teamKills;
+        public int alivePlayers;
+        public NetTankHolder[] tanks;
+
+        public TeamForNet(int teamNumber_, int teamStat_, int teamKills_, int alivePlayers_, int tankCount)
+        {
+            teamNumber = teamNumber_;
+            teamStat = teamStat_;
+            teamKills = teamKills_;
+            alivePlayers = alivePlayers_;
+            tanks = new NetTankHolder[tankCount];
+        }
+
+        public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
+        {
+            serializer.SerializeValue(ref teamNumber);
+            serializer.SerializeValue(ref teamStat);
+            serializer.SerializeValue(ref teamKills);
+            serializer.SerializeValue(ref alivePlayers);
+            serializer.SerializeValue(ref tanks);
+        }
+
+        public struct NetTankHolder : INetworkSerializable
+        {
+            public ulong ID;
+            public int kills;
+            public int deaths;
+            public string name;
+
+            public NetTankHolder(ulong ID_, int kills_, int deaths_, string name_)
+            {
+                ID = ID_;
+                kills = kills_;
+                deaths = deaths_;
+                name = name_;
+            }
+            public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
+            {
+                serializer.SerializeValue(ref ID);
+                serializer.SerializeValue(ref kills);
+                serializer.SerializeValue(ref deaths);
+                serializer.SerializeValue(ref name);
+            }
+        }
+    }
 
     private void Awake()
     {
@@ -430,13 +479,113 @@ public class Map1Manager : NetworkBehaviour
         {
             if (ticks > FriendEnemySetTick)
             {
+                if (NetworkManager.Singleton)
+                {
+                    SyncTeamsServerRpc();
+                }
+
                 GetComponent<InfoCollector>().SetFriendEnemy();
                 GetComponent<InfoCollector>().SetBaseLights();
+
                 //Debug.Log("Set friend enemy");
                 DidSetFriendEnemy = true;
             }
             ++ticks;
         }
+    }
+
+
+    [ServerRpc]
+    private void SyncTeamsServerRpc()
+    {
+        List<InfoCollector.Team> teams = GetComponent<InfoCollector>().teams;
+        TeamForNet[] teamsForNet = new TeamForNet[teams.Count];
+
+        for (ushort i = 0; i < teams.Count; ++i) 
+        {
+            TeamForNet currentTeam = new TeamForNet(teams[i].teamNumber,
+                teams[i].teamStat, teams[i].teamKills, teams[i].alivePlayers, teams[i].tanks.Count);
+
+            for (ushort j = 0; j < teams.Count; ++j) 
+            {
+                currentTeam.tanks[j] = new TeamForNet.NetTankHolder(teams[i].tanks[j].tank.GetComponent<UnityNetworkTankHealth>().OwnerClientId,
+                    teams[i].tanks[j].kills, teams[i].tanks[j].deaths, teams[i].tanks[j].name);
+            }
+
+            teamsForNet[i] = currentTeam;
+        }
+
+        SyncTeamsClientRpc(teamsForNet);
+    }
+
+    [ClientRpc]
+    private void SyncTeamsClientRpc(TeamForNet[] netTeams)
+    {
+        int oldCount = 0;
+        int newCount = 0;
+
+        List<InfoCollector.Team> newCollectorTeams = new();
+
+        List<GameObject> tanks = new();
+
+        List<InfoCollector.Team> oldCollectorTeams = GetComponent<InfoCollector>().teams;
+
+        foreach(InfoCollector.Team currentTeam in oldCollectorTeams)
+        {
+            foreach(InfoCollector.Team.TankHolder currentHolder in currentTeam.tanks)
+            {
+                tanks.Add(currentHolder.tank);
+                ++oldCount;
+            }
+        }
+
+        foreach (TeamForNet currentTeam in netTeams)
+        {
+            InfoCollector.Team newTeam = new InfoCollector.Team(
+                currentTeam.teamNumber, currentTeam.teamKills, currentTeam.teamStat, currentTeam.alivePlayers);
+
+
+            foreach(TeamForNet.NetTankHolder holder in currentTeam.tanks)
+            {
+                foreach (GameObject tank in tanks)
+                {
+                    UnityNetworkTankShooting currentShooting = tank.GetComponent<UnityNetworkTankShooting>();
+                    if (currentShooting.OwnerClientId == holder.ID)
+                    {
+                        currentShooting.tankHolder = new InfoCollector.Team.TankHolder(tank, holder.name);
+                        currentShooting.tankHolder.deaths = holder.deaths;
+                        currentShooting.tankHolder.kills = holder.kills;
+                        currentShooting.tankHolder.team = newTeam;
+
+                        newTeam.tanks.Add(currentShooting.tankHolder);
+                        continue;
+                    }
+                }
+            }
+            newCollectorTeams.Add(newTeam);
+        }
+
+
+
+        foreach (InfoCollector.Team currentTeam in newCollectorTeams)
+        {
+            foreach (InfoCollector.Team.TankHolder currentHolder in currentTeam.tanks)
+            {
+                tanks.Add(currentHolder.tank);
+                ++newCount;
+            }
+        }
+
+
+        if(oldCount != newCount)
+        {
+            throw new Exception("Error while syncing tanks: tank amount error");
+        }
+
+
+        GetComponent<InfoCollector>().teams = newCollectorTeams;
+        GetComponent<InfoCollector>().SetFriendEnemy();
+        //GetComponent<InfoCollector>().SetBaseLights();
     }
 
     private void HandleAnswer(string[] parameters)
@@ -479,4 +628,5 @@ public class Map1Manager : NetworkBehaviour
         newPlayer.SetActive(true);
         netObj.SpawnAsPlayerObject(clientID, true);
     }
+
 }

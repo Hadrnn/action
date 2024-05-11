@@ -14,8 +14,6 @@ public class UnityNetworkShellExplosion : NetworkBehaviour
 
     public InfoCollector.Team.TankHolder owner { get; set; }
 
-
-
     private float startTime;
 
 
@@ -82,7 +80,7 @@ public class UnityNetworkShellExplosion : NetworkBehaviour
                 continue;
 
             if (!GameSingleton.GetInstance().friendlyFire && 
-                targetRigidbody.GetComponent<UnityNetworkTankMovement>().teamNumber == owner.team.teamNumber) 
+                targetRigidbody.GetComponent<UnityNetworkTankShooting>().tankHolder.team.teamNumber == owner.team.teamNumber) 
                 continue;
 
 
