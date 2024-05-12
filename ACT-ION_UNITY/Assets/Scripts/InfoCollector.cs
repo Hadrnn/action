@@ -92,6 +92,8 @@ public class InfoCollector : NetworkBehaviour
     private void Start()
     {
         NewTeamNumber = 0;
+
+        AddNetworkManagerCallbacks();
     }
 
     void Update()
@@ -274,5 +276,39 @@ public class InfoCollector : NetworkBehaviour
         teams.Add(new Team(0, team1Spawn));
         teams.Add(new Team(1, team2Spawn));
         teamsSet = true;
+    }
+
+
+
+    private void AddNetworkManagerCallbacks()
+    {
+        var netMan = NetworkManager.Singleton;
+        if (netMan != null)
+        {
+            Debug.Log("RegisteringCALLBACKS");
+            RemoveNetworkManagerCallbacks();
+
+            netMan.OnClientDisconnectCallback += OnClientDisconnect;
+        }
+        else
+        {
+            Debug.Log("MANAGER SINGLETON IS DEAD");
+        }
+    }
+
+    private void RemoveNetworkManagerCallbacks()
+    {
+        var netMan = NetworkManager.Singleton;
+        if (netMan != null)
+        {
+            netMan.OnClientDisconnectCallback -= OnClientDisconnect;
+        }
+    }
+
+    private void OnClientDisconnect(ulong clientId)
+    {
+        Debug.Log("Disconnected");
+        Debug.Log("Is server " + IsServer.ToString() + " ; is client " + IsClient.ToString());
+
     }
 }
