@@ -34,12 +34,13 @@ public class InfoCollector : NetworkBehaviour
                 if (NetworkManager.Singleton)
                 {
                     tankID = _tank.GetComponent<UnityNetworkTankHealth>().OwnerClientId;
+
                 }
                 else
                 {
                     tankID = GetOwnerTankID();
                 }
-                //Debug.Log(tankID);
+                //Debug.Log("TANK ID (CLIENT ID) " + tankID.ToString());
             }
 
             public GameObject tank;
@@ -93,7 +94,6 @@ public class InfoCollector : NetworkBehaviour
     {
         NewTeamNumber = 0;
 
-        AddNetworkManagerCallbacks();
     }
 
     void Update()
@@ -278,37 +278,4 @@ public class InfoCollector : NetworkBehaviour
         teamsSet = true;
     }
 
-
-
-    private void AddNetworkManagerCallbacks()
-    {
-        var netMan = NetworkManager.Singleton;
-        if (netMan != null)
-        {
-            Debug.Log("RegisteringCALLBACKS");
-            RemoveNetworkManagerCallbacks();
-
-            netMan.OnClientDisconnectCallback += OnClientDisconnect;
-        }
-        else
-        {
-            Debug.Log("MANAGER SINGLETON IS DEAD");
-        }
-    }
-
-    private void RemoveNetworkManagerCallbacks()
-    {
-        var netMan = NetworkManager.Singleton;
-        if (netMan != null)
-        {
-            netMan.OnClientDisconnectCallback -= OnClientDisconnect;
-        }
-    }
-
-    private void OnClientDisconnect(ulong clientId)
-    {
-        Debug.Log("Disconnected");
-        Debug.Log("Is server " + IsServer.ToString() + " ; is client " + IsClient.ToString());
-
-    }
 }

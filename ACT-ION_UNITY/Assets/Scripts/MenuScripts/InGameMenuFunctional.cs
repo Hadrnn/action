@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
+using UnityEditor.PackageManager;
 using UnityEngine;
 
 public class InGameMenuFunctional : MonoBehaviour
@@ -42,6 +44,10 @@ public class InGameMenuFunctional : MonoBehaviour
 
     public void BackToStartMenu()
     {
+        if(NetworkManager.Singleton)
+        {
+            NetworkManager.Singleton.Shutdown();
+        }
         UnityEngine.SceneManagement.SceneManager.LoadScene(0);
     }
 }
