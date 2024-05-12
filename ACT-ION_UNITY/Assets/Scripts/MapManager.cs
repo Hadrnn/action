@@ -499,27 +499,10 @@ public class MapManager : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     private void SyncTeamsServerRpc()
     {
-        List<InfoCollector.Team> teams = GetComponent<InfoCollector>().teams;
-        TeamForNet[] teamsForNet = new TeamForNet[teams.Count];
-
-        for (ushort i = 0; i < teams.Count; ++i) 
-        {
-            TeamForNet currentTeam = new TeamForNet(teams[i].teamNumber,
-                teams[i].teamStat, teams[i].teamKills, teams[i].alivePlayers, teams[i].tanks.Count);
-
-            for (ushort j = 0; j < teams[i].tanks.Count; ++j) 
-            {
-                currentTeam.tanks[j] = new TeamForNet.NetTankHolder(teams[i].tanks[j].tank.GetComponent<UnityNetworkTankHealth>().OwnerClientId,
-                    teams[i].tanks[j].kills, teams[i].tanks[j].deaths, teams[i].tanks[j].name);
-            }
-
-            teamsForNet[i] = currentTeam;
-        }
-
-        SyncTeamsClientRpc(teamsForNet);
+        SyncTeamsClientRpc(GetTeamsForSync());
     }
 
-    private TeamForNet[] SyncTeams()
+    private TeamForNet[] GetTeamsForSync()
     {
         List<InfoCollector.Team> teams = GetComponent<InfoCollector>().teams;
         TeamForNet[] teamsForNet = new TeamForNet[teams.Count];
