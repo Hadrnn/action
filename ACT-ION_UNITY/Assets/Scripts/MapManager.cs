@@ -77,7 +77,7 @@ public class MapManager : NetworkBehaviour
 
     private int ticks = 0;
     private bool DidSetFriendEnemy = false;
-    private const int FriendEnemySetTick = 1000;
+    private const int FriendEnemySetTick = 50;
 
     private const int FlagIndex = 0;
     private const int FlagBaseIndex = 1;
@@ -544,9 +544,11 @@ public class MapManager : NetworkBehaviour
             InfoCollector.Team newTeam = new InfoCollector.Team(
                 currentTeam.teamNumber, currentTeam.teamKills, currentTeam.teamStat, currentTeam.alivePlayers);
 
+            //Debug.Log("Team number " + currentTeam.teamNumber.ToString() + " with tanks: " + currentTeam.tanks.Length.ToString());
 
             foreach(TeamForNet.NetTankHolder holder in currentTeam.tanks)
             {
+                //Debug.Log("Tank with id " + holder.ID.ToString() + " deahts: " + holder.deaths.ToString());
                 foreach (GameObject tank in tanks)
                 {
                     UnityNetworkTankShooting currentShooting = tank.GetComponent<UnityNetworkTankShooting>();
@@ -585,6 +587,7 @@ public class MapManager : NetworkBehaviour
 
         GetComponent<InfoCollector>().teams = newCollectorTeams;
         GetComponent<InfoCollector>().SetFriendEnemy();
+        TabMenu.barsSet = false;
         //GetComponent<InfoCollector>().SetBaseLights();
     }
 

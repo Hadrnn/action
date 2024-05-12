@@ -10,7 +10,8 @@ public class TabMenu : MonoBehaviour
     public Transform horisontal;
     public Transform vertical;
 
-    private bool barsSet = false;
+    [HideInInspector]
+    public static bool barsSet = false;
 
     public void OnEnable()
     {
@@ -20,7 +21,16 @@ public class TabMenu : MonoBehaviour
     public void SetBars()
     {
         barsSet = true;
-        Debug.Log("SetBars");
+
+        while (horisontal.childCount > 0)
+        {
+            DestroyImmediate(horisontal.GetChild(0).gameObject);
+        }
+        while (vertical.childCount > 0)
+        {
+            DestroyImmediate(vertical.GetChild(0).gameObject);
+        }
+
 
         InfoCollector collector = GameObject.Find("InfoCollector").GetComponent<InfoCollector>();
 
@@ -37,8 +47,6 @@ public class TabMenu : MonoBehaviour
             }
             return;
         }
-
-        Debug.Log("Setting bars");
 
 
         for (int i = 0; i< collector.teams.Count; ++i)

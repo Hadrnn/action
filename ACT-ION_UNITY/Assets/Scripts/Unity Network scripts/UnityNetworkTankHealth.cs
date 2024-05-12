@@ -38,7 +38,6 @@ public class UnityNetworkTankHealth : NetworkBehaviour
     {
         if (IsOwner)
         {
-            Debug.Log("Setting camera");
             GameObject cameraRig = GameObject.Find("CameraRig");
             CameraFollower follower = cameraRig.GetComponent<CameraFollower>();
             follower.m_Target = transform;
@@ -102,8 +101,8 @@ public class UnityNetworkTankHealth : NetworkBehaviour
     {
         if (!IsOwner) return;
 
-        Debug.Log("Im trying to move");
-        Debug.Log(position);
+        //Debug.Log("Im trying to move");
+        //Debug.Log(position);
         //gameObject.GetComponent<Rigidbody>().MovePosition(position);
         transform.position = position;
         
