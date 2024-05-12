@@ -39,7 +39,7 @@ public class InfoCollector : NetworkBehaviour
                 {
                     tankID = GetOwnerTankID();
                 }
-                Debug.Log(tankID);
+                //Debug.Log(tankID);
             }
 
             public GameObject tank;
@@ -143,10 +143,8 @@ public class InfoCollector : NetworkBehaviour
                 tankHolder.team = teams[NewTeamNumber];
                 ++tankHolder.team.alivePlayers;
 
-                if (NetworkManager.Singleton) 
-                    tankHolder.tank.GetComponent<UnityNetworkTankShooting>().tankHolder.team.teamNumber = NewTeamNumber;
-                else tankHolder.tank.GetComponent<TankMovement>().teamNumber = NewTeamNumber;
-                
+                if (!NetworkManager.Singleton) tankHolder.tank.GetComponent<TankMovement>().teamNumber = NewTeamNumber;
+
                 ++NewTeamNumber;
 
                 break;
@@ -157,7 +155,8 @@ public class InfoCollector : NetworkBehaviour
 
                 if (!teamsSet) SetTeams();
 
-                if(tankHolder.tank.GetComponent<TankMovement>().teamNumber != TankMovement.teamNotSet)
+                if(!NetworkManager.Singleton && 
+                    tankHolder.tank.GetComponent<TankMovement>().teamNumber != TankMovement.teamNotSet)
                 {
                     int teamNumber = tankHolder.tank.GetComponent<TankMovement>().teamNumber;
 
@@ -169,9 +168,7 @@ public class InfoCollector : NetworkBehaviour
                     tankHolder.team = teams[teamNumber];
 
 
-                    if (NetworkManager.Singleton)
-                        tankHolder.tank.GetComponent<UnityNetworkTankShooting>().tankHolder.team.teamNumber = NewTeamNumber;
-                    else tankHolder.tank.GetComponent<TankMovement>().teamNumber = teamNumber;
+                    tankHolder.tank.GetComponent<TankMovement>().teamNumber = teamNumber;
 
                     ++tankHolder.team.alivePlayers;
                     return tankHolder;
@@ -182,18 +179,16 @@ public class InfoCollector : NetworkBehaviour
                     teams[0].tanks.Add(tankHolder);
                     tankHolder.team = teams[0];
 
-                    if (NetworkManager.Singleton)
-                        tankHolder.tank.GetComponent<UnityNetworkTankShooting>().tankHolder.team.teamNumber = 0;
-                    else tankHolder.tank.GetComponent<TankMovement>().teamNumber = 0;
+                    if (!NetworkManager.Singleton)
+                            tankHolder.tank.GetComponent<TankMovement>().teamNumber = 0;
                 }
                 else
                 {
                     teams[1].tanks.Add(tankHolder);
                     tankHolder.team = teams[1];
 
-                    if (NetworkManager.Singleton)
-                        tankHolder.tank.GetComponent<UnityNetworkTankShooting>().tankHolder.team.teamNumber = 1;
-                    else tankHolder.tank.GetComponent<TankMovement>().teamNumber = 1;
+                    if (!NetworkManager.Singleton)
+                        tankHolder.tank.GetComponent<TankMovement>().teamNumber = 1;
                 }
                 break;
             default:

@@ -1743,7 +1743,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 592187447}
         m_TargetAssemblyTypeName: MenuFunctional, Assembly-CSharp
         m_MethodName: ChoseFreeForeAll
         m_Mode: 1
@@ -5168,7 +5168,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 592187447}
         m_TargetAssemblyTypeName: MenuFunctional, Assembly-CSharp
         m_MethodName: ChoseHoldingPoints
         m_Mode: 1
@@ -8202,7 +8202,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 592187447}
         m_TargetAssemblyTypeName: MenuFunctional, Assembly-CSharp
         m_MethodName: ChoseTeamDeathMatch
         m_Mode: 1
@@ -11085,7 +11085,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 592187447}
         m_TargetAssemblyTypeName: MenuFunctional, Assembly-CSharp
         m_MethodName: ChoseTeamBattle
         m_Mode: 1
@@ -12844,7 +12844,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 592187447}
         m_TargetAssemblyTypeName: MenuFunctional, Assembly-CSharp
         m_MethodName: ChoseCaptureTheFlag
         m_Mode: 1

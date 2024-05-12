@@ -121,21 +121,26 @@ public class MenuFunctional : MonoBehaviour
     public void ChoseTeamDeathMatch()
     {
         GameSingleton.GetInstance().currentGameMode = GameSingleton.GameMode.TeamDeathMatch;
+        Debug.Log("TDM");
     }
     public void ChoseFreeForeAll()
     {
         GameSingleton.GetInstance().currentGameMode = GameSingleton.GameMode.DeathMatch;
+        Debug.Log("FFA");
     }
     public void ChoseTeamBattle()
     {
         GameSingleton.GetInstance().currentGameMode = GameSingleton.GameMode.TeamBattle;
+        Debug.Log("TB");
     }
     public void ChoseCaptureTheFlag()
     {
         GameSingleton.GetInstance().currentGameMode = GameSingleton.GameMode.CaptureTheFlag;
+        Debug.Log("CTF");
     }
     public void ChoseHoldingPoints()
     {
         GameSingleton.GetInstance().currentGameMode = GameSingleton.GameMode.Domination;
+        Debug.Log("HP");
     }
 }

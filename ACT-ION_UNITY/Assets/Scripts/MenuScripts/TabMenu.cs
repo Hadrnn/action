@@ -20,6 +20,7 @@ public class TabMenu : MonoBehaviour
     public void SetBars()
     {
         barsSet = true;
+        Debug.Log("SetBars");
 
         InfoCollector collector = GameObject.Find("InfoCollector").GetComponent<InfoCollector>();
 

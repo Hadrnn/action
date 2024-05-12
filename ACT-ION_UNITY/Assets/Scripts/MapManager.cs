@@ -77,7 +77,7 @@ public class MapManager : NetworkBehaviour
 
     private int ticks = 0;
     private bool DidSetFriendEnemy = false;
-    private const int FriendEnemySetTick = 4;
+    private const int FriendEnemySetTick = 1000;
 
     private const int FlagIndex = 0;
     private const int FlagBaseIndex = 1;
@@ -495,7 +495,7 @@ public class MapManager : NetworkBehaviour
     }
 
 
-    [ServerRpc]
+    [ServerRpc(RequireOwnership = false)]
     private void SyncTeamsServerRpc()
     {
         List<InfoCollector.Team> teams = GetComponent<InfoCollector>().teams;
@@ -506,7 +506,7 @@ public class MapManager : NetworkBehaviour
             TeamForNet currentTeam = new TeamForNet(teams[i].teamNumber,
                 teams[i].teamStat, teams[i].teamKills, teams[i].alivePlayers, teams[i].tanks.Count);
 
-            for (ushort j = 0; j < teams.Count; ++j) 
+            for (ushort j = 0; j < teams[i].tanks.Count; ++j) 
             {
                 currentTeam.tanks[j] = new TeamForNet.NetTankHolder(teams[i].tanks[j].tank.GetComponent<UnityNetworkTankHealth>().OwnerClientId,
                     teams[i].tanks[j].kills, teams[i].tanks[j].deaths, teams[i].tanks[j].name);

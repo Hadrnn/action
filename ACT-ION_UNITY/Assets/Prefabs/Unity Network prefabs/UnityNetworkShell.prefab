@@ -184,7 +184,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 363204632
+  GlobalObjectIdHash: 348092312
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -207,7 +207,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_TankMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 128
   m_ExplosionParticles: {fileID: 4574023977691555840}
   m_ExplosionAudio: {fileID: 5347743605324502376}
   DustTrail: {fileID: 8846639066137781923}

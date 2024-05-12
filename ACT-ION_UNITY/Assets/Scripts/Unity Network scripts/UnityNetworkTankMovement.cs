@@ -66,6 +66,10 @@ public class UnityNetworkTankMovement : NetworkBehaviour
             m_HorizontalAxisName = "Horizontal";
 
             GameSingleton.GetInstance().playerTeam = GetComponent<UnityNetworkTankShooting>().tankHolder.team.teamNumber;
+
+            GameObject cameraRig = GameObject.Find("CameraRig");
+            CameraFollower follower = cameraRig.GetComponent<CameraFollower>();
+            follower.m_Target = transform;
         }
 
         // Store the original pitch of the audio source.
