@@ -527,9 +527,6 @@ public class MapManager : NetworkBehaviour
     [ClientRpc]
     private void SyncTeamsClientRpc(TeamForNet[] netTeams)
     {
-        int oldCount = 0;
-        int newCount = 0;
-
         List<InfoCollector.Team> newCollectorTeams = new();
 
         List<GameObject> tanks = new();
@@ -541,7 +538,6 @@ public class MapManager : NetworkBehaviour
             foreach(InfoCollector.Team.TankHolder currentHolder in currentTeam.tanks)
             {
                 tanks.Add(currentHolder.tank);
-                ++oldCount;
             }
         }
 
@@ -574,27 +570,9 @@ public class MapManager : NetworkBehaviour
         }
 
 
-
-        foreach (InfoCollector.Team currentTeam in newCollectorTeams)
-        {
-            foreach (InfoCollector.Team.TankHolder currentHolder in currentTeam.tanks)
-            {
-                tanks.Add(currentHolder.tank);
-                ++newCount;
-            }
-        }
-
-
-        if(oldCount != newCount)
-        {
-            throw new Exception("Error while syncing tanks: tank amount error");
-        }
-
-
         GetComponent<InfoCollector>().teams = newCollectorTeams;
         GetComponent<InfoCollector>().SetFriendEnemy();
         TabMenu.barsSet = false;
-        //GetComponent<InfoCollector>().SetBaseLights();
     }
 
     private void HandleAnswer(string[] parameters)
@@ -679,8 +657,11 @@ public class MapManager : NetworkBehaviour
                     Debug.Log("Found leaving player");
                     teams[i].tanks.RemoveAt(j);
 
+                    SyncTeamsClientRpc(GetTeamsForSync());
+                    return;
                 }
             }
         }
     }
 }
+    
