@@ -658,6 +658,7 @@ public class MapManager : NetworkBehaviour
                     teams[i].tanks.RemoveAt(j);
 
                     SyncTeamsClientRpc(GetTeamsForSync());
+                    TabMenu.barsSet = false;
                     return;
                 }
             }
