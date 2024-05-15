@@ -562,6 +562,11 @@ public class MapManager : NetworkBehaviour
                         currentShooting.tankHolder.team = newTeam;
 
                         newTeam.tanks.Add(currentShooting.tankHolder);
+                        if(currentShooting.OwnerClientId == OwnerClientId)
+                        {
+                            Debug.Log("Found Myself");
+                            GameSingleton.GetInstance().playerTeam = currentTeam.teamNumber;
+                        } 
                         continue;
                     }
                 }
