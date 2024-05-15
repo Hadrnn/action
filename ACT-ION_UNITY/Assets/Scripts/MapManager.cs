@@ -1,14 +1,9 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
-using Unity.Networking.Transport.Error;
 using Unity.Netcode.Transports.UTP;
-using System.IO;
-using System;
 using System.Net.Sockets;
 using System.Text;
-using UnityEngine.UIElements;
 
 public enum GameType
 {
@@ -66,11 +61,6 @@ public class MapManager : NetworkBehaviour
     public GameObject FlagBasePrefab;
     public GameObject CaptureBasePrefab;
 
-    private string ServerAddress = "";
-    private ushort ServerPort = 0;
-
-    private const string ServerAddressMark = "address=";
-    private const string ServerPortMark = "port=";
     private const string PythonServerAddress = "25.12.195.48";
     // EGOR "25.12.195.48"
     // TIMUR "25.56.145.143"
@@ -91,12 +81,12 @@ public class MapManager : NetworkBehaviour
     private struct TeamForNet : INetworkSerializable
     {
         public int teamNumber;
-        public int teamStat;
+        public float teamStat;
         public int teamKills;
         public int alivePlayers;
         public NetTankHolder[] tanks;
 
-        public TeamForNet(int teamNumber_, int teamStat_, int teamKills_, int alivePlayers_, int tankCount)
+        public TeamForNet(int teamNumber_, float teamStat_, int teamKills_, int alivePlayers_, int tankCount)
         {
             teamNumber = teamNumber_;
             teamStat = teamStat_;
@@ -164,8 +154,16 @@ public class MapManager : NetworkBehaviour
                     GameSingleton.GetInstance().currentGameMode = GameSingleton.GameMode.Domination;
                     break;
                 default:
-                    Debug.Log("MODE NOT IN START SWITCH");
+                    Debug.LogWarning("MODE NOT IN START SWITCH");
                     break;
+            }
+
+            if(Type == GameType.UnityServer)
+            {
+                Debug.LogWarning("Started a server not from server scene");
+
+                string[] parameters = System.Environment.GetCommandLineArgs();
+                ServerStart.HandleAnswer(parameters);
             }
         }
         else
@@ -180,6 +178,9 @@ public class MapManager : NetworkBehaviour
                     break;
                 case GameSingleton.GameType.Single:
                     Type = GameType.SinglePlayerBot;
+                    break;
+                case GameSingleton.GameType.Server:
+                    Type = GameType.UnityServer;
                     break;
                 default:
                     break;
@@ -391,14 +392,14 @@ public class MapManager : NetworkBehaviour
                 //string path = "C:/Users/bukin/Desktop/action/TestBuild/OutputTest.txt";
                 //using (StreamWriter sw = new StreamWriter(path))
 
-                string[] parameters = System.Environment.GetCommandLineArgs();
-                HandleAnswer(parameters);
+                //string[] parameters = System.Environment.GetCommandLineArgs();
+                //HandleAnswer(parameters);
                 //Instantiate(UnityNetworkEventSystem);
 
                 GameObject ServerManager = Instantiate(UnityNetworkManager);
                 UnityTransport ServerTransport = ServerManager.GetComponent<UnityTransport>();
-                ServerTransport.ConnectionData.Address = ServerAddress;
-                ServerTransport.ConnectionData.Port = ServerPort;
+                ServerTransport.ConnectionData.Address = GameSingleton.GetInstance().ServerAddress;
+                ServerTransport.ConnectionData.Port = GameSingleton.GetInstance().ServerPort;
 
                 NetworkManager.Singleton.StartServer();
 
@@ -452,7 +453,8 @@ public class MapManager : NetworkBehaviour
                 Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 socket.Connect(PythonServerAddress, 9999);
                 // Send message
-                string message = "PlayerName=Player1 Map=Map1";
+                string message = "PlayerName=" + GameSingleton.GetInstance().playerName
+                    + " mode=" + GameSingleton.GetInstance().currentGameMode.ToString();
                 byte[] messageBytes = Encoding.UTF8.GetBytes(message);
                 socket.Send(messageBytes);
                 // Recieve answer
@@ -462,9 +464,9 @@ public class MapManager : NetworkBehaviour
                 socket.Close();
 
                 // Answer handling
-                HandleAnswer(d_answer.Split(' '));
-                ClientTransport.ConnectionData.Address = ServerAddress;
-                ClientTransport.ConnectionData.Port = ServerPort;
+                ServerStart.HandleAnswer(d_answer.Split(' '));
+                ClientTransport.ConnectionData.Address = GameSingleton.GetInstance().ServerAddress;
+                ClientTransport.ConnectionData.Port = GameSingleton.GetInstance().ServerPort;
 
                 NetworkManager.Singleton.StartClient();
                 break;
@@ -578,22 +580,6 @@ public class MapManager : NetworkBehaviour
         GetComponent<InfoCollector>().teams = newCollectorTeams;
         GetComponent<InfoCollector>().SetFriendEnemy();
         TabMenu.barsSet = false;
-    }
-
-    private void HandleAnswer(string[] parameters)
-    {
-        for (int i = 0; i < parameters.Length; i++)
-        {
-            //sw.Write(parameters[i]);
-            if (parameters[i].StartsWith(ServerAddressMark))
-            {
-                ServerAddress = parameters[i].Remove(0, ServerAddressMark.Length);
-            }
-            if (parameters[i].StartsWith(ServerPortMark))
-            {
-                ServerPort = Convert.ToUInt16(parameters[i].Remove(0, ServerPortMark.Length));
-            }
-        }
     }
 
     public override void OnNetworkSpawn()

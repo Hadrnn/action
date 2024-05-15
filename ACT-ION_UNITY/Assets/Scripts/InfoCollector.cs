@@ -34,7 +34,6 @@ public class InfoCollector : NetworkBehaviour
                 if (NetworkManager.Singleton)
                 {
                     tankID = _tank.GetComponent<UnityNetworkTankHealth>().OwnerClientId;
-
                 }
                 else
                 {
@@ -64,7 +63,7 @@ public class InfoCollector : NetworkBehaviour
             teamSpawn = new Vector3(0,0,0);
         }
 
-        public Team(int _teamNumber, int _teamKills, int _teamStat, int _alivePlayers)
+        public Team(int _teamNumber, int _teamKills, float _teamStat, int _alivePlayers)
         {
             teamNumber = _teamNumber;
             teamKills = _teamKills;
@@ -86,19 +85,17 @@ public class InfoCollector : NetworkBehaviour
 
         public int alivePlayers { get; set; }
         public int teamKills { get; set; }
-        public int teamStat { get; set; }
+        public float teamStat { get; set; }
         public Vector3 teamSpawn { get; set; }
     }
 
     private void Start()
     {
         NewTeamNumber = 0;
-
     }
 
     void Update()
     {
-
 
         if (GameSingleton.GetInstance().currentGameMode != GameSingleton.GameMode.DeathMatch
             && !teamsSet)

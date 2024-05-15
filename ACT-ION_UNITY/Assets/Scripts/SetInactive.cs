@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 
@@ -20,7 +18,7 @@ public class SetInactive : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.I))
         {
-            target.SetActive(false);
+            Debug.Log(GameObject.Find("InfoCollector").GetComponent<InfoCollector>().teams[0].teamKills);
         }
         if (Input.GetKey(KeyCode.O))
         {

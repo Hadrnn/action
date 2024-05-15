@@ -45,6 +45,8 @@ public class FlagCapture : MonoBehaviour
             transform.SetParent(null);
             transform.position = teamBase.position;
             IsCaptured = false;
+
+            ++GameObject.Find("InfoCollector").GetComponent<InfoCollector>().teams[PossiblyBase.teamNumber].teamStat;
         }
 
         TankMovement tank = other.GetComponent<TankMovement>();
