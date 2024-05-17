@@ -38,6 +38,7 @@ public class GameSingleton
     public int currentGameMode = GameMode.DeathMatch;
     public int currentGameType = GameType.Empty;
     public int playerTeam = -1;
+    public ulong playerClientID = 0;
 
     public string playerName = "Player1";
 

@@ -16,9 +16,9 @@ public class SetInactive : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.I))
+        if (Input.GetKeyDown(KeyCode.I))
         {
-            Debug.Log(GameObject.Find("InfoCollector").GetComponent<InfoCollector>().teams[0].teamKills);
+            Debug.Log("I am " +GameSingleton.GetInstance().playerClientID.ToString());
         }
         if (Input.GetKey(KeyCode.O))
         {

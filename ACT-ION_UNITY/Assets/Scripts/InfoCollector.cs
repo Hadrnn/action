@@ -204,25 +204,55 @@ public class InfoCollector : NetworkBehaviour
 
         if (NetworkManager.Singleton)
         {
-                foreach (GameObject CTFBase in bases)
+            foreach (GameObject CTFBase in bases)
+            {
+                if (GameSingleton.GetInstance().currentGameMode == GameSingleton.GameMode.CaptureTheFlag)
                 {
                     UnityNetworkFlagBase currBase = CTFBase.GetComponent<UnityNetworkFlagBase>();
 
                     if (currBase.teamNumber.Value == GameSingleton.GetInstance().playerTeam)
                         currBase.teamLight.color = Color.blue;
                     else currBase.teamLight.color = Color.red;
+
                 }
+                else if (GameSingleton.GetInstance().currentGameMode == GameSingleton.GameMode.Domination)
+                {
+                    UnityNetworkBaseCapture currBase = CTFBase.GetComponent<UnityNetworkBaseCapture>();
+
+                    Color sliderColor;
+
+
+                    if (currBase.occupantTeam.Value == GameSingleton.GetInstance().playerTeam)
+                    {
+                        currBase.teamLight.color = Color.blue;
+                        sliderColor = Color.blue;
+
+                    }
+                    else
+                    {
+                        currBase.teamLight.color = Color.red;
+                        sliderColor = Color.red;
+                    }
+
+                    sliderColor.a = 0.5f;
+
+                    currBase.CaptureImage.color = sliderColor;
+                }
+            }
         }
         else
         {
 
             foreach (GameObject CTFBase in bases)
             {
-                FlagBase currBase = CTFBase.GetComponent<FlagBase>();
+                if (GameSingleton.GetInstance().currentGameMode == GameSingleton.GameMode.CaptureTheFlag)
+                {
+                    FlagBase currBase = CTFBase.GetComponent<FlagBase>();
 
-                if (currBase.teamNumber == GameSingleton.GetInstance().playerTeam)
-                    currBase.teamLight.color = Color.blue;
-                else currBase.teamLight.color = Color.red;
+                    if (currBase.teamNumber == GameSingleton.GetInstance().playerTeam)
+                        currBase.teamLight.color = Color.blue;
+                    else currBase.teamLight.color = Color.red;
+                }
             }
         }
     }

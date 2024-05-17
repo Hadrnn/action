@@ -17,6 +17,7 @@ public class ServerStart : MonoBehaviour
         HandleAnswer(parameters);
 
         GameSingleton.GetInstance().currentGameType = GameSingleton.GameType.Server;
+        GameSingleton.GetInstance().startedWithMenu = true;
         UnityEngine.SceneManagement.SceneManager.LoadScene(MapNumber);
     }
     public static void HandleAnswer(string[] parameters)

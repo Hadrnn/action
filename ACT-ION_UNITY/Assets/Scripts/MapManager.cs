@@ -485,7 +485,7 @@ public class MapManager : NetworkBehaviour
                 {
                     SyncTeamsServerRpc();
                 }
-
+                
                 AddNetworkManagerCallbacks();
                 GetComponent<InfoCollector>().SetFriendEnemy();
                 GetComponent<InfoCollector>().SetBaseLights();
@@ -564,9 +564,8 @@ public class MapManager : NetworkBehaviour
                         currentShooting.tankHolder.team = newTeam;
 
                         newTeam.tanks.Add(currentShooting.tankHolder);
-                        if(currentShooting.OwnerClientId == OwnerClientId)
+                        if(currentShooting.OwnerClientId == GameSingleton.GetInstance().playerClientID)
                         {
-                            Debug.Log("Found Myself");
                             GameSingleton.GetInstance().playerTeam = currentTeam.teamNumber;
                         } 
                         continue;
@@ -576,9 +575,9 @@ public class MapManager : NetworkBehaviour
             newCollectorTeams.Add(newTeam);
         }
 
-
         GetComponent<InfoCollector>().teams = newCollectorTeams;
         GetComponent<InfoCollector>().SetFriendEnemy();
+        GetComponent<InfoCollector>().SetBaseLights();
         TabMenu.barsSet = false;
     }
 

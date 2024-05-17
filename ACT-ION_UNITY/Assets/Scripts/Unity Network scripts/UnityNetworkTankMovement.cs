@@ -66,6 +66,7 @@ public class UnityNetworkTankMovement : NetworkBehaviour
             m_HorizontalAxisName = "Horizontal";
 
             GameSingleton.GetInstance().playerTeam = GetComponent<UnityNetworkTankShooting>().tankHolder.team.teamNumber;
+            GameSingleton.GetInstance().playerClientID = OwnerClientId;
 
             GameObject cameraRig = GameObject.Find("CameraRig");
             CameraFollower follower = cameraRig.GetComponent<CameraFollower>();
