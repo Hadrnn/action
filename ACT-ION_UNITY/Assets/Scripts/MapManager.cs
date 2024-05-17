@@ -454,7 +454,8 @@ public class MapManager : NetworkBehaviour
                 socket.Connect(PythonServerAddress, 9999);
                 // Send message
                 string message = "PlayerName=" + GameSingleton.GetInstance().playerName
-                    + " mode=" + GameSingleton.GetInstance().currentGameMode.ToString();
+                    + " mode=" + GameSingleton.GetInstance().currentGameMode.ToString()
+                    + " map=" + GameSingleton.GetInstance().currentMap.ToString();
                 byte[] messageBytes = Encoding.UTF8.GetBytes(message);
                 socket.Send(messageBytes);
                 // Recieve answer

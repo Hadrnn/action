@@ -36,6 +36,7 @@ public class GameSingleton
 
     public int currentTank = 0;
     public int currentGameMode = GameMode.DeathMatch;
+    public int currentMap = 1;
     public int currentGameType = GameType.Empty;
     public int playerTeam = -1;
     public ulong playerClientID = 0;
