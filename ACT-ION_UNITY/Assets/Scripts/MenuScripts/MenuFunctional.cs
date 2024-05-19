@@ -55,43 +55,6 @@ public class MenuFunctional : MonoBehaviour
             ChooseMapMenu.Find("ForestMapPct").gameObject.SetActive(false);
         }
 
-
-
-
-
-
-        if (tank_index == GameSingleton.Tanks.Tank)
-        {
-            ChooseTankMenu.Find("TankPct").gameObject.SetActive(true);
-        }
-        else
-        {
-            ChooseTankMenu.Find("TankPct").gameObject.SetActive(false);
-        }
-        if (tank_index == GameSingleton.Tanks.APC)
-        {
-            ChooseTankMenu.Find("APCPct").gameObject.SetActive(true);
-        }
-        else
-        {
-            ChooseTankMenu.Find("APCPct").gameObject.SetActive(false);
-        }
-        if (tank_index == GameSingleton.Tanks.HeavyTank)
-        {
-            ChooseTankMenu.Find("HeavyPct").gameObject.SetActive(true);
-        }
-        else
-        {
-            ChooseTankMenu.Find("HeavyPct").gameObject.SetActive(false);
-        }
-        if (tank_index == GameSingleton.Tanks.Artillery)
-        {
-            ChooseTankMenu.Find("ARTPct").gameObject.SetActive(true);
-        }
-        else
-        {
-            ChooseTankMenu.Find("ARTPct").gameObject.SetActive(false);
-        }
         GameSingleton.GetInstance().currentTank = tank_index;
     }
 

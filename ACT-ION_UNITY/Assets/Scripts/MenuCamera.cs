@@ -7,10 +7,10 @@ public class MenuCamera : MonoBehaviour
 {
     public Transform menuCamera;
 
-    public Vector3[] positions = { new Vector3(0f, 0f, 10f),
-                                   new Vector3(0f, 0f, -30f), 
-                                   new Vector3(0f, 0f, 10f),
-                                   new Vector3(0f, 0f, 10f) };
+    public Vector3[] positions = { new Vector3(0f, 0f, 0f),
+                                   new Vector3(0f, 0f, 0f), 
+                                   new Vector3(0f, 0f, 0f),
+                                   new Vector3(0f, 0f, 0f) };
 
     public Quaternion[] rotations = {   Quaternion.Euler(0,0,0),
                                         Quaternion.Euler(0,90,0),
@@ -37,24 +37,8 @@ public class MenuCamera : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Y))
-        {
-            ++counter;
-        }
-
-        if (Input.GetKeyDown(KeyCode.I))
-        {
-            targetPos = positions[counter % 4];
-
-        }
-
-        if (Input.GetKeyDown(KeyCode.O))
-        {
-            ++counter;
-            targetRotation = rotations[counter % 4];
-        }
-
-        counter = counter % 4;
+        targetPos = positions[GameSingleton.GetInstance().currentTank];
+        targetRotation = rotations[GameSingleton.GetInstance().currentTank];
     }
     // Update is called once per frame
     void FixedUpdate()
