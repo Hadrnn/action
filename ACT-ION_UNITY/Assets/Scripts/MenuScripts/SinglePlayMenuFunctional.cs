@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class SinglePlayMenuFunctional : MenuFunctional
 {
-    public GameObject FFABotMenu;
-    public GameObject TeamsBotMenu;
 
     private void Awake()
     {
@@ -19,15 +17,4 @@ public class SinglePlayMenuFunctional : MenuFunctional
         UnityEngine.SceneManagement.SceneManager.LoadScene(map_index);
     }
 
-    public void ChooseBots()
-    {
-        if(GameSingleton.GetInstance().currentGameMode == GameSingleton.GameMode.DeathMatch)
-        {
-            FFABotMenu.SetActive(true);
-        }
-        else
-        {
-            TeamsBotMenu.SetActive(true);
-        }
-    }
 }

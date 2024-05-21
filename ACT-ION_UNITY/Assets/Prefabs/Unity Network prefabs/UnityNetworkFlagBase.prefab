@@ -225,7 +225,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1667142280
+  GlobalObjectIdHash: 2035997002
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -277,5 +277,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f25042b696a4ba41a57f2fc2d51324e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  teamNumber: 0
+  teamNumber:
+    m_InternalValue: 0
   teamLight: {fileID: 5753789105965115603}

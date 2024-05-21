@@ -12,50 +12,15 @@ public class MenuFunctional : MonoBehaviour
     protected int max_tank_index = 3;
     protected int min_tank_index = 0;
 
-    public void UpMapIndex()
+    private void OnEnable()
     {
-        if (map_index < max_map_index)
-        {
-            map_index++;
-        }
-        else
-        {
-            map_index = min_map_index;
-        }
+        tank_index = GameSingleton.GetInstance().currentTank;
     }
-    public void DownMapIndex()
+ 
+
+    public void SetMapIndex(int index)
     {
-        if (map_index > min_map_index)
-        {
-            map_index--;
-        }
-        else
-        {
-            map_index = max_map_index;
-        }
-    }
-
-
-    public void Update()
-    {
-        if (map_index == 1)
-        {
-            ChooseMapMenu.Find("SandMapPct").gameObject.SetActive(true);
-        }
-        else
-        {
-            ChooseMapMenu.Find("SandMapPct").gameObject.SetActive(false);
-        }
-        if (map_index == 2)
-        {
-            ChooseMapMenu.Find("ForestMapPct").gameObject.SetActive(true);
-        }
-        else
-        {
-            ChooseMapMenu.Find("ForestMapPct").gameObject.SetActive(false);
-        }
-
-        GameSingleton.GetInstance().currentTank = tank_index;
+        map_index = index;
     }
 
     public void UpTankIndex()
@@ -68,6 +33,8 @@ public class MenuFunctional : MonoBehaviour
         {
             tank_index = min_tank_index;
         }
+
+        GameSingleton.GetInstance().currentTank = tank_index;
     }
     public void DownTankIndex()
     {
@@ -79,6 +46,8 @@ public class MenuFunctional : MonoBehaviour
         {
             tank_index = max_tank_index;
         }
+
+        GameSingleton.GetInstance().currentTank = tank_index;
     }
 
     public void ChoseTeamDeathMatch()
@@ -86,7 +55,7 @@ public class MenuFunctional : MonoBehaviour
         GameSingleton.GetInstance().currentGameMode = GameSingleton.GameMode.TeamDeathMatch;
         Debug.Log("TDM");
     }
-    public void ChoseFreeForeAll()
+    public void ChoseDeathMatch()
     {
         GameSingleton.GetInstance().currentGameMode = GameSingleton.GameMode.DeathMatch;
         Debug.Log("FFA");
@@ -101,7 +70,7 @@ public class MenuFunctional : MonoBehaviour
         GameSingleton.GetInstance().currentGameMode = GameSingleton.GameMode.CaptureTheFlag;
         Debug.Log("CTF");
     }
-    public void ChoseHoldingPoints()
+    public void ChoseDomination()
     {
         GameSingleton.GetInstance().currentGameMode = GameSingleton.GameMode.Domination;
         Debug.Log("HP");

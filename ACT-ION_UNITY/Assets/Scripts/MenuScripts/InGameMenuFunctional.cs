@@ -25,15 +25,17 @@ public class InGameMenuFunctional : MonoBehaviour
                 GameSingleton.GetInstance().paused = true;
 
                 gameObject.GetComponentInChildren<Transform>().Find("EscapeMenu").gameObject.SetActive(true);
-                gameObject.GetComponentInChildren<Transform>().Find("EscapeMenu").Find("BackToMenu").gameObject.SetActive(true);
-                gameObject.GetComponentInChildren<Transform>().Find("EscapeMenu").Find("SoundSettings").gameObject.SetActive(true);
+                gameObject.GetComponentInChildren<Transform>().Find("EscapeMenu").Find("EscapeMenuButtons").gameObject.SetActive(true);
+                gameObject.GetComponentInChildren<Transform>().Find("EscapeMenu").Find("EscapeMenuButtons").Find("BackToMenu").gameObject.SetActive(true);
+                gameObject.GetComponentInChildren<Transform>().Find("EscapeMenu").Find("EscapeMenuButtons").Find("SoundSettings").gameObject.SetActive(true);
             }
             else
             {
                 GameSingleton.GetInstance().paused = false;
 
                 gameObject.GetComponentInChildren<Transform>().Find("EscapeMenu").gameObject.SetActive(false);
-                gameObject.GetComponentInChildren<Transform>().Find("EscapeMenu").Find("SettingsMenu").gameObject.SetActive(false);
+                gameObject.GetComponentInChildren<Transform>().Find("EscapeMenu").Find("EscapeMenuButtons").gameObject.SetActive(false);
+                gameObject.GetComponentInChildren<Transform>().Find("EscapeMenu").Find("EscapeMenuButtons").Find("SettingsMenu").gameObject.SetActive(false);
 
             }
         }

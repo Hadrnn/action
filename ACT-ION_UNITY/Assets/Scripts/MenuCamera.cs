@@ -5,7 +5,7 @@ using static UnityEngine.GraphicsBuffer;
 
 public class MenuCamera : MonoBehaviour
 {
-    public Transform menuCamera;
+    public Vector3 startPosition = new Vector3(0f, 0f, 0f);
 
     public Vector3[] positions = { new Vector3(0f, 0f, 0f),
                                    new Vector3(0f, 0f, 0f), 
@@ -17,6 +17,11 @@ public class MenuCamera : MonoBehaviour
                                         Quaternion.Euler(0,180,0),
                                         Quaternion.Euler(0,270,0) };
 
+    public Vector3[] offsets = { new Vector3(-1f, 0f, 0f),
+                                   new Vector3(0f, 0f, -1f),
+                                   new Vector3(1f, 0f, 0f),
+                                   new Vector3(0f, 0f, 1f) };
+
     public int counter = 0;
 
     private Vector3 velocity;
@@ -27,24 +32,43 @@ public class MenuCamera : MonoBehaviour
 
 
     public float dampTime = 1f;
+    public bool OnMainMenu = true;
+
+    private void Awake()
+    {
+        int startTank = Random.Range(0, 4);
+        GameSingleton.GetInstance().currentTank = startTank;
+        transform.position = positions[startTank] + offsets[startTank];
+        transform.rotation = rotations[startTank];
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-        targetPos = positions[0];
-        targetRotation = rotations[0];
+        //int startTank = Random.Range(0, 4);
+        //GameSingleton.GetInstance().currentTank = startTank;
+        //targetPos = positions[startTank];
+        //targetRotation = rotations[startTank];
     }
 
     private void Update()
     {
-        targetPos = positions[GameSingleton.GetInstance().currentTank];
-        targetRotation = rotations[GameSingleton.GetInstance().currentTank];
+        if (OnMainMenu)
+        {
+            targetPos = positions[GameSingleton.GetInstance().currentTank] + offsets[GameSingleton.GetInstance().currentTank];
+        }
+        else
+        {
+            targetPos = positions[GameSingleton.GetInstance().currentTank];
+            targetRotation = rotations[GameSingleton.GetInstance().currentTank];
+        }
+
     }
     // Update is called once per frame
     void FixedUpdate()
     {
-        menuCamera.position = Vector3.SmoothDamp(menuCamera.position, targetPos, ref velocity, dampTime);
-        menuCamera.rotation = SmoothDamp(menuCamera.rotation, targetRotation, ref rotationDerivative, dampTime);
+        transform.position = Vector3.SmoothDamp(transform.position, targetPos, ref velocity, dampTime);
+        transform.rotation = SmoothDamp(transform.rotation, targetRotation, ref rotationDerivative, dampTime);
     }
 
     public static Quaternion SmoothDamp(Quaternion rot, Quaternion target, ref Quaternion deriv, float time)
@@ -73,5 +97,10 @@ public class MenuCamera : MonoBehaviour
         deriv.w -= derivError.w;
 
         return new Quaternion(Result.x, Result.y, Result.z, Result.w);
+    }
+
+    public void setMainMenu(bool toSet)
+    {
+        OnMainMenu = toSet;
     }
 }
