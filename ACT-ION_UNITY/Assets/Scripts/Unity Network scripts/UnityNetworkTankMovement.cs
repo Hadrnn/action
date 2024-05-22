@@ -14,7 +14,6 @@ public class UnityNetworkTankMovement : NetworkBehaviour
     public SpriteRenderer m_FriendEnemy;
 
 
-    public int teamNumber { get; set; }
     public InfoCollector collector { get; private set; }
 
 
@@ -66,7 +65,12 @@ public class UnityNetworkTankMovement : NetworkBehaviour
             m_VerticalAxisName = "Vertical";
             m_HorizontalAxisName = "Horizontal";
 
-            GameSingleton.GetInstance().playerTeam = teamNumber;
+            GameSingleton.GetInstance().playerTeam = GetComponent<UnityNetworkTankShooting>().tankHolder.team.teamNumber;
+            GameSingleton.GetInstance().playerClientID = OwnerClientId;
+
+            GameObject cameraRig = GameObject.Find("CameraRig");
+            CameraFollower follower = cameraRig.GetComponent<CameraFollower>();
+            follower.m_Target = transform;
         }
 
         // Store the original pitch of the audio source.

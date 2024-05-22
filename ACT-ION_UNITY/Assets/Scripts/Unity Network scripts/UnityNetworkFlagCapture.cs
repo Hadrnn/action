@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -50,7 +51,7 @@ public class UnityNetworkFlagCapture : NetworkBehaviour
         {
             //Debug.Log("Im on Enemy Base");
             transform.SetParent(null);
-            SetParentClientRpc(-1,-1);
+            SetParentClientRpc(0, 0, true, true);
 
             transform.position = teamBase.position;
             transform.rotation = Quaternion.Euler(-90, 0, 0);
@@ -59,7 +60,7 @@ public class UnityNetworkFlagCapture : NetworkBehaviour
         }
 
 
-        UnityNetworkTankMovement tank = other.GetComponent<UnityNetworkTankMovement>();
+        UnityNetworkTankShooting tank = other.GetComponent<UnityNetworkTankShooting>();
 
 
         if (!tank || IsCaptured.Value)
@@ -67,7 +68,7 @@ public class UnityNetworkFlagCapture : NetworkBehaviour
         if (tank.GetComponent<UnityNetworkTankHealth>().m_Dead)
             return;
 
-        if (tank.teamNumber == teamNumber.Value && transform.parent == null)
+        if (tank.tankHolder.team.teamNumber == teamNumber.Value && transform.parent == null)
         {
             //Debug.Log("Im returning to base");
 
@@ -77,11 +78,9 @@ public class UnityNetworkFlagCapture : NetworkBehaviour
             return;
         }
 
-        InfoCollector.Team.TankHolder holder = other.GetComponent<UnityNetworkTankShooting>().tankHolder;
 
         transform.SetParent(other.transform);
-        SetParentClientRpc(holder.team.teamNumber, holder.tankID);
-
+        SetParentClientRpc(tank.tankHolder.team.teamNumber, tank.tankHolder.tankID);
 
         transform.position = other.transform.position;
         transform.rotation = Quaternion.Euler(-90, 0, 0);
@@ -95,13 +94,14 @@ public class UnityNetworkFlagCapture : NetworkBehaviour
     }
 
     [ClientRpc]
-    public void SetParentClientRpc(int teamNumber, int tankID)
+    public void SetParentClientRpc(int teamNumber, ulong tankID,
+        bool setNullParent = false, bool returnToBase = false)
     {
-        if (teamNumber == -1)
+        if (setNullParent)
         {
             transform.SetParent(null);
 
-            if (tankID == -1)
+            if (returnToBase)
             {
                 transform.position = teamBase.position;
                 transform.rotation = Quaternion.Euler(-90, 0, 0);

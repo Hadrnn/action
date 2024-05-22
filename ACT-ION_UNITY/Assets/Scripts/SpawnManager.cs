@@ -93,7 +93,7 @@ public class SpawnManager : NetworkBehaviour
             {
                 if (dead[i].activeSelf && (Time.time > deathTime[i] + NetworkDeathDelay))
                 {
-                    Debug.Log("Setting inactive");
+                    //Debug.Log("Setting inactive");
                     dead[i].SetActive(false);
                     continue;
                 }

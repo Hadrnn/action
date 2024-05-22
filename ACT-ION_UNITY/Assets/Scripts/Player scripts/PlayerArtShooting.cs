@@ -22,6 +22,8 @@ public class PlayerArtShooting : TankShooting, ArtShooting
 
     private void Update()
     {
+        if (GameSingleton.GetInstance().paused) return;
+
         if (Input.GetButton(m_FireButton))
         {
             Fire();

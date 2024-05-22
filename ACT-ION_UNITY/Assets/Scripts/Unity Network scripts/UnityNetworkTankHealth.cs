@@ -38,7 +38,6 @@ public class UnityNetworkTankHealth : NetworkBehaviour
     {
         if (IsOwner)
         {
-            Debug.Log("Setting camera");
             GameObject cameraRig = GameObject.Find("CameraRig");
             CameraFollower follower = cameraRig.GetComponent<CameraFollower>();
             follower.m_Target = transform;
@@ -93,7 +92,7 @@ public class UnityNetworkTankHealth : NetworkBehaviour
     }
 
     [ClientRpc]
-    private void OnDeathClientRpc(int killerTeamNumber, int killerTankID)
+    private void OnDeathClientRpc(int killerTeamNumber, ulong killerTankID)
     {
         OnDeath(killerTeamNumber, killerTankID);
     }
@@ -102,13 +101,13 @@ public class UnityNetworkTankHealth : NetworkBehaviour
     {
         if (!IsOwner) return;
 
-        Debug.Log("Im trying to move");
-        Debug.Log(position);
+        //Debug.Log("Im trying to move");
+        //Debug.Log(position);
         //gameObject.GetComponent<Rigidbody>().MovePosition(position);
         transform.position = position;
         
     }
-    private void OnDeath(int killerTeamNumber, int killerTankID)
+    private void OnDeath(int killerTeamNumber, ulong killerTankID)
     {
         // Set the flag so that this function is only called once.
         m_Dead = true;
@@ -162,7 +161,7 @@ public class UnityNetworkTankHealth : NetworkBehaviour
             {
                 Debug.Log("I have a flag while dying");
                 flag.transform.SetParent(null);
-                flag.SetParentClientRpc(-1, -2);
+                flag.SetParentClientRpc(0, 0, true, false);
                 flag.SetCaptured(false);
             }
             return;

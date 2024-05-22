@@ -3,7 +3,8 @@ using UnityEngine.UI;
 
 public class BaseCapture : MonoBehaviour 
 {
-    public const float pointsDelta = 10f;
+    public const float pointsTicking = 0.5f;
+    public const float pointsCapturingDelta = 10f;
     public float pointsToCapture = 100;
 
     public const float staticIncrease = 0.1f;
@@ -81,6 +82,11 @@ public class BaseCapture : MonoBehaviour
         //Debug.Log(occupantCount);
         //Debug.Log(contesterCount);
         //Debug.Log(currentPoints);
+        if (isCaptured)
+        {
+            GameObject.Find("InfoCollector").GetComponent<InfoCollector>().teams[occupantTeam].teamStat += pointsTicking * Time.fixedDeltaTime;
+        }
+
         CaptureSlider.value = currentPoints;
 
         if (occupantTeam == -1 && contesterTeam == -1) goto END;
@@ -97,7 +103,7 @@ public class BaseCapture : MonoBehaviour
         {
             if (currentPoints < pointsToCapture)
             {
-                currentPoints += pointsDelta * occupantCount * Time.deltaTime;
+                currentPoints += pointsCapturingDelta * occupantCount * Time.deltaTime;
             }
             else
             {
@@ -112,7 +118,7 @@ public class BaseCapture : MonoBehaviour
 
         if (occupantTeam != contesterTeam && occupantCount == 0 && contesterCount != 0)
         {
-            currentPoints -= pointsDelta * contesterCount * Time.fixedDeltaTime;
+            currentPoints -= pointsCapturingDelta * contesterCount * Time.fixedDeltaTime;
             //Debug.Log("Uncapturing a point, team " + contesterTeam.ToString() + " with " + contesterCount.ToString() + " contesters");
 
             if (currentPoints < 0)
@@ -148,12 +154,12 @@ public class BaseCapture : MonoBehaviour
             if (isCaptured && currentPoints < pointsToCapture)
             {
                 //Debug.Log("Gaining point");
-                currentPoints += pointsDelta * staticIncrease * Time.deltaTime;
+                currentPoints += pointsCapturingDelta * staticIncrease * Time.deltaTime;
                 goto END;
             }
             if (!isCaptured && currentPoints > 0)
             {
-                currentPoints -= pointsDelta * staticDecrease * Time.deltaTime;
+                currentPoints -= pointsCapturingDelta * staticDecrease * Time.deltaTime;
 
                 goto END;
             }

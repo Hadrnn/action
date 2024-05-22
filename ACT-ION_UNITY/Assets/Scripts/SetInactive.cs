@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 
@@ -18,9 +16,9 @@ public class SetInactive : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.I))
+        if (Input.GetKeyDown(KeyCode.I))
         {
-            target.SetActive(false);
+            Debug.Log("I am " +GameSingleton.GetInstance().playerClientID.ToString());
         }
         if (Input.GetKey(KeyCode.O))
         {
