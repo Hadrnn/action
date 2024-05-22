@@ -61,7 +61,7 @@ public class MapManager : NetworkBehaviour
     public GameObject FlagBasePrefab;
     public GameObject CaptureBasePrefab;
 
-    private const string PythonServerAddress = "25.12.195.48";
+    private const string PythonServerAddress = "158.160.160.140";
     // EGOR "25.12.195.48"
     // TIMUR "25.56.145.143"
 
@@ -451,7 +451,7 @@ public class MapManager : NetworkBehaviour
                 ///
                 // Connect to server
                 Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                socket.Connect(PythonServerAddress, 9999);
+                socket.Connect(PythonServerAddress, 9000);
                 // Send message
                 string message = "PlayerName=" + GameSingleton.GetInstance().playerName
                     + " mode=" + GameSingleton.GetInstance().currentGameMode.ToString()
