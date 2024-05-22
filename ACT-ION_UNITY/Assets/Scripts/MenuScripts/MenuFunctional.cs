@@ -2,9 +2,6 @@ using UnityEngine;
 
 public class MenuFunctional : MonoBehaviour
 {
-    public Transform ChooseMapMenu;
-    public Transform ChooseTankMenu;
-
     protected int map_index = 1;
     protected int max_map_index = 2;
     protected int min_map_index = 1;

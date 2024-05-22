@@ -68,6 +68,11 @@ public class ArtShellExplosion : ShellExplosion
         collector.shells.Remove(gameObject);
         // Destroy the shell.
         Destroy(gameObject);
+
+
+        //GameObject cameraRig = GameObject.Find("CameraRig");
+        //CameraFollower follower = cameraRig.GetComponent<CameraFollower>();
+        //follower.m_Target = null;
     }
 
     private void OnTriggerEnter(Collider other)

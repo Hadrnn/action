@@ -42,55 +42,55 @@ public class BotTurretTurning : MonoBehaviour
 
         Vector3 BotPos = BotTransform.position;
         Vector3 TargetPos = Target.position;
-        if ((TargetPos - prew_target_poses.Peek()).magnitude > 0.6)
-        {
-            float l = TargetPos.x - BotPos.x;
-            float h = TargetPos.z - BotPos.z;
-            float v1 = Gun.m_Velocity;
-            float v2x = Target.GetComponent<TankMovement>().m_Speed * Target.forward.x * Target.GetComponent<TankMovement>().forvard_multiplyer;
-            float v2z = Target.GetComponent<TankMovement>().m_Speed * Target.forward.z * Target.GetComponent<TankMovement>().forvard_multiplyer;
-            float k = l / h;
-            float m = (v2z * k - v2x) / v1;
-            float t1 = (2 * k - Mathf.Sqrt(4 * k * k - 4 * (m * m - 1))) / (2 * (m - 1));
-            float t2 = (2 * k + Mathf.Sqrt(4 * k * k - 4 * (m * m - 1))) / (2 * (m - 1));
-            float t;
-            if (l > 0)
-            {
-                if (Mathf.Abs(t2) > Mathf.Abs(t1))
-                {
-                    t = t1;
-                }
-                else
-                {
-                    t = t2;
-                }
-            }
-            else
-            {
-                if (Mathf.Abs(t2) < Mathf.Abs(t1))
-                {
-                    t = t1;
-                }
-                else
-                {
-                    t = t2;
-                }
-            }
-            float alpha = 2 * Mathf.Atan(t);
-            Vector3 gun_length = (FireTransform.position - BotPos);
-            gun_length.y = 0;
-            float dL = v1 * Mathf.Cos(alpha) * l / (v1 * Mathf.Cos(alpha) - v2x) + gun_length.magnitude * Mathf.Cos(alpha) * transform.forward.x / Mathf.Abs(transform.forward.x);
-            float dH = v1 * Mathf.Sin(alpha) * h / (v1 * Mathf.Sin(alpha) - v2z) + gun_length.magnitude * Mathf.Sin(alpha) * transform.forward.x / Mathf.Abs(transform.forward.x);
-            prew_target_poses.Dequeue();
-            prew_target_poses.Enqueue(TargetPos);
-            TargetPos.x = BotPos.x + dL;
-            TargetPos.z = BotPos.z + dH;
-        }
-        else
-        {
-            prew_target_poses.Dequeue();
-            prew_target_poses.Enqueue(TargetPos);
-        }
+        //if ((TargetPos - prew_target_poses.Peek()).magnitude > 0.6)
+        //{
+        //    float l = TargetPos.x - BotPos.x;
+        //    float h = TargetPos.z - BotPos.z;
+        //    float v1 = Gun.m_Velocity;
+        //    float v2x = Target.GetComponent<TankMovement>().m_Speed * Target.forward.x * Target.GetComponent<TankMovement>().forvard_multiplyer;
+        //    float v2z = Target.GetComponent<TankMovement>().m_Speed * Target.forward.z * Target.GetComponent<TankMovement>().forvard_multiplyer;
+        //    float k = l / h;
+        //    float m = (v2z * k - v2x) / v1;
+        //    float t1 = (2 * k - Mathf.Sqrt(4 * k * k - 4 * (m * m - 1))) / (2 * (m - 1));
+        //    float t2 = (2 * k + Mathf.Sqrt(4 * k * k - 4 * (m * m - 1))) / (2 * (m - 1));
+        //    float t;
+        //    if (l > 0)
+        //    {
+        //        if (Mathf.Abs(t2) > Mathf.Abs(t1))
+        //        {
+        //            t = t1;
+        //        }
+        //        else
+        //        {
+        //            t = t2;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        if (Mathf.Abs(t2) < Mathf.Abs(t1))
+        //        {
+        //            t = t1;
+        //        }
+        //        else
+        //        {
+        //            t = t2;
+        //        }
+        //    }
+        //    float alpha = 2 * Mathf.Atan(t);
+        //    Vector3 gun_length = (FireTransform.position - BotPos);
+        //    gun_length.y = 0;
+        //    float dL = v1 * Mathf.Cos(alpha) * l / (v1 * Mathf.Cos(alpha) - v2x) + gun_length.magnitude * Mathf.Cos(alpha) * transform.forward.x / Mathf.Abs(transform.forward.x);
+        //    float dH = v1 * Mathf.Sin(alpha) * h / (v1 * Mathf.Sin(alpha) - v2z) + gun_length.magnitude * Mathf.Sin(alpha) * transform.forward.x / Mathf.Abs(transform.forward.x);
+        //    prew_target_poses.Dequeue();
+        //    prew_target_poses.Enqueue(TargetPos);
+        //    TargetPos.x = BotPos.x + dL;
+        //    TargetPos.z = BotPos.z + dH;
+        //}
+        //else
+        //{
+        //    prew_target_poses.Dequeue();
+        //    prew_target_poses.Enqueue(TargetPos);
+        //}
 
 
 
