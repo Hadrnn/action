@@ -467,15 +467,15 @@ public abstract class BotMovement : TankMovement
                     }
                 }
 
-                //shells_positions = shells_positions_recalculate(shells_positions, shells_forwards, shells_speeds);
+                shells_positions = shells_positions_recalculate(shells_positions, shells_forwards, shells_speeds);
 
-                //for (int j = 0; j < shells_positions.Count; j++)
-                //{
-                //    if ((shells_positions[j] - new_position).magnitude < (colliderSize.magnitude*1.15))
-                //    {
-                //        return false;
-                //    }
-                //}
+                for (int j = 0; j < shells_positions.Count; j++)
+                {
+                    if ((shells_positions[j] - new_position).magnitude < (colliderSize.magnitude*1.15))
+                    {
+                        return false;
+                    }
+                }
                 
             }
             return true;

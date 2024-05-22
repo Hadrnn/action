@@ -55,18 +55,6 @@ public class BotArtShooting : BotShooting, ArtShooting
         explosion.tank = this;
         explosion.g = g;
         explosion.velocity = shell_speed;
-
-
-
-        //GameObject cameraRig = GameObject.Find("CameraRig");
-        //CameraFollower follower = cameraRig.GetComponent<CameraFollower>();
-        //if (!follower.m_Target)
-        //{
-        //    follower.m_Target = shellInstance.transform;
-        //}
-
-
-
         ShootTime = Time.time;
     }
 }
