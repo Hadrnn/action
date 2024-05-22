@@ -1,23 +1,30 @@
-using UnityEngine;
 using Unity.VisualScripting;
+using UnityEngine;
 
-public class BotArtShooting : BotShooting, ArtShooting
+public class UnityNetworkARTShooting : UnityNetworkShooting, ArtShooting
 {
-    public BotArtTurretTurning turret;
+    public UnityNetworkTurretTurning turret;
     public float start_angle;
     public float g;
     public float shell_speed;
 
 
+    private void Start()
+    {
+        m_FireButton = "Fire";
+    }
+
+
     private void Update()
     {
-        float CurrentTime = Time.time;
-        if ((CurrentTime - ShootTime) > cooldown)
+        if (GameSingleton.GetInstance().paused) return;
+
+        if (Input.GetButton(m_FireButton))
         {
-            onReload = false;
+            Fire();
         }
     }
-    public override void Fire()
+    private void Fire()
     {
 
         float CurrentTime = Time.time;
@@ -26,7 +33,6 @@ public class BotArtShooting : BotShooting, ArtShooting
             return;
         }
 
-        //m_Fired = true;
         Vector3 tank_pos = transform.position;
         Vector3 forvard = tank_pos - m_FireTransform.position;
         forvard = forvard.normalized;
@@ -43,11 +49,9 @@ public class BotArtShooting : BotShooting, ArtShooting
         m_ShootingAudio.clip = m_FireClip;
         m_ShootingAudio.Play();
 
-        ArtShellExplosion explosion = shellInstance.GetComponent<ArtShellExplosion>();
-/*        Debug.Log(explosion.forward);*/
+        UnityNetworkARTShellExplosion explosion = shellInstance.GetComponent<UnityNetworkARTShellExplosion>();
         explosion.forward = turret.transform.forward;
         explosion.owner = tankHolder;
-
         explosion.start_angle = start_angle;
         explosion.m_MaxLifeTime = ShellLifeTime;
         explosion.tank = this;

@@ -1,13 +1,6 @@
 using UnityEngine;
-using System;
 using Vector3 = UnityEngine.Vector3;
-using Quaternion = UnityEngine.Quaternion;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using TMPro;
-using UnityEngine.UIElements;
-using static UnityEngine.EventSystems.EventTrigger;
-
 
 
 public class BotTankMovement : BotMovement

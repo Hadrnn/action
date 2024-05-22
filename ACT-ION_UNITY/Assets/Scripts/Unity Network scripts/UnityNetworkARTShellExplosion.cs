@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ArtShellExplosion : ShellExplosion
+public class UnityNetworkARTShellExplosion : UnityNetworkShellExplosion
 {
     public Vector3 forward;
     public float start_angle;
@@ -22,15 +22,19 @@ public class ArtShellExplosion : ShellExplosion
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponent<FlagCapture>() || other.GetComponent<FlagBase>()) return;
+        if (!IsServer) return;
+
+        if (other.GetComponent<UnityNetworkFlagCapture>() || other.GetComponent<UnityNetworkFlagBase>()) return;
 
         if (other.gameObject.GetComponent<ArtShooting>() != null)
         {
             if (other.gameObject.GetComponent<ArtShooting>() == tank)
             {
+
                 return;
             }
         }
+        DieClientRpc();
         Explode();
     }
 
@@ -39,11 +43,15 @@ public class ArtShellExplosion : ShellExplosion
     {
         if (m_Rigidbody.position.y < 0.5)
         {
-            Explode();
+            if (IsServer)
+            {
+                DieClientRpc();
+                Explode();
+            }
         }
         Vector3 movement = Vector3.zero;
-        up_speed = up_speed - g*Time.deltaTime;
-        movement.x = velocity*Time.deltaTime * forward.x;
+        up_speed = up_speed - g * Time.deltaTime;
+        movement.x = velocity * Time.deltaTime * forward.x;
         movement.z = velocity * Time.deltaTime * forward.z;
         movement.y = up_speed * Time.deltaTime;
         m_Rigidbody.MovePosition(m_Rigidbody.position + movement);
@@ -55,5 +63,4 @@ public class ArtShellExplosion : ShellExplosion
         Quaternion turnRotation = Quaternion.Euler(0f, turn, 0f);
         m_Rigidbody.MoveRotation(m_Rigidbody.rotation * turnRotation);
     }
-
 }

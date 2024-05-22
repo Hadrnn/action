@@ -1,11 +1,6 @@
 using UnityEngine;
-using System;
 using System.Collections.Generic;
 using Vector3 = UnityEngine.Vector3;
-using Quaternion = UnityEngine.Quaternion;
-using Random = UnityEngine.Random;
-using UnityEngine.UIElements;
-
 
 public class BotARTMovement : BotMovement
 {

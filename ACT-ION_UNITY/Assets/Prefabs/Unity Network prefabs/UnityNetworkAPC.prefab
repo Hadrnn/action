@@ -14,11 +14,11 @@ GameObject:
   - component: {fileID: 4357107034944798728}
   - component: {fileID: 8529025638186558147}
   - component: {fileID: 3711777468456913512}
-  - component: {fileID: 963503405149907444}
   - component: {fileID: 2984049312904104472}
   - component: {fileID: 4802560395438180309}
   - component: {fileID: 7795816961524165804}
   - component: {fileID: 5695914579774064877}
+  - component: {fileID: -7228220122623716246}
   m_Layer: 7
   m_Name: UnityNetworkAPC
   m_TagString: Player
@@ -296,7 +296,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1002657638
+  GlobalObjectIdHash: 2866967869
   InScenePlacedSourceGlobalObjectIdHash: 3693539650
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -305,28 +305,6 @@ MonoBehaviour:
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
---- !u!114 &963503405149907444
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 382946735148802261}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 11880fec2d019064bbbe9396c43138d0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Shell: {fileID: 3456961440118785812, guid: 073fce5aa7e642545a96b5c82b26bd90, type: 3}
-  m_FireTransform: {fileID: 5763300136260377287}
-  m_ShootingAudio: {fileID: 8529025638186558147}
-  m_ChargingClip: {fileID: 8300000, guid: 26eb6f8197d8401449286b42e7ff33f1, type: 3}
-  m_FireClip: {fileID: 8300000, guid: 715c8cf8e36b2b143a6aacba41b63972, type: 3}
-  m_Velocity: 30
-  ShellLifeTime: 1
-  m_MaxLifeTime: 2
-  m_MaxChargeTime: 0.75
-  cooldown: 1
 --- !u!114 &2984049312904104472
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -339,7 +317,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db4474b155f81b843ba543a892ab5ccd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerNumber: 1
   m_StartingHealth: 100
   m_Slider: {fileID: 1068796200466159977}
   m_FillImage: {fileID: 3497984861375335345}
@@ -401,14 +378,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c782828a59522e345952252d00513e66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Speed: 12
-  m_TurnSpeed: 300
+  m_Speed: 19
+  m_TurnSpeed: 100
   m_MovementAudio: {fileID: 4357107034944798728}
   m_EngineIdling: {fileID: 8300000, guid: 5573b5c3a7aced740b2d275ccd645e7d, type: 3}
   m_EngineDriving: {fileID: 8300000, guid: 2764b5e5b387a3440977ffceb658813a, type: 3}
   m_PitchRange: 0.2
   forvard_multiplyer: 1
   m_FriendEnemy: {fileID: 4624488299852968994}
+--- !u!114 &-7228220122623716246
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 382946735148802261}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abc341d2ad25e6c4388eafb8e13cb605, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Shell: {fileID: 3456961440118785812, guid: 073fce5aa7e642545a96b5c82b26bd90, type: 3}
+  m_FireTransform: {fileID: 5763300136260377287}
+  m_ShootingAudio: {fileID: 8529025638186558147}
+  m_FireClip: {fileID: 8300000, guid: 715c8cf8e36b2b143a6aacba41b63972, type: 3}
+  m_Velocity: 35
+  ShellLifeTime: 1
+  cooldown: 1
+  birst_delay_time: 0
+  max_magazine_size: 3
 --- !u!1 &2077942296302921011
 GameObject:
   m_ObjectHideFlags: 0

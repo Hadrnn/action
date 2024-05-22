@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 using Unity.Netcode;
-using Unity.VisualScripting;
 
 public class UnityNetworkTankShooting : UnityNetworkShooting
 {
@@ -11,9 +9,9 @@ public class UnityNetworkTankShooting : UnityNetworkShooting
 
         if (!IsOwner) return;
 
+        if (GameSingleton.GetInstance().paused) return;
 
-
-        if (Input.GetButtonDown(m_FireButton))
+        if (Input.GetButton(m_FireButton))
         {
             Fire();
         }
@@ -44,8 +42,8 @@ public class UnityNetworkTankShooting : UnityNetworkShooting
             Instantiate(m_Shell, m_FireTransform.position, m_FireTransform.rotation) as Rigidbody;
 
         UnityNetworkShellExplosion explosion = shellInstance.GetComponent<UnityNetworkShellExplosion>();
-        explosion.m_MaxLifeTime = m_CurrentLifeTime;
         explosion.owner = tankHolder;
+        explosion.m_MaxLifeTime = ShellLifeTime;
 
         NetworkObject new_shell = shellInstance.GetComponent<NetworkObject>();
 
@@ -55,7 +53,6 @@ public class UnityNetworkTankShooting : UnityNetworkShooting
         // Set the shell's velocity to the launch force in the fire position's forward direction.
 
 
-        m_CurrentLifeTime = ShellLifeTime;
         shellInstance.velocity = m_Velocity * m_FireTransform.forward;
     }
 

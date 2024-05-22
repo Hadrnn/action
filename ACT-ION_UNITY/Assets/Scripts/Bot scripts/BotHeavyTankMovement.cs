@@ -1,8 +1,7 @@
 using UnityEngine;
 using Vector3 = UnityEngine.Vector3;
-using Quaternion = UnityEngine.Quaternion;
 using System.Collections.Generic;
-using TMPro;
+
 
 
 public class BotHeavyTankMovement : BotMovement

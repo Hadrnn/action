@@ -1,8 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.Networking.Transport.Error;
-using UnityEngine;
-
 public class GameSingleton
 {
     public class Tanks

@@ -94,7 +94,7 @@ public class ShellExplosion : MonoBehaviour
         }
     }
 
-    private float CalculateDamage(Vector3 targetPosition)
+    protected float CalculateDamage(Vector3 targetPosition)
     {
         // Create a vector from the shell to the target.
         Vector3 explosionToTarget = targetPosition - transform.position;

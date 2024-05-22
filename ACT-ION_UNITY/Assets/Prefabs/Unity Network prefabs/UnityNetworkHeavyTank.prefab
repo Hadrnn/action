@@ -327,7 +327,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1352219459
+  GlobalObjectIdHash: 2105968792
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -349,7 +349,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Speed: 12
-  m_TurnSpeed: 300
+  m_TurnSpeed: 200
   m_MovementAudio: {fileID: 4239541461460276249}
   m_EngineIdling: {fileID: 8300000, guid: 5573b5c3a7aced740b2d275ccd645e7d, type: 3}
   m_EngineDriving: {fileID: 8300000, guid: 2764b5e5b387a3440977ffceb658813a, type: 3}
@@ -371,12 +371,9 @@ MonoBehaviour:
   m_Shell: {fileID: 8395802421374468444, guid: fcc88e3637ecced40a9e7920e102bac1, type: 3}
   m_FireTransform: {fileID: 1529467986016096438}
   m_ShootingAudio: {fileID: 7419246952471288874}
-  m_ChargingClip: {fileID: 8300000, guid: 26eb6f8197d8401449286b42e7ff33f1, type: 3}
   m_FireClip: {fileID: 8300000, guid: 715c8cf8e36b2b143a6aacba41b63972, type: 3}
-  m_Velocity: 30
+  m_Velocity: 40
   ShellLifeTime: 1
-  m_MaxLifeTime: 2
-  m_MaxChargeTime: 0.75
   cooldown: 1
 --- !u!114 &7299779565704915658
 MonoBehaviour:
@@ -390,8 +387,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db4474b155f81b843ba543a892ab5ccd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerNumber: 1
-  m_StartingHealth: 100
+  m_StartingHealth: 300
   m_Slider: {fileID: 6721314785776867816}
   m_FillImage: {fileID: 7140631921153116976}
   m_FullHealthColor: {r: 0, g: 1, b: 0, a: 1}

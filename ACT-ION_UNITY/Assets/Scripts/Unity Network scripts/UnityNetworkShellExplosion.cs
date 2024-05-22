@@ -14,7 +14,7 @@ public class UnityNetworkShellExplosion : NetworkBehaviour
 
     public InfoCollector.Team.TankHolder owner { get; set; }
 
-    private float startTime;
+    protected float startTime;
 
 
     private void Start()
@@ -23,7 +23,7 @@ public class UnityNetworkShellExplosion : NetworkBehaviour
     }
 
 
-    private void Explode()
+    protected void Explode()
     {
         //if (IsHost) DieClientRPC();
 
@@ -49,14 +49,14 @@ public class UnityNetworkShellExplosion : NetworkBehaviour
 
         if (IsServer)
         {
-            Debug.Log("Despawn shell by server");
+            //Debug.Log("Despawn shell by server");
             NetworkObject shell = gameObject.GetComponent<NetworkObject>();
             //shell.RemoveOwnership();
             shell.Despawn();
         }
     }
 
-    private void Damage()
+    protected void Damage()
     {
         Collider[] colliders = Physics.OverlapSphere(transform.position, m_ExplosionRadius, m_TankMask);
 
@@ -127,7 +127,7 @@ public class UnityNetworkShellExplosion : NetworkBehaviour
         if (!IsHost) Explode();
     }
 
-    private float CalculateDamage(Vector3 targetPosition)
+    protected float CalculateDamage(Vector3 targetPosition)
     {
         // Create a vector from the shell to the target.
         Vector3 explosionToTarget = targetPosition - transform.position;

@@ -1,6 +1,5 @@
 using System.Linq;
 using UnityEngine;
-using static InfoCollector;
 
 public class TabMenu : MonoBehaviour
 {

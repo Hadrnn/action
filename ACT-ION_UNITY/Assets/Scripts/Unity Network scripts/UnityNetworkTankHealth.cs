@@ -5,7 +5,6 @@ using Unity.Netcode;
 
 public class UnityNetworkTankHealth : NetworkBehaviour
 {
-    public int playerNumber = 1;
     public float m_StartingHealth = 100f;               // The amount of health each tank starts with.
     public Slider m_Slider;                             // The slider to represent how much health the tank currently has.
     public Image m_FillImage;                           // The image component of the slider.

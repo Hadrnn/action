@@ -1,10 +1,6 @@
 using UnityEngine;
-using System;
 using System.Collections.Generic;
 using Vector3 = UnityEngine.Vector3;
-using Quaternion = UnityEngine.Quaternion;
-using Random = UnityEngine.Random;
-using TMPro;
 
 
 public class BotAPCMovement : BotMovement
