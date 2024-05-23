@@ -187,6 +187,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   KillsText: {fileID: 7086556548567700741}
   DeathsText: {fileID: 8553395054350008204}
+  NameText: {fileID: 3841366323231756843}
   kills: 0
 --- !u!1 &5362235757790197046
 GameObject:

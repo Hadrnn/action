@@ -12,13 +12,17 @@ public class TeamScore : MonoBehaviour
     }
     private void Update()
     {
-        //int stat;
+        int stat;
 
-        //if (GameSingleton.GetInstance().currentGameMode == GameSingleton.GameMode.TeamDeathMatch)
-        //    stat = GameObject.Find("InfoCollector").GetComponent<InfoCollector>().teams[teamNumber].teamKills;
-        //else
-        //    stat = (int)GameObject.Find("InfoCollector").GetComponent<InfoCollector>().teams[teamNumber].teamStat;
+        InfoCollector collector = GameObject.Find("InfoCollector").GetComponent<InfoCollector>();
 
-        //scoreText.text = stat.ToString();
+        if (!collector.teamsSet) return;
+
+        if (GameSingleton.GetInstance().currentGameMode == GameSingleton.GameMode.TeamDeathMatch)
+            stat = collector.teams[teamNumber].teamKills;
+        else
+            stat = (int)collector.teams[teamNumber].teamStat;
+
+        scoreText.text = stat.ToString();
     }
 }

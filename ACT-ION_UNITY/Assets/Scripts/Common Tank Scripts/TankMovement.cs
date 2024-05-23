@@ -13,6 +13,8 @@ public class TankMovement : MonoBehaviour
     public SpriteRenderer m_FriendEnemy;
     public int forvard_multiplyer = 1;
 
+    public string playerName = "";
+
     public int teamNumber { get; set; }
     public static InfoCollector collector { get; protected set; }
 

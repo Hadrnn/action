@@ -427,11 +427,9 @@ MonoBehaviour:
   m_Shell: {fileID: 3335827830882234650, guid: 6e0d16a45bc84864d88b14789b0d810f, type: 3}
   m_FireTransform: {fileID: 5254295554766867962}
   m_ShootingAudio: {fileID: 8603626697460286649}
-  m_ChargingClip: {fileID: 8300000, guid: 26eb6f8197d8401449286b42e7ff33f1, type: 3}
   m_FireClip: {fileID: 8300000, guid: 715c8cf8e36b2b143a6aacba41b63972, type: 3}
   m_Velocity: 40
   ShellLifeTime: 1
-  m_MaxChargeTime: 0.75
   cooldown: 1
   onReload: 0
 --- !u!114 &1656191386600548015
@@ -453,6 +451,7 @@ MonoBehaviour:
   m_EngineDriving: {fileID: 8300000, guid: 2764b5e5b387a3440977ffceb658813a, type: 3}
   m_FriendEnemy: {fileID: 7727996263542780608}
   forvard_multiplyer: 1
+  playerName: Bot Heavy Tank
   discret: 30
   counter: 0
   AgressiveDistance: 0

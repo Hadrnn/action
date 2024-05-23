@@ -26,8 +26,6 @@ public class InGameMenuFunctional : MonoBehaviour
 
                 gameObject.GetComponentInChildren<Transform>().Find("EscapeMenu").gameObject.SetActive(true);
                 gameObject.GetComponentInChildren<Transform>().Find("EscapeMenu").Find("EscapeMenuButtons").gameObject.SetActive(true);
-                //gameObject.GetComponentInChildren<Transform>().Find("EscapeMenu").Find("EscapeMenuButtons").Find("BackToMenu").gameObject.SetActive(true);
-                //gameObject.GetComponentInChildren<Transform>().Find("EscapeMenu").Find("EscapeMenuButtons").Find("SoundSettings").gameObject.SetActive(true);
             }
             else
             {
@@ -47,6 +45,6 @@ public class InGameMenuFunctional : MonoBehaviour
         {
             NetworkManager.Singleton.Shutdown();
         }
-        UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+        UnityEngine.SceneManagement.SceneManager.LoadScene(GameSingleton.SceneName.StartMenu);
     }
 }

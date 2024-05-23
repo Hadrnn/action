@@ -33,6 +33,8 @@ public class BotTurretTurning : MonoBehaviour
     }
     void Update()
     {
+        if (GameSingleton.GetInstance().paused) return;
+
         Transform Target = TankMovement.FindClosestEnemy(BotTransform.GetComponent<TankMovement>().teamNumber, BotTransform, collector);
         
         if (Target == BotTransform)

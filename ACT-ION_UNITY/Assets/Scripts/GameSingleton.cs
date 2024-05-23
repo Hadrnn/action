@@ -24,6 +24,14 @@ public class GameSingleton
         public const int Server = 3; 
     }
 
+    public class SceneName
+    {
+        public const string StartMenu = "StartMenu";
+        public const string Map1 = "Map1";
+        public const string Map2 = "Map2";
+        public const string Map3 = "Map3";
+    }
+
     static GameSingleton instance;
 
     public string ServerAddress = "";

@@ -5,6 +5,8 @@ public class TankStatBar : MonoBehaviour
 {
     public TextMeshProUGUI KillsText;
     public TextMeshProUGUI DeathsText;
+    public TextMeshProUGUI NameText;
+
 
     public int kills;
 
@@ -20,5 +22,6 @@ public class TankStatBar : MonoBehaviour
         kills = tank.kills;
         KillsText.text = tank.kills.ToString();
         DeathsText.text = tank.deaths.ToString();
+        NameText.text = tank.name;
     }
 }

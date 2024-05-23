@@ -16,7 +16,7 @@ public class InfoCollector : NetworkBehaviour
     public Vector3 team1Spawn { get; set; }
     public Vector3 team2Spawn { get; set; }
 
-    private bool teamsSet = false;
+    public bool teamsSet { get; private set; }
     private static int NewTeamNumber = 0;
     private static ulong NewOwnerID = 0;
 
@@ -91,6 +91,7 @@ public class InfoCollector : NetworkBehaviour
     private void Start()
     {
         NewTeamNumber = 0;
+        teamsSet = false;
     }
 
     void Update()
@@ -132,6 +133,7 @@ public class InfoCollector : NetworkBehaviour
     public Team.TankHolder AddTank(GameObject tankToAdd, string name = "NO NAME")
     {
         Team.TankHolder tankHolder = new Team.TankHolder(tankToAdd, name);
+        Debug.Log(name);
 
         switch (GameSingleton.GetInstance().currentGameMode)
         {

@@ -672,7 +672,7 @@ public abstract class BotMovement : TankMovement
         if (!collector) collector = GameObject.Find("InfoCollector").GetComponent<InfoCollector>();
         //else Debug.Log("Collector already set");
 
-        GetComponent<TankShooting>().tankHolder = collector.AddTank(gameObject);
+        GetComponent<TankShooting>().tankHolder = collector.AddTank(gameObject, playerName);
 
         // Store the original pitch of the audio source.
         m_OriginalPitch = m_MovementAudio.pitch;
@@ -682,6 +682,8 @@ public abstract class BotMovement : TankMovement
 
     private void FixedUpdate()
     {
+        if (GameSingleton.GetInstance().paused) return;
+
         if (counter < discret/1.5)
         {
             counter++;

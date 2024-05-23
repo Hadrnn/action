@@ -678,6 +678,7 @@ MonoBehaviour:
   m_EngineDriving: {fileID: 8300000, guid: 2764b5e5b387a3440977ffceb658813a, type: 3}
   m_FriendEnemy: {fileID: 1415256056465996289}
   forvard_multiplyer: 1
+  playerName: Bot ART
   discret: 15
   counter: 0
   AgressiveDistance: 0
@@ -702,11 +703,9 @@ MonoBehaviour:
   m_Shell: {fileID: 5370133015469282507, guid: 1624bb48f0407764889f4622f03dd992, type: 3}
   m_FireTransform: {fileID: 6161548642204743296}
   m_ShootingAudio: {fileID: 4497338318868012654}
-  m_ChargingClip: {fileID: 8300000, guid: 26eb6f8197d8401449286b42e7ff33f1, type: 3}
   m_FireClip: {fileID: 8300000, guid: 715c8cf8e36b2b143a6aacba41b63972, type: 3}
   m_Velocity: 30
   ShellLifeTime: 1
-  m_MaxChargeTime: 0.75
   cooldown: 1
   onReload: 0
   turret: {fileID: 7984706525575818260}
