@@ -411,6 +411,7 @@ MonoBehaviour:
   m_EngineDriving: {fileID: 8300000, guid: 2764b5e5b387a3440977ffceb658813a, type: 3}
   m_FriendEnemy: {fileID: 1350051662087271353}
   forvard_multiplyer: 1
+  playerName: 
 --- !u!114 &8850826712466913361
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -426,11 +427,9 @@ MonoBehaviour:
   m_Shell: {fileID: 3335827830882234650, guid: 6e0d16a45bc84864d88b14789b0d810f, type: 3}
   m_FireTransform: {fileID: 7468724518349732082}
   m_ShootingAudio: {fileID: 1976074652532723907}
-  m_ChargingClip: {fileID: 8300000, guid: 26eb6f8197d8401449286b42e7ff33f1, type: 3}
   m_FireClip: {fileID: 8300000, guid: 715c8cf8e36b2b143a6aacba41b63972, type: 3}
   m_Velocity: 40
   ShellLifeTime: 1
-  m_MaxChargeTime: 0.75
   cooldown: 1
 --- !u!114 &3151859578845439570
 MonoBehaviour:
@@ -737,6 +736,8 @@ PrefabInstance:
     - {fileID: 1546817819747385382, guid: b155f4532a3b9fc4a9cf5f316454b7c0, type: 3}
     - {fileID: -8700617353114198275, guid: b155f4532a3b9fc4a9cf5f316454b7c0, type: 3}
     - {fileID: 65702495048144492, guid: b155f4532a3b9fc4a9cf5f316454b7c0, type: 3}
+    - {fileID: 2654713335656134247, guid: b155f4532a3b9fc4a9cf5f316454b7c0, type: 3}
+    - {fileID: -2572967989333021709, guid: b155f4532a3b9fc4a9cf5f316454b7c0, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: b155f4532a3b9fc4a9cf5f316454b7c0, type: 3}
       insertIndex: -1

@@ -1554,6 +1554,11 @@ PrefabInstance:
     m_RemovedGameObjects:
     - {fileID: 1902252397200138236, guid: 019961e821b32f144a692e175b5dc335, type: 3}
     - {fileID: 8018858982364826189, guid: 019961e821b32f144a692e175b5dc335, type: 3}
+    - {fileID: 8744397928284776696, guid: 019961e821b32f144a692e175b5dc335, type: 3}
+    - {fileID: 6542616169140093026, guid: 019961e821b32f144a692e175b5dc335, type: 3}
+    - {fileID: 3976823062011778821, guid: 019961e821b32f144a692e175b5dc335, type: 3}
+    - {fileID: 5778841144434455598, guid: 019961e821b32f144a692e175b5dc335, type: 3}
+    - {fileID: 2931568408148404666, guid: 019961e821b32f144a692e175b5dc335, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 8400294932900242024, guid: 019961e821b32f144a692e175b5dc335, type: 3}
       insertIndex: -1
@@ -4347,6 +4352,9 @@ PrefabInstance:
     m_RemovedGameObjects:
     - {fileID: 7412374506539152199, guid: b6d27e08a6b97d9429bdbaafe9e8c24c, type: 3}
     - {fileID: 4698339839778664438, guid: b6d27e08a6b97d9429bdbaafe9e8c24c, type: 3}
+    - {fileID: 5123504898728357106, guid: b6d27e08a6b97d9429bdbaafe9e8c24c, type: 3}
+    - {fileID: 7454196616215653115, guid: b6d27e08a6b97d9429bdbaafe9e8c24c, type: 3}
+    - {fileID: 4577851876895191398, guid: b6d27e08a6b97d9429bdbaafe9e8c24c, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 1757732706662017459, guid: b6d27e08a6b97d9429bdbaafe9e8c24c, type: 3}
       insertIndex: -1
@@ -11401,6 +11409,8 @@ PrefabInstance:
     m_RemovedGameObjects:
     - {fileID: 8255542952045469295, guid: b7381c112bd3b274483da47f72c78ee1, type: 3}
     - {fileID: 4164642512689316902, guid: b7381c112bd3b274483da47f72c78ee1, type: 3}
+    - {fileID: 7017981835652050376, guid: b7381c112bd3b274483da47f72c78ee1, type: 3}
+    - {fileID: 1871656603400482908, guid: b7381c112bd3b274483da47f72c78ee1, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 8689176546807877169, guid: b7381c112bd3b274483da47f72c78ee1, type: 3}
       insertIndex: -1

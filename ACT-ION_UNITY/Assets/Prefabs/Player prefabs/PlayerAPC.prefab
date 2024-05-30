@@ -429,6 +429,7 @@ MonoBehaviour:
   m_EngineDriving: {fileID: 8300000, guid: 2764b5e5b387a3440977ffceb658813a, type: 3}
   m_FriendEnemy: {fileID: 4917690393463307730}
   forvard_multiplyer: 1
+  playerName: 
 --- !u!114 &6169148169335266044
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -444,17 +445,12 @@ MonoBehaviour:
   m_Shell: {fileID: 3256812025064007504, guid: 4eebae1b60e35f248bb5a09afd014056, type: 3}
   m_FireTransform: {fileID: 2447428944773690528}
   m_ShootingAudio: {fileID: 1752312545562266788}
-  m_ChargingClip: {fileID: 8300000, guid: 26eb6f8197d8401449286b42e7ff33f1, type: 3}
   m_FireClip: {fileID: 8300000, guid: 715c8cf8e36b2b143a6aacba41b63972, type: 3}
   m_Velocity: 35
   ShellLifeTime: 1
-  m_MaxChargeTime: 0.75
   cooldown: 1
   birst_delay_time: 0
-  on_birst_delay: 0
   max_magazine_size: 3
-  current_magazine_size: 3
-  onReload: 0
 --- !u!1001 &898585059537706973
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -528,6 +524,8 @@ PrefabInstance:
     - {fileID: 1546817819747385382, guid: b155f4532a3b9fc4a9cf5f316454b7c0, type: 3}
     - {fileID: -8700617353114198275, guid: b155f4532a3b9fc4a9cf5f316454b7c0, type: 3}
     - {fileID: 65702495048144492, guid: b155f4532a3b9fc4a9cf5f316454b7c0, type: 3}
+    - {fileID: -2572967989333021709, guid: b155f4532a3b9fc4a9cf5f316454b7c0, type: 3}
+    - {fileID: 2654713335656134247, guid: b155f4532a3b9fc4a9cf5f316454b7c0, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: b155f4532a3b9fc4a9cf5f316454b7c0, type: 3}
       insertIndex: -1
@@ -719,7 +717,8 @@ PrefabInstance:
       value: APCTurret
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: -8700617353114198275, guid: f9c177c7868517a4bafe0f7e7a2cb79b, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f9c177c7868517a4bafe0f7e7a2cb79b, type: 3}
@@ -929,7 +928,9 @@ PrefabInstance:
       value: APCBody
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: -8700617353114198275, guid: ea4feeb117510c94abc0a4ae304bf452, type: 3}
+    - {fileID: 2654713335656134247, guid: ea4feeb117510c94abc0a4ae304bf452, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ea4feeb117510c94abc0a4ae304bf452, type: 3}

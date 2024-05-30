@@ -296,7 +296,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1769548406
+  GlobalObjectIdHash: 65734817
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -723,7 +723,9 @@ PrefabInstance:
       value: TurretModel
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: -8700617353114198275, guid: bafc87ede92bb3a4a8668e2c17f99612, type: 3}
+    - {fileID: 65702495048144492, guid: bafc87ede92bb3a4a8668e2c17f99612, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: bafc87ede92bb3a4a8668e2c17f99612, type: 3}
       insertIndex: -1
@@ -978,6 +980,8 @@ PrefabInstance:
     m_RemovedGameObjects:
     - {fileID: -8700617353114198275, guid: b155f4532a3b9fc4a9cf5f316454b7c0, type: 3}
     - {fileID: 65702495048144492, guid: b155f4532a3b9fc4a9cf5f316454b7c0, type: 3}
+    - {fileID: -2572967989333021709, guid: b155f4532a3b9fc4a9cf5f316454b7c0, type: 3}
+    - {fileID: 2654713335656134247, guid: b155f4532a3b9fc4a9cf5f316454b7c0, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b155f4532a3b9fc4a9cf5f316454b7c0, type: 3}
