@@ -190,7 +190,8 @@ public class MapManager : NetworkBehaviour
 
         if (GameSingleton.GetInstance().currentGameMode == GameSingleton.GameMode.TeamDeathMatch ||
             GameSingleton.GetInstance().currentGameMode == GameSingleton.GameMode.CaptureTheFlag ||
-            GameSingleton.GetInstance().currentGameMode == GameSingleton.GameMode.TeamBattle)
+            GameSingleton.GetInstance().currentGameMode == GameSingleton.GameMode.TeamBattle ||
+            GameSingleton.GetInstance().currentGameMode == GameSingleton.GameMode.Domination)
         {
             InfoCollector collector = GetComponent<InfoCollector>();
             collector.team1Spawn = Positions[0];
