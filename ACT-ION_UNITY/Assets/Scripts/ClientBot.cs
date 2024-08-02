@@ -12,8 +12,6 @@ public class ClientBot : MonoBehaviour
     public int PORT = 9999; // Server port
 
 
-
-    // Start is called before the first frame update
     void Start()
     {
         while (true)

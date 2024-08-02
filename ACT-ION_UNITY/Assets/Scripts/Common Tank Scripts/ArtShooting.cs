@@ -1,4 +1,4 @@
-public interface ArtShooting
+public interface IArtShooting
 {
 
 }

@@ -33,8 +33,7 @@ public class MenuCamera : MonoBehaviour
 
     private void Awake()
     {
-        int startTank = Random.Range(0, 4);
-        GameSingleton.GetInstance().currentTank = startTank;
+        int startTank = GameSingleton.GetInstance().currentTank;
         transform.position = positions[startTank] + offsets[startTank];
         transform.rotation = rotations[startTank];
     }

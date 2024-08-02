@@ -16,10 +16,8 @@ public class NeuralTankMovement : TankMovement
     {
         if (!collector) collector = GameObject.Find("InfoCollector").GetComponent<InfoCollector>();
         collector.gameResult = "Playing";
-        // When the tank is turned on, make sure it's not kinematic.
         m_Rigidbody.isKinematic = false;
 
-        // Also reset the input values.
         m_VerticalInputValue = 0f;
         m_HorizontalInputValue = 0f;
     }
@@ -27,7 +25,6 @@ public class NeuralTankMovement : TankMovement
 
     private void OnDisable()
     {
-        // When the tank is turned off, set it to kinematic so it stops moving.
         m_Rigidbody.isKinematic = true;
     }
 
@@ -131,7 +128,6 @@ public class NeuralTankMovement : TankMovement
             movement = transform.forward * m_Speed * 0.02f * 1.3f * forvard_multiplyer;
         }
 
-        // Apply this movement to the rigidbody's position.
         Collider[] collisionArray = Physics.OverlapBox(m_Rigidbody.position + movement, m_Collider.size, m_Rigidbody.rotation, ~0, QueryTriggerInteraction.Ignore);
 
         if (collisionArray.Length == 1)

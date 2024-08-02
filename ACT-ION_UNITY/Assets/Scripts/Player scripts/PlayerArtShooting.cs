@@ -1,14 +1,14 @@
 using UnityEngine;
 using Unity.VisualScripting;
 
-public class PlayerArtShooting : TankShooting, ArtShooting
+public class PlayerArtShooting : TankShooting, IArtShooting
 {
     public PlayerTurretTurning turret;
     public float start_angle;
     public float g;
     public float shell_speed;
 
-    private string m_FireButton;                // The input axis that is used for launching shells.
+    private string m_FireButton;
 
 
     private void Start()

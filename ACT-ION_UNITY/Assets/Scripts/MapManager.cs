@@ -136,6 +136,20 @@ public class MapManager : NetworkBehaviour
 
         if (!GameSingleton.GetInstance().startedWithMenu)
         {
+            
+            switch (Type)
+            {
+                case GameType.UnityClient:
+                case GameType.UnityServer:
+                case GameType.UnityNetwork:
+                    GameSingleton.GetInstance().currentGameType = GameSingleton.GameType.Network;
+                    break;
+                default:
+                    GameSingleton.GetInstance().currentGameType = GameSingleton.GameType.Single;
+                    break;
+            }
+
+
             switch (Mode)
             {
                 case GameMode.TeamDeathMatch:

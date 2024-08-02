@@ -15,7 +15,6 @@ public class UnityNetworkARTGunTurning : MonoBehaviour
     private Plane plane = new Plane(Vector3.up, 0);
     private Vector3 prew_angles = new Vector3(0, 45f, 0);
     protected UnityNetworkARTShooting Gun;
-    // Start is called before the first frame update
     void Start()
     {
         GameObject cameraRig = GameObject.Find("CameraRig");
@@ -23,7 +22,6 @@ public class UnityNetworkARTGunTurning : MonoBehaviour
         Gun = gameObject.GetComponentInParent<UnityNetworkARTShooting>();
     }
 
-    // Update is called once per frame
     void Update()
     {
 

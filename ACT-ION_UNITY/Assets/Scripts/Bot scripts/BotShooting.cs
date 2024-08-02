@@ -7,15 +7,12 @@ public class BotShooting : TankShooting
 
 
     protected BotMovement Body;
-    // How fast the launch force increases, based on the max charge time.
 
-    // Start is called before the first frame update
     void Start()
     {
         Body = GetComponent<BotMovement>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         float CurrentTime = Time.time;
@@ -32,10 +29,10 @@ public class BotShooting : TankShooting
         {
             return;
         }
-        // Set the fired flag so only Fire is only called once.
+
         onReload = true;
 
-        // Create an instance of the shell and store a reference to it's rigidbody.
+
         Rigidbody shellInstance =
             Instantiate(m_Shell, m_FireTransform.position, m_FireTransform.rotation) as Rigidbody;
 
@@ -43,10 +40,9 @@ public class BotShooting : TankShooting
         InfoCollector collector = GameObject.Find("InfoCollector").GetComponent<InfoCollector>();
         collector.shells.Add(shellInstance.GameObject());
 
-        // Set the shell's velocity to the launch force in the fire position's forward direction.
+
         shellInstance.velocity = m_Velocity * m_FireTransform.forward; ;
 
-        // Change the clip to the firing clip and play it.
         m_ShootingAudio.clip = m_FireClip;
         m_ShootingAudio.Play();
 

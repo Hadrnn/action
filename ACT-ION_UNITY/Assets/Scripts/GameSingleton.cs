@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public class GameSingleton
 {
     public class Tanks
@@ -22,6 +24,14 @@ public class GameSingleton
         public const int Single = 1;
         public const int Network = 2;
         public const int Server = 3; 
+    }
+
+    public class Difficulty
+    {
+        public const int Easy = 0;
+        public const int Medium = 1;
+        public const int Hard = 2;
+        public const int Insane = 3;
     }
 
     public class SceneName
@@ -61,6 +71,7 @@ public class GameSingleton
         if (instance == null)
         {
             instance = new GameSingleton();
+            instance.currentTank = Random.Range(0, 4);
         }
         //Debug.Log("GOT TO SINGLETON");
         return instance;

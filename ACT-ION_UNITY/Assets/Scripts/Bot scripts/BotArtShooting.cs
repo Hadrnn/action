@@ -1,7 +1,7 @@
 using UnityEngine;
 using Unity.VisualScripting;
 
-public class BotArtShooting : BotShooting, ArtShooting
+public class BotArtShooting : BotShooting, IArtShooting
 {
     public BotArtTurretTurning turret;
     public float start_angle;

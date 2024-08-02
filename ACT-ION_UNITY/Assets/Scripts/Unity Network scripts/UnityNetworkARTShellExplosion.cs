@@ -4,7 +4,7 @@ public class UnityNetworkARTShellExplosion : UnityNetworkShellExplosion
 {
     public Vector3 forward;
     public float start_angle;
-    public ArtShooting tank;
+    public IArtShooting tank;
     public float velocity = 40f;
     public float g = 20f;
 
@@ -26,9 +26,9 @@ public class UnityNetworkARTShellExplosion : UnityNetworkShellExplosion
 
         if (other.GetComponent<UnityNetworkFlagCapture>() || other.GetComponent<UnityNetworkFlagBase>()) return;
 
-        if (other.gameObject.GetComponent<ArtShooting>() != null)
+        if (other.gameObject.GetComponent<IArtShooting>() != null)
         {
-            if (other.gameObject.GetComponent<ArtShooting>() == tank)
+            if (other.gameObject.GetComponent<IArtShooting>() == tank)
             {
 
                 return;

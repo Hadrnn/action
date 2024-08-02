@@ -60,7 +60,6 @@ public class UnityNetworkAPCShooting : UnityNetworkShooting
 
         FireServerRpc();
 
-        // Change the clip to the firing clip and play it.
         m_ShootingAudio.clip = m_FireClip;
         m_ShootingAudio.Play();
 
@@ -69,7 +68,7 @@ public class UnityNetworkAPCShooting : UnityNetworkShooting
 
     [ServerRpc]
     public void FireServerRpc()
-    {        // Create an instance of the shell and store a reference to it's rigidbody.
+    {
         Rigidbody shellInstance =
             Instantiate(m_Shell, m_FireTransform.position, m_FireTransform.rotation) as Rigidbody;
 
@@ -81,7 +80,6 @@ public class UnityNetworkAPCShooting : UnityNetworkShooting
         new_shell.Spawn();
         //new_shell.RemoveOwnership();
 
-        // Set the shell's velocity to the launch force in the fire position's forward direction.
 
 
         shellInstance.velocity = m_Velocity * m_FireTransform.forward;

@@ -1,7 +1,7 @@
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class UnityNetworkARTShooting : UnityNetworkShooting, ArtShooting
+public class UnityNetworkARTShooting : UnityNetworkShooting, IArtShooting
 {
     public UnityNetworkTurretTurning turret;
     public float start_angle;
