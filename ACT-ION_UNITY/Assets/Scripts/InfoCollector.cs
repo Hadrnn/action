@@ -265,25 +265,33 @@ public class InfoCollector : NetworkBehaviour
             for (ushort j = 0; j < teams[i].tanks.Count; ++j)
             {
                 Color color;
-                if (NetworkManager.Singleton)
-                {
-                    UnityNetworkTankMovement tank = teams[i].tanks[j].tank.GetComponent<UnityNetworkTankMovement>();
-                    if (teams[i].teamNumber == GameSingleton.GetInstance().playerTeam) color = Color.blue;
-                    else color = Color.red;
 
-                    color.a = 0.5f;
-                    tank.m_FriendEnemy.color = color;
-                }
-                else
-                {
-                    //Debug.Log(teams[i].teamNumber);
-                    TankMovement tank = teams[i].tanks[j].tank.GetComponent<TankMovement>();
-                    if (teams[i].teamNumber == GameSingleton.GetInstance().playerTeam) color = Color.blue;
-                    else color = Color.red;
+                ITankMovement tank = teams[i].tanks[j].tank.GetComponent<ITankMovement>();
+                if (teams[i].teamNumber == GameSingleton.GetInstance().playerTeam) color = Color.blue;
+                else color = Color.red;
 
-                    color.a = 0.5f;
-                    tank.m_FriendEnemy.color = color;
-                }
+                color.a = 0.5f;
+                tank.setColor(color);
+
+                //if (NetworkManager.Singleton)
+                //{
+                //    UnityNetworkTankMovement tank = teams[i].tanks[j].tank.GetComponent<UnityNetworkTankMovement>();
+                //    if (teams[i].teamNumber == GameSingleton.GetInstance().playerTeam) color = Color.blue;
+                //    else color = Color.red;
+
+                //    color.a = 0.5f;
+                //    tank.m_FriendEnemy.color = color;
+                //}
+                //else
+                //{
+                //    //Debug.Log(teams[i].teamNumber);
+                //    TankMovement tank = teams[i].tanks[j].tank.GetComponent<TankMovement>();
+                //    if (teams[i].teamNumber == GameSingleton.GetInstance().playerTeam) color = Color.blue;
+                //    else color = Color.red;
+
+                //    color.a = 0.5f;
+                //    tank.m_FriendEnemy.color = color;
+                //}
 
             }
         }

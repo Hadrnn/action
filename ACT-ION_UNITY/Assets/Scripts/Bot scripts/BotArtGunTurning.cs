@@ -29,8 +29,6 @@ public class BotARTGunTurning : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (GameSingleton.GetInstance().paused) return;
-
         Vector3 angles = new Vector3(0, 0, 0);
         Transform Target = TankMovement.FindClosestEnemy(BotTransform.GetComponent<TankMovement>().teamNumber, BotTransform, collector);
         if (Target.Equals(BotTransform))

@@ -6,9 +6,11 @@ public class InGameMenuFunctional : MonoBehaviour
     private bool tab_active = false;
     private bool esc_active = false;
 
-    private void OnDisable()
+    private float savedTimeScale = 1f;
+
+    private void Start()
     {
-        GameSingleton.GetInstance().paused = false;
+        savedTimeScale = Time.timeScale;
     }
     void Update()
     {
@@ -22,14 +24,14 @@ public class InGameMenuFunctional : MonoBehaviour
             esc_active = !esc_active;
             if (esc_active)
             {
-                GameSingleton.GetInstance().paused = true;
+                Time.timeScale = 0;
 
                 gameObject.GetComponentInChildren<Transform>().Find("EscapeMenu").gameObject.SetActive(true);
                 gameObject.GetComponentInChildren<Transform>().Find("EscapeMenu").Find("EscapeMenuButtons").gameObject.SetActive(true);
             }
             else
             {
-                GameSingleton.GetInstance().paused = false;
+                Time.timeScale = savedTimeScale;
 
                 gameObject.GetComponentInChildren<Transform>().Find("EscapeMenu").gameObject.SetActive(false);
                 gameObject.GetComponentInChildren<Transform>().Find("EscapeMenu").Find("EscapeMenuButtons").gameObject.SetActive(false);

@@ -1,0 +1,5 @@
+playerName                                       =Player1                       
+masterVolume                                     =0,647                         
+musicVolume                                      =1,000                         
+sfxVolume                                        =1,000                         
+engineVolume                                     =1,000                         

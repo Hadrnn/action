@@ -24,5 +24,11 @@ public class SetInactive : MonoBehaviour
         {
             target.SetActive(true);
         }
+        if (Input.GetKey(KeyCode.J))
+        {
+            //GameSingleton.GetInstance().ChangeIni(GameSingleton.masterVolumeMark, "a real one");
+            //GameSingleton.GetInstance().GetIni();
+
+        }
     }
 }

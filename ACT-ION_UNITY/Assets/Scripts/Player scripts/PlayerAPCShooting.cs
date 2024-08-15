@@ -21,8 +21,6 @@ public class PlayerAPCShooting : TankShooting
 
     private void Update()
     {
-        if (GameSingleton.GetInstance().paused) return;
-
         float CurrentTime = Time.time;
 
         if (on_birst_delay)
@@ -52,6 +50,9 @@ public class PlayerAPCShooting : TankShooting
 
     private void Fire()
     {
+        // Not to shoot while physics is stopped
+        if (Time.timeScale == 0) return;
+
 
         if (onReload | on_birst_delay)
         {

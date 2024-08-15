@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class TankMovement : MonoBehaviour
+public class TankMovement : MonoBehaviour, ITankMovement
 {
     public const int teamNotSet = -1;
 
@@ -33,6 +33,10 @@ public class TankMovement : MonoBehaviour
         m_Collider = GetComponent<BoxCollider>();
     }
 
+    public void setColor(Color colorToSet)
+    {
+        m_FriendEnemy.color = colorToSet;
+    }
     protected void EngineAudio()
     {
         // If there is no input (the tank is stationary)...

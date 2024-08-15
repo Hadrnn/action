@@ -682,7 +682,6 @@ public abstract class BotMovement : TankMovement
 
     private void FixedUpdate()
     {
-        if (GameSingleton.GetInstance().paused) return;
 
         if (counter < discret/1.5)
         {

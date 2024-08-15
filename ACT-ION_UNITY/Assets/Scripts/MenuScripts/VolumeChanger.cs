@@ -13,33 +13,66 @@ public class VolumeChanger : MonoBehaviour
     public AudioMixer masterMixer;
 
 
-    private float masterLvl;
-    private float musicLvl;
-    private float sfxLvl;
-    private float engineLvl;
+    public float masterLvl;
+    public float musicLvl;
+    public float sfxLvl;
+    public float engineLvl;
+
+    public void Start()
+    {
+        GameSingleton.GetInstance().GetIni();
+
+        masterLvl = GameSingleton.GetInstance().currentVolume.masterLvl;
+        musicLvl = GameSingleton.GetInstance().currentVolume.musicLvl;
+        sfxLvl = GameSingleton.GetInstance().currentVolume.sfxLvl;
+        engineLvl = GameSingleton.GetInstance().currentVolume.engineLvl;
+
+        SetVolume();
+    }
 
 
+    private void SetVolume()
+    {
+        masterMixer.SetFloat("Master", Mathf.Log10(masterLvl) * 20);
+        masterMixer.SetFloat("Music", Mathf.Log10(musicLvl) * 20);
+        masterMixer.SetFloat("SFX", Mathf.Log10(sfxLvl) * 20);
+        masterMixer.SetFloat("Engine", Mathf.Log10(engineLvl) * 20 - 10);
+
+        masterVolumeSlider.value = masterLvl;
+        musicVolumeSlider.value = musicLvl;
+        sfxVolumeSlider.value = sfxLvl;
+        engineVolumeSlider.value = engineLvl;
+
+
+    }
     public void SetMasterVolume()
     {
         masterLvl = masterVolumeSlider.value;
-        masterMixer.SetFloat("Master", Mathf.Log10(masterLvl) * 20);
+        GameSingleton.GetInstance().ChangeIni(GameSingleton.masterVolumeMark, masterLvl.ToString("0.000"));
+        SetVolume();
     }
 
     public void SetMusicVolume()
     {
         musicLvl = musicVolumeSlider.value;
-        masterMixer.SetFloat("Music", Mathf.Log10(musicLvl) * 20);
+        GameSingleton.GetInstance().ChangeIni(GameSingleton.musicVolumeMark, musicLvl.ToString("0.000"));
+        SetVolume();
+
     }
 
     public void SetSfxVolume()
     {
         sfxLvl = sfxVolumeSlider.value;
-        masterMixer.SetFloat("SFX", Mathf.Log10(sfxLvl) * 20);
+        GameSingleton.GetInstance().ChangeIni(GameSingleton.sfxVolumeMark, sfxLvl.ToString("0.000"));
+        SetVolume();
+
     }
 
     public void SetEngineVolume()
     {
         engineLvl = engineVolumeSlider.value;
-        masterMixer.SetFloat("Engine", Mathf.Log10(engineLvl) * 20 - 10);
+        GameSingleton.GetInstance().ChangeIni(GameSingleton.engineVolumeMark, engineLvl.ToString("0.000"));
+        SetVolume();
+
     }
 }

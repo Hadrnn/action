@@ -10,7 +10,7 @@ public class HealthPack : MonoBehaviour
 
     void Start()
     {
-
+        ++BonusSpawner.healthPackCounter;
     }
 
     void Update()
@@ -31,6 +31,7 @@ public class HealthPack : MonoBehaviour
         if (colliderHealth == null) return;
 
         colliderHealth.heal(health);
+        --BonusSpawner.healthPackCounter;
         Destroy(gameObject);
 
     }

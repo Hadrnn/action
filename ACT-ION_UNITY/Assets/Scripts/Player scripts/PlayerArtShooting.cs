@@ -19,8 +19,6 @@ public class PlayerArtShooting : TankShooting, IArtShooting
 
     private void Update()
     {
-        if (GameSingleton.GetInstance().paused) return;
-
         if (Input.GetButton(m_FireButton))
         {
             Fire();
@@ -30,6 +28,8 @@ public class PlayerArtShooting : TankShooting, IArtShooting
 
     private void Fire()
     {
+        // Not to shoot while physics is stopped
+        if (Time.timeScale == 0) return;
 
         float CurrentTime = Time.time;
         if ((CurrentTime - ShootTime) < cooldown)

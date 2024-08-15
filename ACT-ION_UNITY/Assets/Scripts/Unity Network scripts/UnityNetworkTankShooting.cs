@@ -9,8 +9,6 @@ public class UnityNetworkTankShooting : UnityNetworkShooting
 
         if (!IsOwner) return;
 
-        if (GameSingleton.GetInstance().paused) return;
-
         if (Input.GetButton(m_FireButton))
         {
             Fire();
@@ -20,6 +18,9 @@ public class UnityNetworkTankShooting : UnityNetworkShooting
 
     private void Fire()
     {
+        // Not to shoot while physics is stopped
+        if (Time.timeScale == 0) return;
+
         float CurrentTime = Time.time;
         if ((CurrentTime - ShootTime) < cooldown)
         {

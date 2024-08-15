@@ -57,8 +57,6 @@ public abstract class PlayerMovement : TankMovement
 
     private void FixedUpdate()
     {
-        if (GameSingleton.GetInstance().paused) return;
-
         Move();
     }
 

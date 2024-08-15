@@ -17,6 +17,11 @@ public class TabMenu : MonoBehaviour
         if (!barsSet) SetBars();
     }
 
+    public void OnDestroy()
+    {
+        barsSet = false;
+    }
+
     public void SetBars()
     {
         barsSet = true;

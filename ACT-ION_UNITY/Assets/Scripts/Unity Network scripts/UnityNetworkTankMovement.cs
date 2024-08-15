@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using Unity.Netcode;
 
-public class UnityNetworkTankMovement : NetworkBehaviour
+public class UnityNetworkTankMovement : NetworkBehaviour, ITankMovement
 {
     public float m_Speed = 12f;
     public float m_TurnSpeed = 300f;
@@ -43,6 +43,10 @@ public class UnityNetworkTankMovement : NetworkBehaviour
         m_HorizontalInputValue = 0f;
     }
 
+    public void setColor(Color colorToSet)
+    {
+        m_FriendEnemy.color = colorToSet;
+    }
 
     private void OnDisable()
     {
