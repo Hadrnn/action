@@ -48,7 +48,18 @@ public class UnityNetworkTankHealth : NetworkBehaviour, IHealth
 
     public void heal(float amount)
     {
-        Debug.LogWarning("DID NOT COMPLETE NETWORK HEAL");
+        if (IsServer)
+        {
+            m_CurrentHealth.Value += amount;
+
+            if (m_CurrentHealth.Value > m_StartingHealth)
+            {
+                m_CurrentHealth.Value = m_StartingHealth;
+            }
+
+            SetHealthUIClientRpc(m_CurrentHealth.Value);
+            SetHealthUI(m_CurrentHealth.Value);
+        }
     }
 
     public void TakeDamage(float amount, InfoCollector.Team.TankHolder shellOwner)

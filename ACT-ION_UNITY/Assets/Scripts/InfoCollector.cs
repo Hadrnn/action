@@ -133,7 +133,7 @@ public class InfoCollector : NetworkBehaviour
     public Team.TankHolder AddTank(GameObject tankToAdd, string name = "NO NAME")
     {
         Team.TankHolder tankHolder = new Team.TankHolder(tankToAdd, name);
-        Debug.Log(name);
+        //Debug.Log(name);
 
         switch (GameSingleton.GetInstance().currentGameMode)
         {

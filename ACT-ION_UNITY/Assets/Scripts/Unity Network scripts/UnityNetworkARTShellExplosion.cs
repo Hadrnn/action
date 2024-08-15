@@ -24,7 +24,11 @@ public class UnityNetworkARTShellExplosion : UnityNetworkShellExplosion
     {
         if (!IsServer) return;
 
-        if (other.GetComponent<UnityNetworkFlagCapture>() || other.GetComponent<UnityNetworkFlagBase>()) return;
+        if (other.GetComponent<UnityNetworkFlagCapture>() ||
+            other.GetComponent<UnityNetworkFlagBase>() ||
+            other.GetComponent<UnityNetworkBaseCapture>() ||
+            other.GetComponent<HealthPack>())
+            return;
 
         if (other.gameObject.GetComponent<IArtShooting>() != null)
         {

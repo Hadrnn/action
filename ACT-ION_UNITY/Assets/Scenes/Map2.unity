@@ -697,6 +697,7 @@ GameObject:
   - component: {fileID: 807510651}
   - component: {fileID: 807510653}
   - component: {fileID: 807510654}
+  - component: {fileID: 807510655}
   m_Layer: 0
   m_Name: InfoCollector
   m_TagString: Untagged
@@ -836,6 +837,24 @@ MonoBehaviour:
   roundRestartDelay: 2
   RespawnTime: 2
   NetworkDeathDelay: 0.2
+--- !u!114 &807510655
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 807510647}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bceeb235b465c1d4b858e91fbf7934b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnRadius: 30
+  bonuses:
+  - {fileID: 783401344393067991, guid: de44f2d0133f7e14a9a09961414efa2f, type: 3}
+  respawnTimes:
+  - 15
+  maxCounts: 04000000
 --- !u!1 &836498040
 GameObject:
   m_ObjectHideFlags: 0

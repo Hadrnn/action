@@ -51,6 +51,11 @@ public class GameSingleton
         public const string Map3 = "Map3";
     }
 
+    public class BonusIndex
+    {
+        public const int HealthPack = 0;
+    }
+
 
 
     private static GameSingleton instance;

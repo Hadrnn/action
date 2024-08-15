@@ -1,6 +1,8 @@
+using Unity.Netcode;
 using UnityEngine;
+using static GameSingleton;
 
-public class HealthPack : MonoBehaviour
+public class HealthPack : NetworkBehaviour
 {
     public int health = 50;
     public int baseHeight = 2;
@@ -10,7 +12,7 @@ public class HealthPack : MonoBehaviour
 
     void Start()
     {
-        ++BonusSpawner.healthPackCounter;
+        ++BonusSpawner.bonusCounters[GameSingleton.BonusIndex.HealthPack]; ;
     }
 
     void Update()
@@ -26,13 +28,27 @@ public class HealthPack : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (NetworkManager.Singleton && !IsServer)
+        {
+            return;
+        }
 
         IHealth colliderHealth = other.GetComponent<IHealth>();
         if (colliderHealth == null) return;
 
         colliderHealth.heal(health);
-        --BonusSpawner.healthPackCounter;
-        Destroy(gameObject);
+        --BonusSpawner.bonusCounters[GameSingleton.BonusIndex.HealthPack];
+
+
+        if (NetworkManager.Singleton && IsServer)
+        {
+            NetworkObject healthPack = gameObject.GetComponent<NetworkObject>();
+            healthPack.Despawn();
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
 
     }
 
